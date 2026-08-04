@@ -1,89 +1,63 @@
-#! /bin/sh
-# Prerequisites for building and running 32-bit Linux DOOM on clean x64 Ubuntu
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt install gcc
-sudo apt-get install gcc-multilib g++-multilib
-sudo apt install libx11-dev:i386
-sudo apt install libx11-dev xserver-xorg-dev xorg-dev
-sudo apt install libx11-dev:i386 xserver-xorg-dev:i386 xorg-dev:i386
-sudo apt install libx11-dev:i386 xserver-xorg-dev:i386
-sudo apt-get install libxext6:i386
-sudo apt-get install libxrender1:i386 libxtst6:i386 libxi6:i386
-sudo apt install libx11-dev:i386
-sudo apt install libx11-dev:i386 libxext-dev:i386 libxrender-dev:i386 xserver-xorg-dev:i386
-sudo apt install xserver-xephyr
-sudo apt install xterm
-sudo apt install padsp
-sudo apt install pulseaudio pulseaudio-utils
-sudo apt install libpulsedsp
-sudo apt install libpulsedsp:i386
-sudo apt install osspd
-sudo apt install osspd:i36
+# Pseudo-script
 
-# Modifications to the padsp startup files
-# to hard-code the correct 32-bit libraries
-#sudo cp padsp/padsp_32 /usr/bin/
-#sudo chmod 755 /usr/bin/padsp_32
-#sudo cp padsp/padsp_64 /usr/bin/
-#sudo chmod 755 /usr/bin/padsp_64
+# File modification and build instructions to get 32-bit Linux Doom running
+# on Ubuntu (or Debian). This assumes you've already run PREREQUISITES.ubuntu.sh
+# If you're on the 'ubuntu' branch, you already have the repo and all of the
+# changes and can go straight to the builds.
 
-#$ diff /usr/bin/padsp /usr/bin/padsp_32
-#77c77
-#<    LD_PRELOAD="/usr/\\$$LIB/pulseaudio/libpulsedsp.so"
-#---
-#>    LD_PRELOAD="/usr/lib/i386-linux-gnu/pulseaudio/libpulsedsp.so"
-#79c79
-#<    LD_PRELOAD="$LD_PRELOAD /usr/\\$$LIB/pulseaudio/libpulsedsp.so"
-#---
-#>    LD_PRELOAD="$LD_PRELOAD /usr/lib/i386-linux-gnu/pulseaudio/libpulsedsp.so"
-sudo cp /usr/bin/padsp /usr/bin/padsp_32
-sudo vi !$
-
-#$ diff /usr/bin/padsp /usr/bin/padsp_64
-#77c77
-#<    LD_PRELOAD="/usr/\\$$LIB/pulseaudio/libpulsedsp.so"
-#---
-#>    LD_PRELOAD="/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsedsp.so"
-#79c79
-#<    LD_PRELOAD="$LD_PRELOAD /usr/\\$$LIB/pulseaudio/libpulsedsp.so"
-#---
-#>    LD_PRELOAD="$LD_PRELOAD /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsedsp.so"
-sudo cp /usr/bin/padsp /usr/bin/padsp_64
-sudo vi !$
-
-# Modifications to the base repository
-# -- Also get yourself a copy of shareware version 1.9 (Demo) DOOM1.WAD
-# -- e.g. from Internet Archive
+# Fork the ID software repo
 git clone https://github.com/id-Software/DOOM.git
 git switch -c ubuntu
-# DOOM
 cd DOOM
+
+# Modifications to the base repository
+# You can see what the specific edits were to these files by comparing
+# with the 'master' branch. This is more of an informative outline.
+
+# Top level
 vi .gitignore
+
+# DOOM
 cd linuxdoom-1.10/
-vi ../.gitignore
 vi Makefile
 vi i_video.c
 vi i_sound.c
+vi am_map.c
+
+# New launcher script to wrap everything in padp, Xephyr, and osspd
+# compatibility layers.
 vi launch.sh
-chmod 755 launch.sh 
+chmod 755 launch.sh
+
+# Get yourself a copy of shareware version 1.9 (Demo) DOOM1.WAD
+# e.g. from Internet Archive, into the linuxdoom-1.10 folder before this.
+# The double 'mv' is a gambit to change the case of the filename.
 mv DOOM1.WAD foo; mv foo doom1.wad
-cp doom1.wad ../sndserv/
+
 # SNDSERVER
+# We duplicate 'doom1.wad' here, for testing.
 pushd ../sndserv
 cp ../linuxdoom-1.10/doom1.wad .
 vi Makefile
 vi linux.c
+
 # Build and test sndserver
 mkdir linux
 make clean
 make
 padsp_32 linux/sndserver
+
+# We'll need a copy of sndserver in our launch folder, later
 cp linux/sndserver ../linuxdoom-1.10/
+chmod 755 ../linuxdoom-1.10/sndserver
 popd
-# Build and run doom
+
+# Build and run doom with sndserver
 mkdir linux
 make clean
 make
 ./launch.sh
 
+# If all went well, DOOM should launch in a small window,
+# and you should hear sound effects when navigating the
+# menus or playing the game. No music.
