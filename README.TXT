@@ -1,7 +1,7 @@
 This branch includes changes needed to run 32-bit Linux DOOM on
-64-bit Ubuntu or Debian, including sound effects. I've assumed
-you have a freshly-initialized install / container, other than
-'git.'
+Intel (ONLY) 64-bit Ubuntu or Debian, including sound effects.
+I've assumed you have a freshly-initialized install / container,
+other than 'git.'
 
 The basic 32-bit support strategy of this port is to use the
 Xephyr nested X-Server to get a compatible video mode, and to
