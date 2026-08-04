@@ -7,8 +7,8 @@
 #
 
 CC=gcc
-CFLAGS=-O -DNORMALUNIX -DLINUX
-LDFLAGS=
+CFLAGS=-m32 -O -DNORMALUNIX -DLINUX
+LDFLAGS=-L/usr/lib/i386-linux-gnu/
 LIBS=-lm
 
 O=linux

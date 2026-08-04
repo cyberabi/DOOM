@@ -48,6 +48,8 @@ rcsid[] = "$Id: i_unix.c,v 1.5 1997/02/03 22:45:10 b1 Exp $";
 #include <time.h>
 #include <signal.h>
 
+#include <errno.h>
+
 #include "z_zone.h"
 
 #include "i_system.h"
@@ -62,7 +64,8 @@ rcsid[] = "$Id: i_unix.c,v 1.5 1997/02/03 22:45:10 b1 Exp $";
 #ifdef SNDSERV
 // Separate sound server process.
 FILE*	sndserver=0;
-char*	sndserver_filename = "./sndserver ";
+char*	sndserver_filename = "sndserver ";
+char*	sndserver_wrapper = "padsp_32 ";
 #elif SNDINTR
 
 // Update all 30 millisecs, approx. 30fps synchronized.
@@ -163,7 +166,7 @@ myioctl
   int*	arg )
 {   
     int		rc;
-    extern int	errno;
+    //extern int	errno;
     
     rc = ioctl(fd, command, arg);  
     if (rc < 0)
@@ -745,11 +748,18 @@ I_InitSound()
 	    getenv("DOOMWADDIR"),
 	    sndserver_filename);
   else
-    sprintf(buffer, "%s", sndserver_filename);
+    sprintf(buffer, "./%s", sndserver_filename);
   
   // start sound process
   if ( !access(buffer, X_OK) )
   {
+    // Gambit to allow use of wrapper without another buffer
+    if (strlen(sndserver_wrapper))
+    {
+        int lwrap = strlen(sndserver_wrapper);
+        memmove(buffer + lwrap, buffer, strlen(buffer) + 1);
+        memcpy(buffer, sndserver_wrapper, lwrap);
+    }
     strcat(buffer, " -quiet");
     sndserver = popen(buffer, "w");
   }

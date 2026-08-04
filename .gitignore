@@ -1,0 +1,6 @@
+linux/
+*.wad
+*.WAD
+*.o
+sndserver
+

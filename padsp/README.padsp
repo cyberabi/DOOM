@@ -1,0 +1,3 @@
+# Copy both of these files to /usr/bin
+# They hard-code the necessary 32-bit and 64-bit library paths
+#

@@ -1,12 +1,3 @@
-The branches in this fork of ID's original release will allow DOOM to
-run on various modern and retro-computing platforms. Other than this
-change to the README, I'll leave the master branch intact.
-
-John Carmack's original README follows.
-
-Chris Burke
-7-30-26
----
 
 Here it is, at long last.  The DOOM source code is released for your
 non-profit use.  You still need real DOOM data to work with this code.
