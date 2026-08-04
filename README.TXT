@@ -1,3 +1,28 @@
+This branch includes changes needed to run 32-bit Linux DOOM on
+64-bit Ubuntu or Debian, including sound effects. I've assumed
+you have a freshly-initialized install / container, other than
+'git.'
+
+The basic 32-bit support strategy of this port is to use the
+Xephyr nested X-Server to get a compatible video mode, and to
+use osspd as a compatibility layer for the 32-bit code's old
+sound and interprocess APIs.
+
+To get started, you need 32-bit architecture support and libs:
+
+$ cd linuxdoom-1.10
+$ ./PREREQUISITES.ubuntu.sh
+
+Then have a look at README.ubuntu.sh for next steps including
+how to download a WAD and how to build and run the game.
+
+Believe in fun!
+
+Chris Burke 8-3-26
+
+John Carmack's original READNME.TXT follows.
+
+---
 
 Here it is, at long last.  The DOOM source code is released for your
 non-profit use.  You still need real DOOM data to work with this code.
