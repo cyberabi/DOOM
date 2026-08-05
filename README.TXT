@@ -20,7 +20,7 @@ Believe in fun!
 
 Chris Burke 8-3-26
 
-John Carmack's original READNME.TXT follows.
+John Carmack's original README.TXT follows.
 
 ---
 
