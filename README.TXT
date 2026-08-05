@@ -1,26 +1,24 @@
-This branch includes changes needed to run 32-bit Linux DOOM on
-Intel (ONLY) 64-bit Ubuntu or Debian, including sound effects.
-I've assumed you have a freshly-initialized install / container,
-other than 'git.'
+This branch, based on my 'ubuntu' branch, replaces all generic
+type declarations (e.g. int, long) with macros identifying the
+signedness and bit width of the datatype. For example, on the
+original 32-bit Linux code both int and long were 32 bits; here
+they both become INT32.
 
-The basic 32-bit support strategy of this port is to use the
-Xephyr nested X-Server to get a compatible video mode, and to
-use osspd as a compatibility layer for the 32-bit code's old
-sound and interprocess APIs.
+The purpose of this is to facilitate bare-metal ports onto
+platforms with smaller word sizes, such as 16-bit or 8-bit
+computers. The candidates I have in mind are the PDP-11 and
+the Tandy Color Computer 3, but these changes are applicable
+to other, similar platforms.
 
-To get started, you need 32-bit architecture support and libs:
-
-$ cd linuxdoom-1.10
-$ ./PREREQUISITES.ubuntu.sh
-
-Then have a look at README.ubuntu.sh for next steps including
-how to download a WAD and how to build and run the game.
+To test the changes I'll look for similar C preprocessor output
+from the 'ubuntu' branch and from this branch, with allowance
+made for the merging of int and long datatypes.
 
 Believe in fun!
 
-Chris Burke 8-3-26
+Chris Burke 8-5-26
 
-John Carmack's original READNME.TXT follows.
+John Carmack's original README.TXT follows.
 
 ---
 
