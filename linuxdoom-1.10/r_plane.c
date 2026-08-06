@@ -57,8 +57,8 @@ visplane_t*		ceilingplane;
 
 // ?
 #define MAXOPENINGS	SCREENWIDTH*64
-short			openings[MAXOPENINGS];
-short*			lastopening;
+SHORT16			openings[MAXOPENINGS];
+SHORT16*			lastopening;
 
 
 //
@@ -66,15 +66,15 @@ short*			lastopening;
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
 //
-short			floorclip[SCREENWIDTH];
-short			ceilingclip[SCREENWIDTH];
+SHORT16			floorclip[SCREENWIDTH];
+SHORT16			ceilingclip[SCREENWIDTH];
 
 //
 // spanstart holds the start of a plane span
 // initialized to 0 at start
 //
-int			spanstart[SCREENHEIGHT];
-int			spanstop[SCREENHEIGHT];
+INT32			spanstart[SCREENHEIGHT];
+INT32			spanstop[SCREENHEIGHT];
 
 //
 // texture mapping
@@ -119,20 +119,20 @@ void R_InitPlanes (void)
 //
 void
 R_MapPlane
-( int		y,
-  int		x1,
-  int		x2 )
+( INT32		y,
+  INT32		x1,
+  INT32		x2 )
 {
     angle_t	angle;
     fixed_t	distance;
     fixed_t	length;
-    unsigned	index;
+    UINT32	index;
 	
 #ifdef RANGECHECK
     if (x2 < x1
 	|| x1<0
 	|| x2>=viewwidth
-	|| (unsigned)y>viewheight)
+	|| (UINT32)y>viewheight)
     {
 	I_Error ("R_MapPlane: %i, %i at %i",x1,x2,y);
     }
@@ -184,7 +184,7 @@ R_MapPlane
 //
 void R_ClearPlanes (void)
 {
-    int		i;
+    INT32		i;
     angle_t	angle;
     
     // opening / clipping determination
@@ -217,8 +217,8 @@ void R_ClearPlanes (void)
 visplane_t*
 R_FindPlane
 ( fixed_t	height,
-  int		picnum,
-  int		lightlevel )
+  INT32		picnum,
+  INT32		lightlevel )
 {
     visplane_t*	check;
 	
@@ -265,14 +265,14 @@ R_FindPlane
 visplane_t*
 R_CheckPlane
 ( visplane_t*	pl,
-  int		start,
-  int		stop )
+  INT32		start,
+  INT32		stop )
 {
-    int		intrl;
-    int		intrh;
-    int		unionl;
-    int		unionh;
-    int		x;
+    INT32		intrl;
+    INT32		intrh;
+    INT32		unionl;
+    INT32		unionh;
+    INT32		x;
 	
     if (start < pl->minx)
     {
@@ -329,11 +329,11 @@ R_CheckPlane
 //
 void
 R_MakeSpans
-( int		x,
-  int		t1,
-  int		b1,
-  int		t2,
-  int		b2 )
+( INT32		x,
+  INT32		t1,
+  INT32		b1,
+  INT32		t2,
+  INT32		b2 )
 {
     while (t1 < t2 && t1<=b1)
     {
@@ -367,10 +367,10 @@ R_MakeSpans
 void R_DrawPlanes (void)
 {
     visplane_t*		pl;
-    int			light;
-    int			x;
-    int			stop;
-    int			angle;
+    INT32			light;
+    INT32			x;
+    INT32			stop;
+    INT32			angle;
 				
 #ifdef RANGECHECK
     if (ds_p - drawsegs > MAXDRAWSEGS)

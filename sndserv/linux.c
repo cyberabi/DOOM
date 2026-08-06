@@ -47,16 +47,16 @@ static const char rcsid[] = "$Id: linux.c,v 1.3 1997/01/26 07:45:01 b1 Exp $";
 
 #include "soundsrv.h"
 
-int	audio_fd;
+INT32	audio_fd;
 
 void
 myioctl
-( int	fd,
-  int	command,
-  int*	arg )
+( INT32	fd,
+  INT32	command,
+  INT32*	arg )
 {   
-    int		rc;
-    //extern int	errno;
+    INT32		rc;
+    //extern INT32	errno;
     
     rc = ioctl(fd, command, arg);  
     if (rc < 0)
@@ -73,11 +73,11 @@ void I_InitMusic(void)
 
 void
 I_InitSound
-( int	samplerate,
-  int	samplesize )
+( INT32	samplerate,
+  INT32	samplesize )
 {
 
-    int i;
+    INT32 i;
                 
     audio_fd = open("/dev/dsp", O_WRONLY);
     if (audio_fd<0)
@@ -97,14 +97,14 @@ I_InitSound
     if (i&=AFMT_S16_LE)    
         myioctl(audio_fd, SNDCTL_DSP_SETFMT, &i);
     else
-        fprintf(stderr, "Could not play signed 16 data\n");
+        fprintf(stderr, "Could not play INT32 16 data\n");
 
 }
 
 void
 I_SubmitOutputBuffer
 ( void*	samples,
-  int	samplecount )
+  INT32	samplecount )
 {
     write(audio_fd, samples, samplecount*4);
 }

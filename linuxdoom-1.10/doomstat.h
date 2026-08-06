@@ -75,15 +75,15 @@ extern  Language_t   language;
 
 // Defaults for menu, methinks.
 extern  skill_t		startskill;
-extern  int             startepisode;
-extern	int		startmap;
+extern  INT32             startepisode;
+extern	INT32		startmap;
 
 extern  boolean		autostart;
 
 // Selected by user. 
 extern  skill_t         gameskill;
-extern  int		gameepisode;
-extern  int		gamemap;
+extern  INT32		gameepisode;
+extern  INT32		gamemap;
 
 // Nightmare mode flag, single player.
 extern  boolean         respawnmonsters;
@@ -106,18 +106,18 @@ extern  boolean	deathmatch;
 //  Sound FX volume has default, 0 - 15
 //  Music volume has default, 0 - 15
 // These are multiplied by 8.
-extern int snd_SfxVolume;      // maximum volume for sound
-extern int snd_MusicVolume;    // maximum volume for music
+extern INT32 snd_SfxVolume;      // maximum volume for sound
+extern INT32 snd_MusicVolume;    // maximum volume for music
 
 // Current music/sfx card - index useless
 //  w/o a reference LUT in a sound module.
 // Ideally, this would use indices found
 //  in: /usr/include/linux/soundcard.h
-extern int snd_MusicDevice;
-extern int snd_SfxDevice;
+extern INT32 snd_MusicDevice;
+extern INT32 snd_SfxDevice;
 // Config file? Same disclaimer as above.
-extern int snd_DesiredMusicDevice;
-extern int snd_DesiredSfxDevice;
+extern INT32 snd_DesiredMusicDevice;
+extern INT32 snd_DesiredSfxDevice;
 
 
 // -------------------------
@@ -139,11 +139,11 @@ extern  boolean		viewactive;
 extern  boolean		nodrawers;
 extern  boolean		noblit;
 
-extern	int		viewwindowx;
-extern	int		viewwindowy;
-extern	int		viewheight;
-extern	int		viewwidth;
-extern	int		scaledviewwidth;
+extern	INT32		viewwindowx;
+extern	INT32		viewwindowy;
+extern	INT32		viewheight;
+extern	INT32		viewwidth;
+extern	INT32		scaledviewwidth;
 
 
 
@@ -152,24 +152,24 @@ extern	int		scaledviewwidth;
 
 // This one is related to the 3-screen display mode.
 // ANG90 = left side, ANG270 = right
-extern  int	viewangleoffset;
+extern  INT32	viewangleoffset;
 
 // Player taking events, and displaying.
-extern  int	consoleplayer;	
-extern  int	displayplayer;
+extern  INT32	consoleplayer;	
+extern  INT32	displayplayer;
 
 
 // -------------------------------------
 // Scores, rating.
 // Statistics on a given map, for intermission.
 //
-extern  int	totalkills;
-extern	int	totalitems;
-extern	int	totalsecret;
+extern  INT32	totalkills;
+extern	INT32	totalitems;
+extern	INT32	totalsecret;
 
 // Timer, for scores.
-extern  int	levelstarttic;	// gametic at level start
-extern  int	leveltime;	// tics in game play for par
+extern  INT32	levelstarttic;	// gametic at level start
+extern  INT32	leveltime;	// tics in game play for par
 
 
 
@@ -205,7 +205,7 @@ extern  gamestate_t     gamestate;
 
 
 
-extern	int		gametic;
+extern	INT32		gametic;
 
 
 // Bookkeeping on players - state.
@@ -230,7 +230,7 @@ extern  wbstartstruct_t		wminfo;
 
 // LUT of ammunition limits for each kind.
 // This doubles with BackPack powerup item.
-extern  int		maxammo[NUMAMMO];
+extern  INT32		maxammo[NUMAMMO];
 
 
 
@@ -241,7 +241,7 @@ extern  int		maxammo[NUMAMMO];
 //
 
 // File handling stuff.
-extern	char		basedefault[1024];
+extern	CHAR8		basedefault[1024];
 extern  FILE*		debugfile;
 
 // if true, load all graphics at level load
@@ -252,19 +252,19 @@ extern  boolean         precache;
 //  to force a wipe on the next draw
 extern  gamestate_t     wipegamestate;
 
-extern  int             mouseSensitivity;
+extern  INT32             mouseSensitivity;
 //?
 // debug flag to cancel adaptiveness
 extern  boolean         singletics;	
 
-extern  int             bodyqueslot;
+extern  INT32             bodyqueslot;
 
 
 
 // Needed to store the number of the dummy sky flat.
 // Used for rendering,
 //  as well as tracking projectiles etc.
-extern int		skyflatnum;
+extern INT32		skyflatnum;
 
 
 
@@ -278,13 +278,13 @@ extern  doomdata_t*	netbuffer;
 
 
 extern  ticcmd_t	localcmds[BACKUPTICS];
-extern	int		rndindex;
+extern	INT32		rndindex;
 
-extern	int		maketic;
-extern  int             nettics[MAXNETNODES];
+extern	INT32		maketic;
+extern  INT32             nettics[MAXNETNODES];
 
 extern  ticcmd_t        netcmds[MAXPLAYERS][BACKUPTICS];
-extern	int		ticdup;
+extern	INT32		ticdup;
 
 
 

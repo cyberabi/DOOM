@@ -1147,16 +1147,16 @@ typedef enum
 typedef struct
 {
   spritenum_t	sprite;
-  long			frame;
-  long			tics;
+  LONG32			frame;
+  LONG32			tics;
   // void		(*action) ();
   actionf_t			action;
   statenum_t			nextstate;
-  long			misc1, misc2;
+  LONG32			misc1, misc2;
 } state_t;
 
 extern state_t	states[NUMSTATES];
-extern char *sprnames[NUMSPRITES];
+extern CHAR8 *sprnames[NUMSPRITES];
 
 
 
@@ -1304,29 +1304,29 @@ typedef enum {
 
 typedef struct
 {
-    int	doomednum;
-    int	spawnstate;
-    int	spawnhealth;
-    int	seestate;
-    int	seesound;
-    int	reactiontime;
-    int	attacksound;
-    int	painstate;
-    int	painchance;
-    int	painsound;
-    int	meleestate;
-    int	missilestate;
-    int	deathstate;
-    int	xdeathstate;
-    int	deathsound;
-    int	speed;
-    int	radius;
-    int	height;
-    int	mass;
-    int	damage;
-    int	activesound;
-    int	flags;
-    int	raisestate;
+    INT32	doomednum;
+    INT32	spawnstate;
+    INT32	spawnhealth;
+    INT32	seestate;
+    INT32	seesound;
+    INT32	reactiontime;
+    INT32	attacksound;
+    INT32	painstate;
+    INT32	painchance;
+    INT32	painsound;
+    INT32	meleestate;
+    INT32	missilestate;
+    INT32	deathstate;
+    INT32	xdeathstate;
+    INT32	deathsound;
+    INT32	speed;
+    INT32	radius;
+    INT32	height;
+    INT32	mass;
+    INT32	damage;
+    INT32	activesound;
+    INT32	flags;
+    INT32	raisestate;
 
 } mobjinfo_t;
 

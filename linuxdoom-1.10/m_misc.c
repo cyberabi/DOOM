@@ -35,7 +35,7 @@ rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
 #include <ctype.h>
 
-
+#include "doomtype.h"
 #include "doomdef.h"
 
 #include "z_zone.h"
@@ -66,15 +66,15 @@ rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 //
 extern patch_t*		hu_font[HU_FONTSIZE];
 
-int
+INT32
 M_DrawText
-( int		x,
-  int		y,
+( INT32		x,
+  INT32		y,
   boolean	direct,
-  char*		string )
+  CHAR8*		string )
 {
-    int 	c;
-    int		w;
+    INT32 	c;
+    INT32		w;
 
     while (*string)
     {
@@ -111,12 +111,12 @@ M_DrawText
 
 boolean
 M_WriteFile
-( char const*	name,
+( CHAR8 const*	name,
   void*		source,
-  int		length )
+  INT32		length )
 {
-    int		handle;
-    int		count;
+    INT32		handle;
+    INT32		count;
 	
     handle = open ( name, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
 
@@ -136,12 +136,12 @@ M_WriteFile
 //
 // M_ReadFile
 //
-int
+INT32
 M_ReadFile
-( char const*	name,
+( CHAR8 const*	name,
   byte**	buffer )
 {
-    int	handle, count, length;
+    INT32	handle, count, length;
     struct stat	fileinfo;
     byte		*buf;
 	
@@ -166,69 +166,69 @@ M_ReadFile
 //
 // DEFAULTS
 //
-int		usemouse;
-int		usejoystick;
+INT32		usemouse;
+INT32		usejoystick;
 
-extern int	key_right;
-extern int	key_left;
-extern int	key_up;
-extern int	key_down;
+extern INT32	key_right;
+extern INT32	key_left;
+extern INT32	key_up;
+extern INT32	key_down;
 
-extern int	key_strafeleft;
-extern int	key_straferight;
+extern INT32	key_strafeleft;
+extern INT32	key_straferight;
 
-extern int	key_fire;
-extern int	key_use;
-extern int	key_strafe;
-extern int	key_speed;
+extern INT32	key_fire;
+extern INT32	key_use;
+extern INT32	key_strafe;
+extern INT32	key_speed;
 
-extern int	mousebfire;
-extern int	mousebstrafe;
-extern int	mousebforward;
+extern INT32	mousebfire;
+extern INT32	mousebstrafe;
+extern INT32	mousebforward;
 
-extern int	joybfire;
-extern int	joybstrafe;
-extern int	joybuse;
-extern int	joybspeed;
+extern INT32	joybfire;
+extern INT32	joybstrafe;
+extern INT32	joybuse;
+extern INT32	joybspeed;
 
-extern int	viewwidth;
-extern int	viewheight;
+extern INT32	viewwidth;
+extern INT32	viewheight;
 
-extern int	mouseSensitivity;
-extern int	showMessages;
+extern INT32	mouseSensitivity;
+extern INT32	showMessages;
 
-extern int	detailLevel;
+extern INT32	detailLevel;
 
-extern int	screenblocks;
+extern INT32	screenblocks;
 
-extern int	showMessages;
+extern INT32	showMessages;
 
 // machine-independent sound params
-extern	int	numChannels;
+extern	INT32	numChannels;
 
 
 // UNIX hack, to be removed.
 #ifdef SNDSERV
-extern char*	sndserver_filename;
-extern int	mb_used;
+extern CHAR8*	sndserver_filename;
+extern INT32	mb_used;
 #endif
 
 #ifdef LINUX
-char*		mousetype;
-char*		mousedev;
+CHAR8*		mousetype;
+CHAR8*		mousedev;
 #endif
 
-extern char*	chat_macros[];
+extern CHAR8*	chat_macros[];
 
 
 
 typedef struct
 {
-    char*	name;
-    int*	location;
-    int		defaultvalue;
-    int		scantranslate;		// PC scan code hack
-    int		untranslated;		// lousy hack
+    CHAR8*	name;
+    INT32*	location;
+    INT32		defaultvalue;
+    INT32		scantranslate;		// PC scan code hack
+    INT32		untranslated;		// lousy hack
 } default_t;
 
 default_t	defaults[] =
@@ -254,15 +254,15 @@ default_t	defaults[] =
 
 // UNIX hack, to be removed. 
 #ifdef SNDSERV
-    {"sndserver", (int *) &sndserver_filename, (int) "sndserver"},
+    {"sndserver", (INT32 *) &sndserver_filename, (INT32) "sndserver"},
     {"mb_used", &mb_used, 2},
 #endif
     
 #endif
 
 #ifdef LINUX
-    {"mousedev", (int*)&mousedev, (int)"/dev/ttyS0"},
-    {"mousetype", (int*)&mousetype, (int)"microsoft"},
+    {"mousedev", (INT32*)&mousedev, (INT32)"/dev/ttyS0"},
+    {"mousetype", (INT32*)&mousetype, (INT32)"microsoft"},
 #endif
 
     {"use_mouse",&usemouse, 1},
@@ -285,21 +285,21 @@ default_t	defaults[] =
 
     {"usegamma",&usegamma, 0},
 
-    {"chatmacro0", (int *) &chat_macros[0], (int) HUSTR_CHATMACRO0 },
-    {"chatmacro1", (int *) &chat_macros[1], (int) HUSTR_CHATMACRO1 },
-    {"chatmacro2", (int *) &chat_macros[2], (int) HUSTR_CHATMACRO2 },
-    {"chatmacro3", (int *) &chat_macros[3], (int) HUSTR_CHATMACRO3 },
-    {"chatmacro4", (int *) &chat_macros[4], (int) HUSTR_CHATMACRO4 },
-    {"chatmacro5", (int *) &chat_macros[5], (int) HUSTR_CHATMACRO5 },
-    {"chatmacro6", (int *) &chat_macros[6], (int) HUSTR_CHATMACRO6 },
-    {"chatmacro7", (int *) &chat_macros[7], (int) HUSTR_CHATMACRO7 },
-    {"chatmacro8", (int *) &chat_macros[8], (int) HUSTR_CHATMACRO8 },
-    {"chatmacro9", (int *) &chat_macros[9], (int) HUSTR_CHATMACRO9 }
+    {"chatmacro0", (INT32 *) &chat_macros[0], (INT32) HUSTR_CHATMACRO0 },
+    {"chatmacro1", (INT32 *) &chat_macros[1], (INT32) HUSTR_CHATMACRO1 },
+    {"chatmacro2", (INT32 *) &chat_macros[2], (INT32) HUSTR_CHATMACRO2 },
+    {"chatmacro3", (INT32 *) &chat_macros[3], (INT32) HUSTR_CHATMACRO3 },
+    {"chatmacro4", (INT32 *) &chat_macros[4], (INT32) HUSTR_CHATMACRO4 },
+    {"chatmacro5", (INT32 *) &chat_macros[5], (INT32) HUSTR_CHATMACRO5 },
+    {"chatmacro6", (INT32 *) &chat_macros[6], (INT32) HUSTR_CHATMACRO6 },
+    {"chatmacro7", (INT32 *) &chat_macros[7], (INT32) HUSTR_CHATMACRO7 },
+    {"chatmacro8", (INT32 *) &chat_macros[8], (INT32) HUSTR_CHATMACRO8 },
+    {"chatmacro9", (INT32 *) &chat_macros[9], (INT32) HUSTR_CHATMACRO9 }
 
 };
 
-int	numdefaults;
-char*	defaultfile;
+INT32	numdefaults;
+CHAR8*	defaultfile;
 
 
 //
@@ -307,8 +307,8 @@ char*	defaultfile;
 //
 void M_SaveDefaults (void)
 {
-    int		i;
-    int		v;
+    INT32		i;
+    INT32		v;
     FILE*	f;
 	
     f = fopen (defaultfile, "w");
@@ -324,7 +324,7 @@ void M_SaveDefaults (void)
 	    fprintf (f,"%s\t\t%i\n",defaults[i].name,v);
 	} else {
 	    fprintf (f,"%s\t\t\"%s\"\n",defaults[i].name,
-		     * (char **) (defaults[i].location));
+		     * (CHAR8 **) (defaults[i].location));
 	}
     }
 	
@@ -339,13 +339,13 @@ extern byte	scantokey[128];
 
 void M_LoadDefaults (void)
 {
-    int		i;
-    int		len;
+    INT32		i;
+    INT32		len;
     FILE*	f;
-    char	def[80];
-    char	strparm[100];
-    char*	newstring;
-    int		parm;
+    CHAR8	def[80];
+    CHAR8	strparm[100];
+    CHAR8*	newstring;
+    INT32		parm;
     boolean	isstring;
     
     // set everything to base values
@@ -377,7 +377,7 @@ void M_LoadDefaults (void)
 		    // get a string default
 		    isstring = true;
 		    len = strlen(strparm);
-		    newstring = (char *) malloc(len);
+		    newstring = (CHAR8 *) malloc(len);
 		    strparm[len-1] = 0;
 		    strcpy(newstring, strparm+1);
 		}
@@ -392,7 +392,7 @@ void M_LoadDefaults (void)
 			    *defaults[i].location = parm;
 			else
 			    *defaults[i].location =
-				(int) newstring;
+				(INT32) newstring;
 			break;
 		    }
 	    }
@@ -410,28 +410,28 @@ void M_LoadDefaults (void)
 
 typedef struct
 {
-    char		manufacturer;
-    char		version;
-    char		encoding;
-    char		bits_per_pixel;
+    CHAR8		manufacturer;
+    CHAR8		version;
+    CHAR8		encoding;
+    CHAR8		bits_per_pixel;
 
-    unsigned short	xmin;
-    unsigned short	ymin;
-    unsigned short	xmax;
-    unsigned short	ymax;
+    USHORT16	xmin;
+    USHORT16	ymin;
+    USHORT16	xmax;
+    USHORT16	ymax;
     
-    unsigned short	hres;
-    unsigned short	vres;
+    USHORT16	hres;
+    USHORT16	vres;
 
-    unsigned char	palette[48];
+    UCHAR8	palette[48];
     
-    char		reserved;
-    char		color_planes;
-    unsigned short	bytes_per_line;
-    unsigned short	palette_type;
+    CHAR8		reserved;
+    CHAR8		color_planes;
+    USHORT16	bytes_per_line;
+    USHORT16	palette_type;
     
-    char		filler[58];
-    unsigned char	data;		// unbounded
+    CHAR8		filler[58];
+    UCHAR8	data;		// unbounded
 } pcx_t;
 
 
@@ -440,14 +440,14 @@ typedef struct
 //
 void
 WritePCXfile
-( char*		filename,
+( CHAR8*		filename,
   byte*		data,
-  int		width,
-  int		height,
+  INT32		width,
+  INT32		height,
   byte*		palette )
 {
-    int		i;
-    int		length;
+    INT32		i;
+    INT32		length;
     pcx_t*	pcx;
     byte*	pack;
 	
@@ -502,9 +502,9 @@ WritePCXfile
 //
 void M_ScreenShot (void)
 {
-    int		i;
+    INT32		i;
     byte*	linear;
-    char	lbmname[12];
+    CHAR8	lbmname[12];
     
     // munge planar buffer to linear
     linear = screens[2];

@@ -61,13 +61,13 @@ rcsid[] = "$Id: r_draw.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
 
 byte*		viewimage; 
-int		viewwidth;
-int		scaledviewwidth;
-int		viewheight;
-int		viewwindowx;
-int		viewwindowy; 
+INT32		viewwidth;
+INT32		scaledviewwidth;
+INT32		viewheight;
+INT32		viewwindowx;
+INT32		viewwindowy; 
 byte*		ylookup[MAXHEIGHT]; 
-int		columnofs[MAXWIDTH]; 
+INT32		columnofs[MAXWIDTH]; 
 
 // Color tables for different players,
 //  translate a limited part to another
@@ -83,9 +83,9 @@ byte		translations[3][256];
 // Source is the top of the column to scale.
 //
 lighttable_t*		dc_colormap; 
-int			dc_x; 
-int			dc_yl; 
-int			dc_yh; 
+INT32			dc_x; 
+INT32			dc_yl; 
+INT32			dc_yh; 
 fixed_t			dc_iscale; 
 fixed_t			dc_texturemid;
 
@@ -93,7 +93,7 @@ fixed_t			dc_texturemid;
 byte*			dc_source;		
 
 // just for profiling 
-int			dccount;
+INT32			dccount;
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -104,7 +104,7 @@ int			dccount;
 // 
 void R_DrawColumn (void) 
 { 
-    int			count; 
+    INT32			count; 
     byte*		dest; 
     fixed_t		frac;
     fixed_t		fracstep;	 
@@ -116,7 +116,7 @@ void R_DrawColumn (void)
 	return; 
 				 
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH
+    if ((UINT32)dc_x >= SCREENWIDTH
 	|| dc_yl < 0
 	|| dc_yh >= SCREENHEIGHT) 
 	I_Error ("R_DrawColumn: %i to %i at %i", dc_yl, dc_yh, dc_x); 
@@ -154,16 +154,16 @@ void R_DrawColumn (void)
 #if 0
 void R_DrawColumn (void) 
 { 
-    int			count; 
+    INT32			count; 
     byte*		source;
     byte*		dest;
     byte*		colormap;
     
-    unsigned		frac;
-    unsigned		fracstep;
-    unsigned		fracstep2;
-    unsigned		fracstep3;
-    unsigned		fracstep4;	 
+    UINT32		frac;
+    UINT32		fracstep;
+    UINT32		fracstep2;
+    UINT32		fracstep3;
+    UINT32		fracstep4;	 
  
     count = dc_yh - dc_yl + 1; 
 
@@ -210,7 +210,7 @@ void R_DrawColumn (void)
 
 void R_DrawColumnLow (void) 
 { 
-    int			count; 
+    INT32			count; 
     byte*		dest; 
     byte*		dest2;
     fixed_t		frac;
@@ -223,7 +223,7 @@ void R_DrawColumnLow (void)
 	return; 
 				 
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH
+    if ((UINT32)dc_x >= SCREENWIDTH
 	|| dc_yl < 0
 	|| dc_yh >= SCREENHEIGHT)
     {
@@ -260,7 +260,7 @@ void R_DrawColumnLow (void)
 #define FUZZOFF	(SCREENWIDTH)
 
 
-int	fuzzoffset[FUZZTABLE] =
+INT32	fuzzoffset[FUZZTABLE] =
 {
     FUZZOFF,-FUZZOFF,FUZZOFF,-FUZZOFF,FUZZOFF,FUZZOFF,-FUZZOFF,
     FUZZOFF,FUZZOFF,-FUZZOFF,FUZZOFF,FUZZOFF,FUZZOFF,-FUZZOFF,
@@ -271,7 +271,7 @@ int	fuzzoffset[FUZZTABLE] =
     FUZZOFF,FUZZOFF,-FUZZOFF,FUZZOFF,FUZZOFF,-FUZZOFF,FUZZOFF 
 }; 
 
-int	fuzzpos = 0; 
+INT32	fuzzpos = 0; 
 
 
 //
@@ -284,7 +284,7 @@ int	fuzzpos = 0;
 //
 void R_DrawFuzzColumn (void) 
 { 
-    int			count; 
+    INT32			count; 
     byte*		dest; 
     fixed_t		frac;
     fixed_t		fracstep;	 
@@ -305,7 +305,7 @@ void R_DrawFuzzColumn (void)
 
     
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH
+    if ((UINT32)dc_x >= SCREENWIDTH
 	|| dc_yl < 0 || dc_yh >= SCREENHEIGHT)
     {
 	I_Error ("R_DrawFuzzColumn: %i to %i at %i",
@@ -384,7 +384,7 @@ byte*	translationtables;
 
 void R_DrawTranslatedColumn (void) 
 { 
-    int			count; 
+    INT32			count; 
     byte*		dest; 
     fixed_t		frac;
     fixed_t		fracstep;	 
@@ -394,7 +394,7 @@ void R_DrawTranslatedColumn (void)
 	return; 
 				 
 #ifdef RANGECHECK 
-    if ((unsigned)dc_x >= SCREENWIDTH
+    if ((UINT32)dc_x >= SCREENWIDTH
 	|| dc_yl < 0
 	|| dc_yh >= SCREENHEIGHT)
     {
@@ -458,10 +458,10 @@ void R_DrawTranslatedColumn (void)
 //
 void R_InitTranslationTables (void)
 {
-    int		i;
+    INT32		i;
 	
     translationtables = Z_Malloc (256*3+255, PU_STATIC, 0);
-    translationtables = (byte *)(( (int)translationtables + 255 )& ~255);
+    translationtables = (byte *)(( (INT32)translationtables + 255 )& ~255);
     
     // translate just the 16 green colors
     for (i=0 ; i<256 ; i++)
@@ -497,9 +497,9 @@ void R_InitTranslationTables (void)
 // In consequence, flats are not stored by column (like walls),
 //  and the inner loop has to step in texture space u and v.
 //
-int			ds_y; 
-int			ds_x1; 
-int			ds_x2;
+INT32			ds_y; 
+INT32			ds_x1; 
+INT32			ds_x2;
 
 lighttable_t*		ds_colormap; 
 
@@ -512,7 +512,7 @@ fixed_t			ds_ystep;
 byte*			ds_source;	
 
 // just for profiling
-int			dscount;
+INT32			dscount;
 
 
 //
@@ -522,14 +522,14 @@ void R_DrawSpan (void)
     fixed_t		xfrac;
     fixed_t		yfrac; 
     byte*		dest; 
-    int			count;
-    int			spot; 
+    INT32			count;
+    INT32			spot; 
 	 
 #ifdef RANGECHECK 
     if (ds_x2 < ds_x1
 	|| ds_x1<0
 	|| ds_x2>=SCREENWIDTH  
-	|| (unsigned)ds_y>SCREENHEIGHT)
+	|| (UINT32)ds_y>SCREENHEIGHT)
     {
 	I_Error( "R_DrawSpan: %i to %i at %i",
 		 ds_x1,ds_x2,ds_y);
@@ -569,18 +569,18 @@ void R_DrawSpan (void)
 #if 0
 void R_DrawSpan (void) 
 { 
-    unsigned	position, step;
+    UINT32	position, step;
 
     byte*	source;
     byte*	colormap;
     byte*	dest;
     
-    unsigned	count;
+    UINT32	count;
     usingned	spot; 
-    unsigned	value;
-    unsigned	temp;
-    unsigned	xtemp;
-    unsigned	ytemp;
+    UINT32	value;
+    UINT32	temp;
+    UINT32	xtemp;
+    UINT32	ytemp;
 		
     position = ((ds_xfrac<<10)&0xffff0000) | ((ds_yfrac>>6)&0xffff);
     step = ((ds_xstep<<10)&0xffff0000) | ((ds_ystep>>6)&0xffff);
@@ -645,14 +645,14 @@ void R_DrawSpanLow (void)
     fixed_t		xfrac;
     fixed_t		yfrac; 
     byte*		dest; 
-    int			count;
-    int			spot; 
+    INT32			count;
+    INT32			spot; 
 	 
 #ifdef RANGECHECK 
     if (ds_x2 < ds_x1
 	|| ds_x1<0
 	|| ds_x2>=SCREENWIDTH  
-	|| (unsigned)ds_y>SCREENHEIGHT)
+	|| (UINT32)ds_y>SCREENHEIGHT)
     {
 	I_Error( "R_DrawSpan: %i to %i at %i",
 		 ds_x1,ds_x2,ds_y);
@@ -694,10 +694,10 @@ void R_DrawSpanLow (void)
 //
 void
 R_InitBuffer
-( int		width,
-  int		height ) 
+( INT32		width,
+  INT32		height ) 
 { 
-    int		i; 
+    INT32		i; 
 
     // Handle resize,
     //  e.g. smaller view windows
@@ -732,17 +732,17 @@ void R_FillBackScreen (void)
 { 
     byte*	src;
     byte*	dest; 
-    int		x;
-    int		y; 
+    INT32		x;
+    INT32		y; 
     patch_t*	patch;
 
     // DOOM border patch.
-    char	name1[] = "FLOOR7_2";
+    CHAR8	name1[] = "FLOOR7_2";
 
     // DOOM II border patch.
-    char	name2[] = "GRNROCK";	
+    CHAR8	name2[] = "GRNROCK";	
 
-    char*	name;
+    CHAR8*	name;
 	
     if (scaledviewwidth == 320)
 	return;
@@ -816,8 +816,8 @@ void R_FillBackScreen (void)
 //
 void
 R_VideoErase
-( unsigned	ofs,
-  int		count ) 
+( UINT32	ofs,
+  INT32		count ) 
 { 
   // LFB copy.
   // This might not be a good idea if memcpy
@@ -835,17 +835,17 @@ R_VideoErase
 //
 void
 V_MarkRect
-( int		x,
-  int		y,
-  int		width,
-  int		height ); 
+( INT32		x,
+  INT32		y,
+  INT32		width,
+  INT32		height ); 
  
 void R_DrawViewBorder (void) 
 { 
-    int		top;
-    int		side;
-    int		ofs;
-    int		i; 
+    INT32		top;
+    INT32		side;
+    INT32		ofs;
+    INT32		i; 
  
     if (scaledviewwidth == SCREENWIDTH) 
 	return; 

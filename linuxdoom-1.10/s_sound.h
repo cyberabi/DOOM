@@ -37,8 +37,8 @@
 //
 void
 S_Init
-( int		sfxVolume,
-  int		musicVolume );
+( INT32		sfxVolume,
+  INT32		musicVolume );
 
 
 
@@ -58,7 +58,7 @@ void S_Start(void);
 void
 S_StartSound
 ( void*		origin,
-  int		sound_id );
+  INT32		sound_id );
 
 
 
@@ -66,8 +66,8 @@ S_StartSound
 void
 S_StartSoundAtVolume
 ( void*		origin,
-  int		sound_id,
-  int		volume );
+  INT32		sound_id,
+  INT32		volume );
 
 
 // Stop sound for thing at <origin>
@@ -75,14 +75,14 @@ void S_StopSound(void* origin);
 
 
 // Start music using <music_id> from sounds.h
-void S_StartMusic(int music_id);
+void S_StartMusic(INT32 music_id);
 
 // Start music using <music_id> from sounds.h,
 //  and set whether looping
 void
 S_ChangeMusic
-( int		music_id,
-  int		looping );
+( INT32		music_id,
+  INT32		looping );
 
 // Stops the music fer sure.
 void S_StopMusic(void);
@@ -97,8 +97,8 @@ void S_ResumeSound(void);
 //
 void S_UpdateSounds(void* listener);
 
-void S_SetMusicVolume(int volume);
-void S_SetSfxVolume(int volume);
+void S_SetMusicVolume(INT32 volume);
+void S_SetSfxVolume(INT32 volume);
 
 
 #endif

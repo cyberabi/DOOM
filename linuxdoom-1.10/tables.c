@@ -21,15 +21,15 @@
 //	Do not try to look them up :-).
 //	In the order of appearance: 
 //
-//	int finetangent[4096]	- Tangens LUT.
+//	INT32 finetangent[4096]	- Tangens LUT.
 //	 Should work with BAM fairly well (12 of 16bit,
 //      effectively, by shifting).
 //
-//	int finesine[10240]		- Sine lookup.
+//	INT32 finesine[10240]		- Sine lookup.
 //	 Guess what, serves as cosine, too.
 //	 Remarkable thing is, how to use BAMs with this? 
 //
-//	int tantoangle[2049]	- ArcTan LUT,
+//	INT32 tantoangle[2049]	- ArcTan LUT,
 //	  maps tan(angle) to angle fast. Gotta search.
 //	
 //    
@@ -40,18 +40,18 @@ static const char
 rcsid[] = "$Id: tables.c,v 1.4 1997/02/03 16:47:57 b1 Exp $";
 
 
-
+#include "doomtype.h"
 #include "tables.h"
 
 
 
 
-int
+INT32
 SlopeDiv
-( unsigned	num,
-  unsigned	den)
+( UINT32	num,
+  UINT32	den)
 {
-    unsigned 	ans;
+    UINT32 	ans;
     
     if (den < 512)
 	return SLOPERANGE;
@@ -64,7 +64,7 @@ SlopeDiv
 
 
 
-int finetangent[4096] =
+INT32 finetangent[4096] =
 {
     -170910304,-56965752,-34178904,-24413316,-18988036,-15535599,-13145455,-11392683,
     -10052327,-8994149,-8137527,-7429880,-6835455,-6329090,-5892567,-5512368,
@@ -581,7 +581,7 @@ int finetangent[4096] =
 };
 
 
-int finesine[10240] =
+INT32 finesine[10240] =
 {
     25,75,125,175,226,276,326,376,
     427,477,527,578,628,678,728,779,

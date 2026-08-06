@@ -79,10 +79,10 @@ rcsid[] = "$Id: g_game.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 boolean	G_CheckDemoStatus (void); 
 void	G_ReadDemoTiccmd (ticcmd_t* cmd); 
 void	G_WriteDemoTiccmd (ticcmd_t* cmd); 
-void	G_PlayerReborn (int player); 
-void	G_InitNew (skill_t skill, int episode, int map); 
+void	G_PlayerReborn (INT32 player); 
+void	G_InitNew (skill_t skill, INT32 episode, INT32 map); 
  
-void	G_DoReborn (int playernum); 
+void	G_DoReborn (INT32 playernum); 
  
 void	G_DoLoadLevel (void); 
 void	G_DoNewGame (void); 
@@ -98,8 +98,8 @@ gameaction_t    gameaction;
 gamestate_t     gamestate; 
 skill_t         gameskill; 
 boolean		respawnmonsters;
-int             gameepisode; 
-int             gamemap; 
+INT32             gameepisode; 
+INT32             gamemap; 
  
 boolean         paused; 
 boolean         sendpause;             	// send a pause event next tic 
@@ -109,7 +109,7 @@ boolean         usergame;               // ok to save / end game
 boolean         timingdemo;             // if true, exit with report on completion 
 boolean         nodrawers;              // for comparative timing purposes 
 boolean         noblit;                 // for comparative timing purposes 
-int             starttime;          	// for comparative timing purposes  	 
+INT32             starttime;          	// for comparative timing purposes  	 
  
 boolean         viewactive; 
  
@@ -118,13 +118,13 @@ boolean         netgame;                // only true if packets are broadcast
 boolean         playeringame[MAXPLAYERS]; 
 player_t        players[MAXPLAYERS]; 
  
-int             consoleplayer;          // player taking events and displaying 
-int             displayplayer;          // view being displayed 
-int             gametic; 
-int             levelstarttic;          // gametic at level start 
-int             totalkills, totalitems, totalsecret;    // for intermission 
+INT32             consoleplayer;          // player taking events and displaying 
+INT32             displayplayer;          // view being displayed 
+INT32             gametic; 
+INT32             levelstarttic;          // gametic at level start 
+INT32             totalkills, totalitems, totalsecret;    // for intermission 
  
-char            demoname[32]; 
+CHAR8            demoname[32]; 
 boolean         demorecording; 
 boolean         demoplayback; 
 boolean		netdemo; 
@@ -137,7 +137,7 @@ boolean         precache = true;        // if true, load all graphics at start
  
 wbstartstruct_t wminfo;               	// parms for world map / intermission 
  
-short		consistancy[MAXPLAYERS][BACKUPTICS]; 
+SHORT16		consistancy[MAXPLAYERS][BACKUPTICS]; 
  
 byte*		savebuffer;
  
@@ -145,26 +145,26 @@ byte*		savebuffer;
 // 
 // controls (have defaults) 
 // 
-int             key_right;
-int		key_left;
+INT32             key_right;
+INT32		key_left;
 
-int		key_up;
-int		key_down; 
-int             key_strafeleft;
-int		key_straferight; 
-int             key_fire;
-int		key_use;
-int		key_strafe;
-int		key_speed; 
+INT32		key_up;
+INT32		key_down; 
+INT32             key_strafeleft;
+INT32		key_straferight; 
+INT32             key_fire;
+INT32		key_use;
+INT32		key_strafe;
+INT32		key_speed; 
  
-int             mousebfire; 
-int             mousebstrafe; 
-int             mousebforward; 
+INT32             mousebfire; 
+INT32             mousebstrafe; 
+INT32             mousebforward; 
  
-int             joybfire; 
-int             joybstrafe; 
-int             joybuse; 
-int             joybspeed; 
+INT32             joybfire; 
+INT32             joybstrafe; 
+INT32             joybuse; 
+INT32             joybspeed; 
  
  
  
@@ -181,48 +181,48 @@ fixed_t		angleturn[3] = {640, 1280, 320};	// + slow turn
 #define NUMKEYS		256 
 
 boolean         gamekeydown[NUMKEYS]; 
-int             turnheld;				// for accelerative turning 
+INT32             turnheld;				// for accelerative turning 
  
 boolean		mousearray[4]; 
 boolean*	mousebuttons = &mousearray[1];		// allow [-1]
 
 // mouse values are used once 
-int             mousex;
-int		mousey;         
+INT32             mousex;
+INT32		mousey;         
 
-int             dclicktime;
-int		dclickstate;
-int		dclicks; 
-int             dclicktime2;
-int		dclickstate2;
-int		dclicks2;
+INT32             dclicktime;
+INT32		dclickstate;
+INT32		dclicks; 
+INT32             dclicktime2;
+INT32		dclickstate2;
+INT32		dclicks2;
 
 // joystick values are repeated 
-int             joyxmove;
-int		joyymove;
+INT32             joyxmove;
+INT32		joyymove;
 boolean         joyarray[5]; 
 boolean*	joybuttons = &joyarray[1];		// allow [-1] 
  
-int		savegameslot; 
-char		savedescription[32]; 
+INT32		savegameslot; 
+CHAR8		savedescription[32]; 
  
  
 #define	BODYQUESIZE	32
 
 mobj_t*		bodyque[BODYQUESIZE]; 
-int		bodyqueslot; 
+INT32		bodyqueslot; 
  
 void*		statcopy;				// for statistics driver
  
  
  
-int G_CmdChecksum (ticcmd_t* cmd) 
+INT32 G_CmdChecksum (ticcmd_t* cmd) 
 { 
-    int		i;
-    int		sum = 0; 
+    INT32		i;
+    INT32		sum = 0; 
 	 
     for (i=0 ; i< sizeof(*cmd)/4 - 1 ; i++) 
-	sum += ((int *)cmd)[i]; 
+	sum += ((INT32 *)cmd)[i]; 
 		 
     return sum; 
 } 
@@ -236,13 +236,13 @@ int G_CmdChecksum (ticcmd_t* cmd)
 // 
 void G_BuildTiccmd (ticcmd_t* cmd) 
 { 
-    int		i; 
+    INT32		i; 
     boolean	strafe;
     boolean	bstrafe; 
-    int		speed;
-    int		tspeed; 
-    int		forward;
-    int		side;
+    INT32		speed;
+    INT32		tspeed; 
+    INT32		forward;
+    INT32		side;
     
     ticcmd_t*	base;
 
@@ -444,7 +444,7 @@ extern  gamestate_t     wipegamestate;
  
 void G_DoLoadLevel (void) 
 { 
-    int             i; 
+    INT32             i; 
 
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
@@ -604,8 +604,8 @@ boolean G_Responder (event_t* ev)
 //
 void G_Ticker (void) 
 { 
-    int		i;
-    int		buf; 
+    INT32		i;
+    INT32		buf; 
     ticcmd_t*	cmd;
     
     // do player reborns if needed
@@ -672,8 +672,8 @@ void G_Ticker (void)
 	    if (cmd->forwardmove > TURBOTHRESHOLD 
 		&& !(gametic&31) && ((gametic>>5)&3) == i )
 	    {
-		static char turbomessage[80];
-		extern char *player_names[4];
+		static CHAR8 turbomessage[80];
+		extern CHAR8 *player_names[4];
 		sprintf (turbomessage, "%s is turbo!",player_names[i]);
 		players[consoleplayer].message = turbomessage;
 	    }
@@ -758,7 +758,7 @@ void G_Ticker (void)
 // Called at the start.
 // Called by the game initialization functions.
 //
-void G_InitPlayer (int player) 
+void G_InitPlayer (INT32 player) 
 { 
     player_t*	p; 
  
@@ -776,7 +776,7 @@ void G_InitPlayer (int player)
 // G_PlayerFinishLevel
 // Can when a player completes a level.
 //
-void G_PlayerFinishLevel (int player) 
+void G_PlayerFinishLevel (INT32 player) 
 { 
     player_t*	p; 
 	 
@@ -797,14 +797,14 @@ void G_PlayerFinishLevel (int player)
 // Called after a player dies 
 // almost everything is cleared and initialized 
 //
-void G_PlayerReborn (int player) 
+void G_PlayerReborn (INT32 player) 
 { 
     player_t*	p; 
-    int		i; 
-    int		frags[MAXPLAYERS]; 
-    int		killcount;
-    int		itemcount;
-    int		secretcount; 
+    INT32		i; 
+    INT32		frags[MAXPLAYERS]; 
+    INT32		killcount;
+    INT32		itemcount;
+    INT32		secretcount; 
 	 
     memcpy (frags,players[player].frags,sizeof(frags)); 
     killcount = players[player].killcount; 
@@ -842,15 +842,15 @@ void P_SpawnPlayer (mapthing_t* mthing);
  
 boolean
 G_CheckSpot
-( int		playernum,
+( INT32		playernum,
   mapthing_t*	mthing ) 
 { 
     fixed_t		x;
     fixed_t		y; 
     subsector_t*	ss; 
-    unsigned		an; 
+    UINT32		an; 
     mobj_t*		mo; 
-    int			i;
+    INT32			i;
 	
     if (!players[playernum].mo)
     {
@@ -894,10 +894,10 @@ G_CheckSpot
 // Spawns a player at one of the random death match spots 
 // called at level load and each death 
 //
-void G_DeathMatchSpawnPlayer (int playernum) 
+void G_DeathMatchSpawnPlayer (INT32 playernum) 
 { 
-    int             i,j; 
-    int				selections; 
+    INT32             i,j; 
+    INT32				selections; 
 	 
     selections = deathmatch_p - deathmatchstarts; 
     if (selections < 4) 
@@ -921,9 +921,9 @@ void G_DeathMatchSpawnPlayer (int playernum)
 //
 // G_DoReborn 
 // 
-void G_DoReborn (int playernum) 
+void G_DoReborn (INT32 playernum) 
 { 
-    int                             i; 
+    INT32                             i; 
 	 
     if (!netgame)
     {
@@ -975,7 +975,7 @@ void G_ScreenShot (void)
 
 
 // DOOM Par Times
-int pars[4][10] = 
+INT32 pars[4][10] = 
 { 
     {0}, 
     {0,30,75,120,90,165,180,180,30,165}, 
@@ -984,7 +984,7 @@ int pars[4][10] =
 }; 
 
 // DOOM II Par Times
-int cpars[32] =
+INT32 cpars[32] =
 {
     30,90,120,120,90,150,120,120,270,90,	//  1-10
     210,150,150,150,210,150,420,150,210,150,	// 11-20
@@ -997,7 +997,7 @@ int cpars[32] =
 // G_DoCompleted 
 //
 boolean		secretexit; 
-extern char*	pagename; 
+extern CHAR8*	pagename; 
  
 void G_ExitLevel (void) 
 { 
@@ -1019,7 +1019,7 @@ void G_SecretExitLevel (void)
  
 void G_DoCompleted (void) 
 { 
-    int             i; 
+    INT32             i; 
 	 
     gameaction = ga_nothing; 
  
@@ -1187,9 +1187,9 @@ void G_DoWorldDone (void)
 extern boolean setsizeneeded;
 void R_ExecuteSetViewSize (void);
 
-char	savename[256];
+CHAR8	savename[256];
 
-void G_LoadGame (char* name) 
+void G_LoadGame (CHAR8* name) 
 { 
     strcpy (savename, name); 
     gameaction = ga_loadgame; 
@@ -1200,10 +1200,10 @@ void G_LoadGame (char* name)
 
 void G_DoLoadGame (void) 
 { 
-    int		length; 
-    int		i; 
-    int		a,b,c; 
-    char	vcheck[VERSIONSIZE]; 
+    INT32		length; 
+    INT32		i; 
+    INT32		a,b,c; 
+    CHAR8	vcheck[VERSIONSIZE]; 
 	 
     gameaction = ga_nothing; 
 	 
@@ -1259,8 +1259,8 @@ void G_DoLoadGame (void)
 //
 void
 G_SaveGame
-( int	slot,
-  char*	description ) 
+( INT32	slot,
+  CHAR8*	description ) 
 { 
     savegameslot = slot; 
     strcpy (savedescription, description); 
@@ -1269,11 +1269,11 @@ G_SaveGame
  
 void G_DoSaveGame (void) 
 { 
-    char	name[100]; 
-    char	name2[VERSIONSIZE]; 
-    char*	description; 
-    int		length; 
-    int		i; 
+    CHAR8	name[100]; 
+    CHAR8	name2[VERSIONSIZE]; 
+    CHAR8*	description; 
+    INT32		length; 
+    INT32		i; 
 	
     if (M_CheckParm("-cdrom"))
 	sprintf(name,"c:\\doomdata\\"SAVEGAMENAME"%d.dsg",savegameslot);
@@ -1326,14 +1326,14 @@ void G_DoSaveGame (void)
 // consoleplayer, displayplayer, playeringame[] should be set. 
 //
 skill_t	d_skill; 
-int     d_episode; 
-int     d_map; 
+INT32     d_episode; 
+INT32     d_map; 
  
 void
 G_DeferedInitNew
 ( skill_t	skill,
-  int		episode,
-  int		map) 
+  INT32		episode,
+  INT32		map) 
 { 
     d_skill = skill; 
     d_episode = episode; 
@@ -1358,16 +1358,16 @@ void G_DoNewGame (void)
 } 
 
 // The sky texture to be used instead of the F_SKY1 dummy.
-extern  int	skytexture; 
+extern  INT32	skytexture; 
 
 
 void
 G_InitNew
 ( skill_t	skill,
-  int		episode,
-  int		map ) 
+  INT32		episode,
+  INT32		map ) 
 { 
-    int             i; 
+    INT32             i; 
 	 
     if (paused) 
     { 
@@ -1496,10 +1496,10 @@ void G_ReadDemoTiccmd (ticcmd_t* cmd)
 	G_CheckDemoStatus (); 
 	return; 
     } 
-    cmd->forwardmove = ((signed char)*demo_p++); 
-    cmd->sidemove = ((signed char)*demo_p++); 
-    cmd->angleturn = ((unsigned char)*demo_p++)<<8; 
-    cmd->buttons = (unsigned char)*demo_p++; 
+    cmd->forwardmove = ((CHAR8)*demo_p++); 
+    cmd->sidemove = ((CHAR8)*demo_p++); 
+    cmd->angleturn = ((UCHAR8)*demo_p++)<<8; 
+    cmd->buttons = (UCHAR8)*demo_p++; 
 } 
 
 
@@ -1527,10 +1527,10 @@ void G_WriteDemoTiccmd (ticcmd_t* cmd)
 //
 // G_RecordDemo 
 // 
-void G_RecordDemo (char* name) 
+void G_RecordDemo (CHAR8* name) 
 { 
-    int             i; 
-    int				maxsize;
+    INT32             i; 
+    INT32				maxsize;
 	
     usergame = false; 
     strcpy (demoname, name); 
@@ -1548,7 +1548,7 @@ void G_RecordDemo (char* name)
  
 void G_BeginRecording (void) 
 { 
-    int             i; 
+    INT32             i; 
 		
     demo_p = demobuffer;
 	
@@ -1571,9 +1571,9 @@ void G_BeginRecording (void)
 // G_PlayDemo 
 //
 
-char*	defdemoname; 
+CHAR8*	defdemoname; 
  
-void G_DeferedPlayDemo (char* name) 
+void G_DeferedPlayDemo (CHAR8* name) 
 { 
     defdemoname = name; 
     gameaction = ga_playdemo; 
@@ -1582,7 +1582,7 @@ void G_DeferedPlayDemo (char* name)
 void G_DoPlayDemo (void) 
 { 
     skill_t skill; 
-    int             i, episode, map; 
+    INT32             i, episode, map; 
 	 
     gameaction = ga_nothing; 
     demobuffer = demo_p = W_CacheLumpName (defdemoname, PU_STATIC); 
@@ -1622,7 +1622,7 @@ void G_DoPlayDemo (void)
 //
 // G_TimeDemo 
 //
-void G_TimeDemo (char* name) 
+void G_TimeDemo (CHAR8* name) 
 { 	 
     nodrawers = M_CheckParm ("-nodraw"); 
     noblit = M_CheckParm ("-noblit"); 
@@ -1646,7 +1646,7 @@ void G_TimeDemo (char* name)
  
 boolean G_CheckDemoStatus (void) 
 { 
-    int             endtime; 
+    INT32             endtime; 
 	 
     if (timingdemo) 
     { 

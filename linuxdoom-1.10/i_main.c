@@ -26,15 +26,16 @@ rcsid[] = "$Id: i_main.c,v 1.4 1997/02/03 22:45:10 b1 Exp $";
 
 
 
+#include "doomtype.h"
 #include "doomdef.h"
 
 #include "m_argv.h"
 #include "d_main.h"
 
-int
+INT32
 main
-( int		argc,
-  char**	argv ) 
+( INT32		argc,
+  CHAR8**	argv ) 
 { 
     myargc = argc; 
     myargv = argv; 

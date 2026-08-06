@@ -44,7 +44,7 @@
 // Must be called before any calls to  loadlump() or getsfx().
 //
 
-void openwad(char* wadname);
+void openwad(CHAR8* wadname);
 
 //
 //  Gets a sound effect from the wad file.  The pointer points to the
@@ -56,7 +56,7 @@ void openwad(char* wadname);
 
 void*
 getsfx
-( char*		sfxname,
-  int*		len );
+( CHAR8*		sfxname,
+  INT32*		len );
 
 #endif

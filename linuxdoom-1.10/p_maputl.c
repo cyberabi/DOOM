@@ -30,6 +30,7 @@ rcsid[] = "$Id: p_maputl.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
 
 #include <stdlib.h>
 
+#include "doomtype.h"
 
 #include "m_bbox.h"
 
@@ -62,7 +63,7 @@ P_AproxDistance
 // P_PointOnLineSide
 // Returns 0 or 1
 //
-int
+INT32
 P_PointOnLineSide
 ( fixed_t	x,
   fixed_t	y,
@@ -106,13 +107,13 @@ P_PointOnLineSide
 // Considers the line to be infinite
 // Returns side 0 or 1, -1 if box crosses the line.
 //
-int
+INT32
 P_BoxOnLineSide
 ( fixed_t*	tmbox,
   line_t*	ld )
 {
-    int		p1;
-    int		p2;
+    INT32		p1;
+    INT32		p2;
 	
     switch (ld->slopetype)
     {
@@ -157,7 +158,7 @@ P_BoxOnLineSide
 // P_PointOnDivlineSide
 // Returns 0 or 1.
 //
-int
+INT32
 P_PointOnDivlineSide
 ( fixed_t	x,
   fixed_t	y,
@@ -346,8 +347,8 @@ void P_LineOpening (line_t* linedef)
 //
 void P_UnsetThingPosition (mobj_t* thing)
 {
-    int		blockx;
-    int		blocky;
+    INT32		blockx;
+    INT32		blocky;
 
     if ( ! (thing->flags & MF_NOSECTOR) )
     {
@@ -397,8 +398,8 @@ P_SetThingPosition (mobj_t* thing)
 {
     subsector_t*	ss;
     sector_t*		sec;
-    int			blockx;
-    int			blocky;
+    INT32			blockx;
+    INT32			blocky;
     mobj_t**		link;
 
     
@@ -470,12 +471,12 @@ P_SetThingPosition (mobj_t* thing)
 //
 boolean
 P_BlockLinesIterator
-( int			x,
-  int			y,
+( INT32			x,
+  INT32			y,
   boolean(*func)(line_t*) )
 {
-    int			offset;
-    short*		list;
+    INT32			offset;
+    SHORT16*		list;
     line_t*		ld;
 	
     if (x<0
@@ -511,8 +512,8 @@ P_BlockLinesIterator
 //
 boolean
 P_BlockThingsIterator
-( int			x,
-  int			y,
+( INT32			x,
+  INT32			y,
   boolean(*func)(mobj_t*) )
 {
     mobj_t*		mobj;
@@ -546,7 +547,7 @@ intercept_t*	intercept_p;
 
 divline_t 	trace;
 boolean 	earlyout;
-int		ptflags;
+INT32		ptflags;
 
 //
 // PIT_AddLineIntercepts.
@@ -561,8 +562,8 @@ int		ptflags;
 boolean
 PIT_AddLineIntercepts (line_t* ld)
 {
-    int			s1;
-    int			s2;
+    INT32			s1;
+    INT32			s2;
     fixed_t		frac;
     divline_t		dl;
 	
@@ -620,8 +621,8 @@ boolean PIT_AddThingIntercepts (mobj_t* thing)
     fixed_t		x2;
     fixed_t		y2;
     
-    int			s1;
-    int			s2;
+    INT32			s1;
+    INT32			s2;
     
     boolean		tracepositive;
 
@@ -684,7 +685,7 @@ P_TraverseIntercepts
 ( traverser_t	func,
   fixed_t	maxfrac )
 {
-    int			count;
+    INT32			count;
     fixed_t		dist;
     intercept_t*	scan;
     intercept_t*	in;
@@ -745,7 +746,7 @@ P_PathTraverse
   fixed_t		y1,
   fixed_t		x2,
   fixed_t		y2,
-  int			flags,
+  INT32			flags,
   boolean (*trav) (intercept_t *))
 {
     fixed_t	xt1;
@@ -761,13 +762,13 @@ P_PathTraverse
     fixed_t	xintercept;
     fixed_t	yintercept;
     
-    int		mapx;
-    int		mapy;
+    INT32		mapx;
+    INT32		mapy;
     
-    int		mapxstep;
-    int		mapystep;
+    INT32		mapxstep;
+    INT32		mapystep;
 
-    int		count;
+    INT32		count;
 		
     earlyout = flags & PT_EARLYOUT;
 		

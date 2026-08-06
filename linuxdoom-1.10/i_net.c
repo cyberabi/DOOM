@@ -53,14 +53,14 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 // For some odd reason...
 #define ntohl(x) \
-        ((unsigned long int)((((unsigned long int)(x) & 0x000000ffU) << 24) | \
-                             (((unsigned long int)(x) & 0x0000ff00U) <<  8) | \
-                             (((unsigned long int)(x) & 0x00ff0000U) >>  8) | \
-                             (((unsigned long int)(x) & 0xff000000U) >> 24)))
+        ((ULONG32)((((ULONG32)(x) & 0x000000ffU) << 24) | \
+                             (((ULONG32)(x) & 0x0000ff00U) <<  8) | \
+                             (((ULONG32)(x) & 0x00ff0000U) >>  8) | \
+                             (((ULONG32)(x) & 0xff000000U) >> 24)))
 
 #define ntohs(x) \
-        ((unsigned short int)((((unsigned short int)(x) & 0x00ff) << 8) | \
-                              (((unsigned short int)(x) & 0xff00) >> 8))) \
+        ((USHORT16)((((USHORT16)(x) & 0x00ff) << 8) | \
+                              (((USHORT16)(x) & 0xff00) >> 8))) \
 	  
 #define htonl(x) ntohl(x)
 #define htons(x) ntohs(x)
@@ -73,10 +73,10 @@ boolean NetListen (void);
 // NETWORKING
 //
 
-int	DOOMPORT =	(IPPORT_USERRESERVED +0x1d );
+INT32	DOOMPORT =	(IPPORT_USERRESERVED +0x1d );
 
-int			sendsocket;
-int			insocket;
+INT32			sendsocket;
+INT32			insocket;
 
 struct	sockaddr_in	sendaddress[MAXNETNODES];
 
@@ -87,9 +87,9 @@ void	(*netsend) (void);
 //
 // UDPsocket
 //
-int UDPsocket (void)
+INT32 UDPsocket (void)
 {
-    int	s;
+    INT32	s;
 	
     // allocate a socket
     s = socket (PF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -104,10 +104,10 @@ int UDPsocket (void)
 //
 void
 BindToLocalPort
-( int	s,
-  int	port )
+( INT32	s,
+  INT32	port )
 {
-    int			v;
+    INT32			v;
     struct sockaddr_in	address;
 	
     memset (&address, 0, sizeof(address));
@@ -126,7 +126,7 @@ BindToLocalPort
 //
 void PacketSend (void)
 {
-    int		c;
+    INT32		c;
     doomdata_t	sw;
 				
     // byte swap
@@ -160,10 +160,10 @@ void PacketSend (void)
 //
 void PacketGet (void)
 {
-    int			i;
-    int			c;
+    INT32			i;
+    INT32			c;
     struct sockaddr_in	fromaddress;
-    int			fromlen;
+    INT32			fromlen;
     doomdata_t		sw;
 				
     fromlen = sizeof(fromaddress);
@@ -178,9 +178,9 @@ void PacketGet (void)
     }
 
     {
-	static int first=1;
+	static INT32 first=1;
 	if (first)
-	    printf("len=%d:p=[0x%x 0x%x] \n", c, *(int*)&sw, *((int*)&sw+1));
+	    printf("len=%d:p=[0x%x 0x%x] \n", c, *(INT32*)&sw, *((INT32*)&sw+1));
 	first = 0;
     }
 
@@ -219,11 +219,11 @@ void PacketGet (void)
 
 
 
-int GetLocalAddress (void)
+INT32 GetLocalAddress (void)
 {
-    char		hostname[1024];
+    CHAR8		hostname[1024];
     struct hostent*	hostentry;	// host information entry
-    int			v;
+    INT32			v;
 
     // get local address
     v = gethostname (hostname, sizeof(hostname));
@@ -234,7 +234,7 @@ int GetLocalAddress (void)
     if (!hostentry)
 	I_Error ("GetLocalAddress : gethostbyname: couldn't get local host");
 		
-    return *(int *)hostentry->h_addr_list[0];
+    return *(INT32 *)hostentry->h_addr_list[0];
 }
 
 
@@ -244,8 +244,8 @@ int GetLocalAddress (void)
 void I_InitNetwork (void)
 {
     boolean		trueval = true;
-    int			i;
-    int			p;
+    INT32			i;
+    INT32			p;
     struct hostent*	hostentry;	// host information entry
 	
     doomcom = malloc (sizeof (*doomcom) );
@@ -315,7 +315,7 @@ void I_InitNetwork (void)
 	    if (!hostentry)
 		I_Error ("gethostbyname: couldn't find %s", myargv[i]);
 	    sendaddress[doomcom->numnodes].sin_addr.s_addr 
-		= *(int *)hostentry->h_addr_list[0];
+		= *(INT32 *)hostentry->h_addr_list[0];
 	}
 	doomcom->numnodes++;
     }

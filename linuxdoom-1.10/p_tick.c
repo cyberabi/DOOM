@@ -25,13 +25,15 @@
 static const char
 rcsid[] = "$Id: p_tick.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
+#include "doomtype.h"
+
 #include "z_zone.h"
 #include "p_local.h"
 
 #include "doomstat.h"
 
 
-int	leveltime;
+INT32	leveltime;
 
 //
 // THINKERS
@@ -129,7 +131,7 @@ void P_RunThinkers (void)
 
 void P_Ticker (void)
 {
-    int		i;
+    INT32		i;
     
     // run the tic
     if (paused)

@@ -50,20 +50,20 @@ boolean		markfloor;
 boolean		markceiling;
 
 boolean		maskedtexture;
-int		toptexture;
-int		bottomtexture;
-int		midtexture;
+INT32		toptexture;
+INT32		bottomtexture;
+INT32		midtexture;
 
 
 angle_t		rw_normalangle;
 // angle to line origin
-int		rw_angle1;	
+INT32		rw_angle1;	
 
 //
 // regular wall
 //
-int		rw_x;
-int		rw_stopx;
+INT32		rw_x;
+INT32		rw_stopx;
 angle_t		rw_centerangle;
 fixed_t		rw_offset;
 fixed_t		rw_distance;
@@ -73,10 +73,10 @@ fixed_t		rw_midtexturemid;
 fixed_t		rw_toptexturemid;
 fixed_t		rw_bottomtexturemid;
 
-int		worldtop;
-int		worldbottom;
-int		worldhigh;
-int		worldlow;
+INT32		worldtop;
+INT32		worldbottom;
+INT32		worldhigh;
+INT32		worldlow;
 
 fixed_t		pixhigh;
 fixed_t		pixlow;
@@ -92,7 +92,7 @@ fixed_t		bottomstep;
 
 lighttable_t**	walllights;
 
-short*		maskedtexturecol;
+SHORT16*		maskedtexturecol;
 
 
 
@@ -102,13 +102,13 @@ short*		maskedtexturecol;
 void
 R_RenderMaskedSegRange
 ( drawseg_t*	ds,
-  int		x1,
-  int		x2 )
+  INT32		x1,
+  INT32		x2 )
 {
-    unsigned	index;
+    UINT32	index;
     column_t*	col;
-    int		lightnum;
-    int		texnum;
+    INT32		lightnum;
+    INT32		texnum;
     
     // Calculate light table.
     // Use different light tables
@@ -175,7 +175,7 @@ R_RenderMaskedSegRange
 	    }
 			
 	    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
-	    dc_iscale = 0xffffffffu / (unsigned)spryscale;
+	    dc_iscale = 0xffffffffu / (UINT32)spryscale;
 	    
 	    // draw the texture
 	    col = (column_t *)( 
@@ -206,13 +206,13 @@ R_RenderMaskedSegRange
 void R_RenderSegLoop (void)
 {
     angle_t		angle;
-    unsigned		index;
-    int			yl;
-    int			yh;
-    int			mid;
+    UINT32		index;
+    INT32			yl;
+    INT32			yh;
+    INT32			mid;
     fixed_t		texturecolumn;
-    int			top;
-    int			bottom;
+    INT32			top;
+    INT32			bottom;
 
     //texturecolumn = 0;				// shut up compiler warning
 	
@@ -273,7 +273,7 @@ void R_RenderSegLoop (void)
 
 	    dc_colormap = walllights[index];
 	    dc_x = rw_x;
-	    dc_iscale = 0xffffffffu / (unsigned)rw_scale;
+	    dc_iscale = 0xffffffffu / (UINT32)rw_scale;
 	}
 	
 	// draw the wall tiers
@@ -373,14 +373,14 @@ void R_RenderSegLoop (void)
 //
 void
 R_StoreWallRange
-( int	start,
-  int	stop )
+( INT32	start,
+  INT32	stop )
 {
     fixed_t		hyp;
     fixed_t		sineval;
     angle_t		distangle, offsetangle;
     fixed_t		vtop;
-    int			lightnum;
+    INT32			lightnum;
 
     // don't overflow and crash
     if (ds_p == &drawsegs[MAXDRAWSEGS])

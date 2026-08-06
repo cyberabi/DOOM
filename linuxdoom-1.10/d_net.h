@@ -62,7 +62,7 @@ typedef enum
 typedef struct
 {
     // High bit is retransmit request.
-    unsigned		checksum;
+    UINT32		checksum;
     // Only valid if NCMD_RETRANSMIT.
     byte		retransmitfrom;
     
@@ -79,37 +79,37 @@ typedef struct
 typedef struct
 {
     // Supposed to be DOOMCOM_ID?
-    long		id;
+    LONG32		id;
     
-    // DOOM executes an int to execute commands.
-    short		intnum;		
+    // DOOM executes an 'int' instruction to execute commands.
+    SHORT16		intnum;		
     // Communication between DOOM and the driver.
     // Is CMD_SEND or CMD_GET.
-    short		command;
+    SHORT16		command;
     // Is dest for send, set by get (-1 = no packet).
-    short		remotenode;
+    SHORT16		remotenode;
     
     // Number of bytes in doomdata to be sent
-    short		datalength;
+    SHORT16		datalength;
 
     // Info common to all nodes.
     // Console is allways node 0.
-    short		numnodes;
+    SHORT16		numnodes;
     // Flag: 1 = no duplication, 2-5 = dup for slow nets.
-    short		ticdup;
+    SHORT16		ticdup;
     // Flag: 1 = send a backup tic in every packet.
-    short		extratics;
+    SHORT16		extratics;
     // Flag: 1 = deathmatch.
-    short		deathmatch;
+    SHORT16		deathmatch;
     // Flag: -1 = new game, 0-5 = load savegame
-    short		savegame;
-    short		episode;	// 1-3
-    short		map;		// 1-9
-    short		skill;		// 1-5
+    SHORT16		savegame;
+    SHORT16		episode;	// 1-3
+    SHORT16		map;		// 1-9
+    SHORT16		skill;		// 1-5
 
     // Info specific to this node.
-    short		consoleplayer;
-    short		numplayers;
+    SHORT16		consoleplayer;
+    SHORT16		numplayers;
     
     // These are related to the 3-display mode,
     //  in which two drones looking left and right
@@ -117,9 +117,9 @@ typedef struct
     //  on two additional computers.
     // Probably not operational anymore.
     // 1 = left, 0 = center, -1 = right
-    short		angleoffset;
+    SHORT16		angleoffset;
     // 1 = drone
-    short		drone;		
+    SHORT16		drone;		
 
     // The packet data to be sent.
     doomdata_t		data;

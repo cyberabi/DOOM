@@ -24,6 +24,7 @@
 static const char
 rcsid[] = "$Id: p_floor.c,v 1.4 1997/02/03 16:47:54 b1 Exp $";
 
+#include "doomtype.h"
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -51,8 +52,8 @@ T_MovePlane
   fixed_t	speed,
   fixed_t	dest,
   boolean	crush,
-  int		floorOrCeiling,
-  int		direction )
+  INT32		floorOrCeiling,
+  INT32		direction )
 {
     boolean	flag;
     fixed_t	lastpos;
@@ -256,14 +257,14 @@ void T_MoveFloor(floormove_t* floor)
 //
 // HANDLE FLOOR TYPES
 //
-int
+INT32
 EV_DoFloor
 ( line_t*	line,
   floor_e	floortype )
 {
-    int			secnum;
-    int			rtn;
-    int			i;
+    INT32			secnum;
+    INT32			rtn;
+    INT32			i;
     sector_t*		sec;
     floormove_t*	floor;
 
@@ -371,7 +372,7 @@ EV_DoFloor
 
 	  case raiseToTexture:
 	  {
-	      int	minsize = MAXINT;
+	      INT32	minsize = MAXINT;
 	      side_t*	side;
 				
 	      floor->direction = 1;
@@ -449,18 +450,18 @@ EV_DoFloor
 //
 // BUILD A STAIRCASE!
 //
-int
+INT32
 EV_BuildStairs
 ( line_t*	line,
   stair_e	type )
 {
-    int			secnum;
-    int			height;
-    int			i;
-    int			newsecnum;
-    int			texture;
-    int			ok;
-    int			rtn;
+    INT32			secnum;
+    INT32			height;
+    INT32			i;
+    INT32			newsecnum;
+    INT32			texture;
+    INT32			ok;
+    INT32			rtn;
     
     sector_t*		sec;
     sector_t*		tsec;

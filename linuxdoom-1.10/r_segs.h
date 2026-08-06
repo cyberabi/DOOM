@@ -32,8 +32,8 @@
 void
 R_RenderMaskedSegRange
 ( drawseg_t*	ds,
-  int		x1,
-  int		x2 );
+  INT32		x1,
+  INT32		x2 );
 
 
 #endif

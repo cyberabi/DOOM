@@ -51,49 +51,49 @@ extern fixed_t*		spritetopoffset;
 
 extern lighttable_t*	colormaps;
 
-extern int		viewwidth;
-extern int		scaledviewwidth;
-extern int		viewheight;
+extern INT32		viewwidth;
+extern INT32		scaledviewwidth;
+extern INT32		viewheight;
 
-extern int		firstflat;
+extern INT32		firstflat;
 
 // for global animation
-extern int*		flattranslation;	
-extern int*		texturetranslation;	
+extern INT32*		flattranslation;	
+extern INT32*		texturetranslation;	
 
 
 // Sprite....
-extern int		firstspritelump;
-extern int		lastspritelump;
-extern int		numspritelumps;
+extern INT32		firstspritelump;
+extern INT32		lastspritelump;
+extern INT32		numspritelumps;
 
 
 
 //
 // Lookup tables for map data.
 //
-extern int		numsprites;
+extern INT32		numsprites;
 extern spritedef_t*	sprites;
 
-extern int		numvertexes;
+extern INT32		numvertexes;
 extern vertex_t*	vertexes;
 
-extern int		numsegs;
+extern INT32		numsegs;
 extern seg_t*		segs;
 
-extern int		numsectors;
+extern INT32		numsectors;
 extern sector_t*	sectors;
 
-extern int		numsubsectors;
+extern INT32		numsubsectors;
 extern subsector_t*	subsectors;
 
-extern int		numnodes;
+extern INT32		numnodes;
 extern node_t*		nodes;
 
-extern int		numlines;
+extern INT32		numlines;
 extern line_t*		lines;
 
-extern int		numsides;
+extern INT32		numsides;
 extern side_t*		sides;
 
 
@@ -111,7 +111,7 @@ extern player_t*	viewplayer;
 // ?
 extern angle_t		clipangle;
 
-extern int		viewangletox[FINEANGLES/2];
+extern INT32		viewangletox[FINEANGLES/2];
 extern angle_t		xtoviewangle[SCREENWIDTH+1];
 //extern fixed_t		finetangent[FINEANGLES/2];
 
@@ -121,10 +121,10 @@ extern angle_t		rw_normalangle;
 
 
 // angle to line origin
-extern int		rw_angle1;
+extern INT32		rw_angle1;
 
 // Segs count?
-extern int		sscount;
+extern INT32		sscount;
 
 extern visplane_t*	floorplane;
 extern visplane_t*	ceilingplane;

@@ -37,7 +37,8 @@ rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 // Had to dig up XShm.c for this one.
 // It is in the libXext, but not in the XFree86 headers.
 #ifdef LINUX
-int XShmGetEventBase( Display* dpy ); // problems with g++?
+#include "doomtype.h"
+INT32 XShmGetEventBase( Display* dpy ); // problems with g++?
 #endif
 
 #include <stdarg.h>
@@ -49,6 +50,8 @@ int XShmGetEventBase( Display* dpy ); // problems with g++?
 //#include <errnos.h>
 #include <errno.h>
 #include <signal.h>
+
+#include "doomtype.h"
 
 #include "doomstat.h"
 #include "i_system.h"
@@ -66,39 +69,39 @@ Colormap	X_cmap;
 Visual*		X_visual;
 GC		X_gc;
 XEvent		X_event;
-int		X_screen;
+INT32		X_screen;
 XVisualInfo	X_visualinfo;
 XImage*		image;
-int		X_width;
-int		X_height;
+INT32		X_width;
+INT32		X_height;
 
 // MIT SHared Memory extension.
 boolean		doShm;
 
 XShmSegmentInfo	X_shminfo;
-int		X_shmeventtype;
+INT32		X_shmeventtype;
 
 // Fake mouse handling.
 // This cannot work properly w/o DGA.
 // Needs an invisible mouse cursor at least.
 boolean		grabMouse;
-int		doPointerWarp = POINTER_WARP_COUNTDOWN;
+INT32		doPointerWarp = POINTER_WARP_COUNTDOWN;
 
 // Blocky mode,
 // replace each 320x200 pixel with multiply*multiply pixels.
 // According to Dave Taylor, it still is a bonehead thing
 // to use ....
-static int	multiply=1;
+static INT32	multiply=1;
 
 
 //
 //  Translates the key currently in X_event
 //
 
-int xlatekey(void)
+INT32 xlatekey(void)
 {
 
-    int rc;
+    INT32 rc;
 
     switch(rc = XKeycodeToKeysym(X_display, X_event.xkey.keycode, 0))
     {
@@ -187,8 +190,8 @@ void I_StartFrame (void)
 
 }
 
-static int	lastmousex = 0;
-static int	lastmousey = 0;
+static INT32	lastmousex = 0;
+static INT32	lastmousey = 0;
 boolean		mousemoved = false;
 boolean		shmFinished;
 
@@ -353,10 +356,10 @@ void I_UpdateNoBlit (void)
 void I_FinishUpdate (void)
 {
 
-    static int	lasttic;
-    int		tics;
-    int		i;
-    // UNUSED static unsigned char *bigscreen=0;
+    static INT32	lasttic;
+    INT32		tics;
+    INT32		i;
+    // UNUSED static UCHAR8 *bigscreen=0;
 
     // draws little dots on the bottom of the screen
     if (devparm)
@@ -377,16 +380,16 @@ void I_FinishUpdate (void)
     // scales the screen size before blitting it
     if (multiply == 2)
     {
-	unsigned int *olineptrs[2];
-	unsigned int *ilineptr;
-	int x, y, i;
-	unsigned int twoopixels;
-	unsigned int twomoreopixels;
-	unsigned int fouripixels;
+	UINT32 *olineptrs[2];
+	UINT32 *ilineptr;
+	INT32 x, y, i;
+	UINT32 twoopixels;
+	UINT32 twomoreopixels;
+	UINT32 fouripixels;
 
-	ilineptr = (unsigned int *) (screens[0]);
+	ilineptr = (UINT32 *) (screens[0]);
 	for (i=0 ; i<2 ; i++)
-	    olineptrs[i] = (unsigned int *) &image->data[i*X_width];
+	    olineptrs[i] = (UINT32 *) &image->data[i*X_width];
 
 	y = SCREENHEIGHT;
 	while (y--)
@@ -420,15 +423,15 @@ void I_FinishUpdate (void)
     }
     else if (multiply == 3)
     {
-	unsigned int *olineptrs[3];
-	unsigned int *ilineptr;
-	int x, y, i;
-	unsigned int fouropixels[3];
-	unsigned int fouripixels;
+	UINT32 *olineptrs[3];
+	UINT32 *ilineptr;
+	INT32 x, y, i;
+	UINT32 fouropixels[3];
+	UINT32 fouripixels;
 
-	ilineptr = (unsigned int *) (screens[0]);
+	ilineptr = (UINT32 *) (screens[0]);
 	for (i=0 ; i<3 ; i++)
-	    olineptrs[i] = (unsigned int *) &image->data[i*X_width];
+	    olineptrs[i] = (UINT32 *) &image->data[i*X_width];
 
 	y = SCREENHEIGHT;
 	while (y--)
@@ -477,8 +480,8 @@ void I_FinishUpdate (void)
     else if (multiply == 4)
     {
 	// Broken. Gotta fix this some day.
-	void Expand4(unsigned *, double *);
-  	Expand4 ((unsigned *)(screens[0]), (double *) (image->data));
+	void Expand4(UINT32 *, double *);
+  	Expand4 ((UINT32 *)(screens[0]), (double *) (image->data));
     }
 
     if (doShm)
@@ -539,8 +542,8 @@ static XColor	colors[256];
 void UploadNewPalette(Colormap cmap, byte *palette)
 {
 
-    register int	i;
-    register int	c;
+    register INT32	i;
+    register INT32	c;
     static boolean	firstcall = true;
 
 #ifdef __cplusplus
@@ -593,16 +596,16 @@ void I_SetPalette (byte* palette)
 //  thus there might have been stale
 //  handles accumulating.
 //
-void grabsharedmemory(int size)
+void grabsharedmemory(INT32 size)
 {
 
-  int			key = ('d'<<24) | ('o'<<16) | ('o'<<8) | 'm';
+  INT32			key = ('d'<<24) | ('o'<<16) | ('o'<<8) | 'm';
   struct shmid_ds	shminfo;
-  int			minsize = 320*200;
-  int			id;
-  int			rc;
-  // UNUSED int done=0;
-  int			pollution=5;
+  INT32			minsize = 320*200;
+  INT32			id;
+  INT32			rc;
+  // UNUSED INT32 done=0;
+  INT32			pollution=5;
   
   // try to use what was here before
   do
@@ -667,7 +670,7 @@ void grabsharedmemory(int size)
       id = shmget((key_t)key, size, IPC_CREAT|0777);
       if (id==-1)
       {
-	extern int errno;
+	extern INT32 errno;
 	fprintf(stderr, "errno=%d\n", errno);
 	I_Error("Could not get any shared memory");
       }
@@ -687,35 +690,35 @@ void grabsharedmemory(int size)
   image->data = X_shminfo.shmaddr = shmat(id, 0, 0);
   
   fprintf(stderr, "shared memory id=%d, addr=0x%x\n", id,
-	  (int) (image->data));
+	  (INT32) (image->data));
 }
 
 void I_InitGraphics(void)
 {
 
-    char*		displayname;
-    char*		d;
-    int			n;
-    int			pnum;
-    int			x=0;
-    int			y=0;
+    CHAR8*		displayname;
+    CHAR8*		d;
+    INT32			n;
+    INT32			pnum;
+    INT32			x=0;
+    INT32			y=0;
     
     // warning: char format, different type arg
-    char		xsign=' ';
-    char		ysign=' ';
+    CHAR8		xsign=' ';
+    CHAR8		ysign=' ';
     
-    int			oktodraw;
-    unsigned long	attribmask;
+    INT32			oktodraw;
+    ULONG32	attribmask;
     XSetWindowAttributes attribs;
     XGCValues		xgcvalues;
-    int			valuemask;
-    static int		firsttime=1;
+    INT32			valuemask;
+    static INT32		firsttime=1;
 
     if (!firsttime)
 	return;
     firsttime = 0;
 
-    signal(SIGINT, (void (*)(int)) I_Quit);
+    signal(SIGINT, (void (*)(INT32)) I_Quit);
 
     if (M_CheckParm("-2"))
 	multiply = 2;
@@ -779,7 +782,7 @@ void I_InitGraphics(void)
     // even if it's available, make sure it's a local connection
     if (doShm)
     {
-	if (!displayname) displayname = (char *) getenv("DISPLAY");
+	if (!displayname) displayname = (CHAR8 *) getenv("DISPLAY");
 	if (displayname)
 	{
 	    d = displayname;
@@ -902,7 +905,7 @@ void I_InitGraphics(void)
     				8,
     				ZPixmap,
     				0,
-    				(char*)malloc(X_width * X_height),
+    				(CHAR8*)malloc(X_width * X_height),
     				X_width, X_height,
     				8,
     				X_width );
@@ -910,18 +913,18 @@ void I_InitGraphics(void)
     }
 
     if (multiply == 1)
-	screens[0] = (unsigned char *) (image->data);
+	screens[0] = (UCHAR8 *) (image->data);
     else
-	screens[0] = (unsigned char *) malloc (SCREENWIDTH * SCREENHEIGHT);
+	screens[0] = (UCHAR8 *) malloc (SCREENWIDTH * SCREENHEIGHT);
 
 }
 
 
-unsigned	exptable[256];
+UINT32	exptable[256];
 
 void InitExpand (void)
 {
-    int		i;
+    INT32		i;
 	
     for (i=0 ; i<256 ; i++)
 	exptable[i] = i | (i<<8) | (i<<16) | (i<<24);
@@ -931,14 +934,14 @@ double		exptable2[256*256];
 
 void InitExpand2 (void)
 {
-    int		i;
-    int		j;
-    // UNUSED unsigned	iexp, jexp;
+    INT32		i;
+    INT32		j;
+    // UNUSED UINT32	iexp, jexp;
     double*	exp;
     union
     {
 	double 		d;
-	unsigned	u[2];
+	UINT32	u[2];
     } pixel;
 	
     printf ("building exptable2...\n");
@@ -955,18 +958,18 @@ void InitExpand2 (void)
     printf ("done.\n");
 }
 
-int	inited;
+INT32	inited;
 
 void
 Expand4
-( unsigned*	lineptr,
+( UINT32*	lineptr,
   double*	xline )
 {
     double	dpixel;
-    unsigned	x;
-    unsigned 	y;
-    unsigned	fourpixels;
-    unsigned	step;
+    UINT32	x;
+    UINT32 	y;
+    UINT32	fourpixels;
+    UINT32	step;
     double*	exp;
 	
     exp = exptable2;
@@ -988,13 +991,13 @@ Expand4
 	{
 	    fourpixels = lineptr[0];
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff0000)>>13) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff0000)>>13) );
 	    xline[0] = dpixel;
 	    xline[160] = dpixel;
 	    xline[320] = dpixel;
 	    xline[480] = dpixel;
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff)<<3 ) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff)<<3 ) );
 	    xline[1] = dpixel;
 	    xline[161] = dpixel;
 	    xline[321] = dpixel;
@@ -1002,13 +1005,13 @@ Expand4
 
 	    fourpixels = lineptr[1];
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff0000)>>13) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff0000)>>13) );
 	    xline[2] = dpixel;
 	    xline[162] = dpixel;
 	    xline[322] = dpixel;
 	    xline[482] = dpixel;
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff)<<3 ) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff)<<3 ) );
 	    xline[3] = dpixel;
 	    xline[163] = dpixel;
 	    xline[323] = dpixel;
@@ -1016,13 +1019,13 @@ Expand4
 
 	    fourpixels = lineptr[2];
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff0000)>>13) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff0000)>>13) );
 	    xline[4] = dpixel;
 	    xline[164] = dpixel;
 	    xline[324] = dpixel;
 	    xline[484] = dpixel;
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff)<<3 ) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff)<<3 ) );
 	    xline[5] = dpixel;
 	    xline[165] = dpixel;
 	    xline[325] = dpixel;
@@ -1030,13 +1033,13 @@ Expand4
 
 	    fourpixels = lineptr[3];
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff0000)>>13) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff0000)>>13) );
 	    xline[6] = dpixel;
 	    xline[166] = dpixel;
 	    xline[326] = dpixel;
 	    xline[486] = dpixel;
 			
-	    dpixel = *(double *)( (int)exp + ( (fourpixels&0xffff)<<3 ) );
+	    dpixel = *(double *)( (INT32)exp + ( (fourpixels&0xffff)<<3 ) );
 	    xline[7] = dpixel;
 	    xline[167] = dpixel;
 	    xline[327] = dpixel;

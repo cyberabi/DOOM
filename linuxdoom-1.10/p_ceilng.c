@@ -23,6 +23,7 @@
 static const char
 rcsid[] = "$Id: p_ceilng.c,v 1.4 1997/02/03 16:47:53 b1 Exp $";
 
+#include "doomtype.h"
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -168,13 +169,13 @@ void T_MoveCeiling (ceiling_t* ceiling)
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-int
+INT32
 EV_DoCeiling
 ( line_t*	line,
   ceiling_e	type )
 {
-    int		secnum;
-    int		rtn;
+    INT32		secnum;
+    INT32		rtn;
     sector_t*	sec;
     ceiling_t*	ceiling;
 	
@@ -250,7 +251,7 @@ EV_DoCeiling
 //
 void P_AddActiveCeiling(ceiling_t* c)
 {
-    int		i;
+    INT32		i;
     
     for (i = 0; i < MAXCEILINGS;i++)
     {
@@ -269,7 +270,7 @@ void P_AddActiveCeiling(ceiling_t* c)
 //
 void P_RemoveActiveCeiling(ceiling_t* c)
 {
-    int		i;
+    INT32		i;
 	
     for (i = 0;i < MAXCEILINGS;i++)
     {
@@ -290,7 +291,7 @@ void P_RemoveActiveCeiling(ceiling_t* c)
 //
 void P_ActivateInStasisCeiling(line_t* line)
 {
-    int		i;
+    INT32		i;
 	
     for (i = 0;i < MAXCEILINGS;i++)
     {
@@ -311,10 +312,10 @@ void P_ActivateInStasisCeiling(line_t* line)
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-int	EV_CeilingCrushStop(line_t	*line)
+INT32	EV_CeilingCrushStop(line_t	*line)
 {
-    int		i;
-    int		rtn;
+    INT32		i;
+    INT32		rtn;
 	
     rtn = 0;
     for (i = 0;i < MAXCEILINGS;i++)

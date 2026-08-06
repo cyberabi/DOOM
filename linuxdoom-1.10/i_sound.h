@@ -29,7 +29,7 @@
 #ifdef SNDSERV
 #include <stdio.h>
 extern FILE* sndserver;
-extern char* sndserver_filename;
+extern CHAR8* sndserver_filename;
 #endif
 
 #include "doomstat.h"
@@ -56,35 +56,35 @@ void I_ShutdownSound(void);
 void I_SetChannels();
 
 // Get raw data lump index for sound descriptor.
-int I_GetSfxLumpNum (sfxinfo_t* sfxinfo );
+INT32 I_GetSfxLumpNum (sfxinfo_t* sfxinfo );
 
 
 // Starts a sound in a particular sound channel.
-int
+INT32
 I_StartSound
-( int		id,
-  int		vol,
-  int		sep,
-  int		pitch,
-  int		priority );
+( INT32		id,
+  INT32		vol,
+  INT32		sep,
+  INT32		pitch,
+  INT32		priority );
 
 
 // Stops a sound channel.
-void I_StopSound(int handle);
+void I_StopSound(INT32 handle);
 
 // Called by S_*() functions
 //  to see if a channel is still playing.
 // Returns 0 if no longer playing, 1 if playing.
-int I_SoundIsPlaying(int handle);
+INT32 I_SoundIsPlaying(INT32 handle);
 
 // Updates the volume, separation,
 //  and pitch of a sound channel.
 void
 I_UpdateSoundParams
-( int		handle,
-  int		vol,
-  int		sep,
-  int		pitch );
+( INT32		handle,
+  INT32		vol,
+  INT32		sep,
+  INT32		pitch );
 
 
 //
@@ -93,24 +93,24 @@ I_UpdateSoundParams
 void I_InitMusic(void);
 void I_ShutdownMusic(void);
 // Volume.
-void I_SetMusicVolume(int volume);
+void I_SetMusicVolume(INT32 volume);
 // PAUSE game handling.
-void I_PauseSong(int handle);
-void I_ResumeSong(int handle);
+void I_PauseSong(INT32 handle);
+void I_ResumeSong(INT32 handle);
 // Registers a song handle to song data.
-int I_RegisterSong(void *data);
+INT32 I_RegisterSong(void *data);
 // Called by anything that wishes to start music.
 //  plays a song, and when the song is done,
 //  starts playing it again in an endless loop.
 // Horrible thing to do, considering.
 void
 I_PlaySong
-( int		handle,
-  int		looping );
+( INT32		handle,
+  INT32		looping );
 // Stops a song over 3 seconds.
-void I_StopSong(int handle);
+void I_StopSong(INT32 handle);
 // See above (register), then think backwards
-void I_UnRegisterSong(int handle);
+void I_UnRegisterSong(INT32 handle);
 
 
 

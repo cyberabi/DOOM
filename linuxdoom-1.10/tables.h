@@ -19,15 +19,15 @@
 //	Do not try to look them up :-).
 //	In the order of appearance: 
 //
-//	int finetangent[4096]	- Tangens LUT.
+//	INT32 finetangent[4096]	- Tangens LUT.
 //	 Should work with BAM fairly well (12 of 16bit,
 //      effectively, by shifting).
 //
-//	int finesine[10240]		- Sine lookup.
+//	INT32 finesine[10240]		- Sine lookup.
 //	 Guess what, serves as cosine, too.
 //	 Remarkable thing is, how to use BAMs with this? 
 //
-//	int tantoangle[2049]	- ArcTan LUT,
+//	INT32 tantoangle[2049]	- ArcTan LUT,
 //	  maps tan(angle) to angle fast. Gotta search.	
 //    
 //-----------------------------------------------------------------------------
@@ -75,7 +75,7 @@ extern fixed_t		finetangent[FINEANGLES/2];
 #define SLOPEBITS		11
 #define DBITS			(FRACBITS-SLOPEBITS)
 
-typedef unsigned angle_t;
+typedef UINT32 angle_t;
 
 
 // Effective size is 2049;
@@ -86,10 +86,10 @@ extern angle_t		tantoangle[SLOPERANGE+1];
 
 // Utility function,
 //  called by R_PointToAngle.
-int
+INT32
 SlopeDiv
-( unsigned	num,
-  unsigned	den);
+( UINT32	num,
+  UINT32	den);
 
 
 #endif

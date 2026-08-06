@@ -45,7 +45,7 @@ rcsid[] = "$Id: s_sound.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
 
 
 // Purpose?
-const char snd_prefixen[]
+const CHAR8 snd_prefixen[]
 = { 'P', 'P', 'A', 'S', 'S', 'S', 'M', 'M', 'M', 'S', 'S', 'S' };
 
 #define S_MAX_VOLUME		127
@@ -82,11 +82,11 @@ const char snd_prefixen[]
 
 // Current music/sfx card - index useless
 //  w/o a reference LUT in a sound module.
-extern int snd_MusicDevice;
-extern int snd_SfxDevice;
+extern INT32 snd_MusicDevice;
+extern INT32 snd_SfxDevice;
 // Config file? Same disclaimer as above.
-extern int snd_DesiredMusicDevice;
-extern int snd_DesiredSfxDevice;
+extern INT32 snd_DesiredMusicDevice;
+extern INT32 snd_DesiredSfxDevice;
 
 
 
@@ -99,7 +99,7 @@ typedef struct
     void*	origin;
 
     // handle of the sound being played
-    int		handle;
+    INT32		handle;
     
 } channel_t;
 
@@ -110,10 +110,10 @@ static channel_t*	channels;
 // These are not used, but should be (menu).
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-15.
-int 		snd_SfxVolume = 15;
+INT32 		snd_SfxVolume = 15;
 
 // Maximum volume of music. Useless so far.
-int 		snd_MusicVolume = 15; 
+INT32 		snd_MusicVolume = 15; 
 
 
 
@@ -126,30 +126,30 @@ static musicinfo_t*	mus_playing=0;
 // following is set
 //  by the defaults code in M_misc:
 // number of channels available
-int			numChannels;	
+INT32			numChannels;	
 
-static int		nextcleanup;
+static INT32		nextcleanup;
 
 
 
 //
 // Internals.
 //
-int
+INT32
 S_getChannel
 ( void*		origin,
   sfxinfo_t*	sfxinfo );
 
 
-int
+INT32
 S_AdjustSoundParams
 ( mobj_t*	listener,
   mobj_t*	source,
-  int*		vol,
-  int*		sep,
-  int*		pitch );
+  INT32*		vol,
+  INT32*		sep,
+  INT32*		pitch );
 
-void S_StopChannel(int cnum);
+void S_StopChannel(INT32 cnum);
 
 
 
@@ -159,10 +159,10 @@ void S_StopChannel(int cnum);
 //  allocates channel buffer, sets S_sfx lookup.
 //
 void S_Init
-( int		sfxVolume,
-  int		musicVolume )
+( INT32		sfxVolume,
+  INT32		musicVolume )
 {  
-  int		i;
+  INT32		i;
 
   fprintf( stderr, "S_Init: default sfx volume %d\n", sfxVolume);
 
@@ -201,8 +201,8 @@ void S_Init
 //
 void S_Start(void)
 {
-  int cnum;
-  int mnum;
+  INT32 cnum;
+  INT32 mnum;
 
   // kill all playing sounds at start of level
   //  (trust me - a good idea)
@@ -217,7 +217,7 @@ void S_Start(void)
     mnum = mus_runnin + gamemap - 1;
   else
   {
-    int spmus[]=
+    INT32 spmus[]=
     {
       // Song - Who? - Where?
       
@@ -254,16 +254,16 @@ void S_Start(void)
 void
 S_StartSoundAtVolume
 ( void*		origin_p,
-  int		sfx_id,
-  int		volume )
+  INT32		sfx_id,
+  INT32		volume )
 {
 
-  int		rc;
-  int		sep;
-  int		pitch;
-  int		priority;
+  INT32		rc;
+  INT32		sep;
+  INT32		pitch;
+  INT32		priority;
   sfxinfo_t*	sfx;
-  int		cnum;
+  INT32		cnum;
   
   mobj_t*	origin = (mobj_t *) origin_p;
   
@@ -375,7 +375,7 @@ S_StartSoundAtVolume
     //sfx->data = (void *) W_CacheLumpNum(sfx->lumpnum, PU_MUSIC);
     // fprintf( stderr,
     //	     "S_StartSoundAtVolume: loading %d (lump %d) : 0x%x\n",
-    //       sfx_id, sfx->lumpnum, (int)sfx->data );
+    //       sfx_id, sfx->lumpnum, (INT32)sfx->data );
     
   }
 #endif
@@ -397,7 +397,7 @@ S_StartSoundAtVolume
 void
 S_StartSound
 ( void*		origin,
-  int		sfx_id )
+  INT32		sfx_id )
 {
 #ifdef SAWDEBUG
     // if (sfx_id == sfx_sawful)
@@ -410,12 +410,12 @@ S_StartSound
     // UNUSED. We had problems, had we not?
 #ifdef SAWDEBUG
 {
-    int i;
-    int n;
+    INT32 i;
+    INT32 n;
 	
     static mobj_t*      last_saw_origins[10] = {1,1,1,1,1,1,1,1,1,1};
-    static int		first_saw=0;
-    static int		next_saw=0;
+    static INT32		first_saw=0;
+    static INT32		next_saw=0;
 	
     if (sfx_id == sfx_sawidl
 	|| sfx_id == sfx_sawful
@@ -471,7 +471,7 @@ S_StartSound
 void S_StopSound(void *origin)
 {
 
-    int cnum;
+    INT32 cnum;
 
     for (cnum=0 ; cnum<numChannels ; cnum++)
     {
@@ -518,11 +518,11 @@ void S_ResumeSound(void)
 //
 void S_UpdateSounds(void* listener_p)
 {
-    int		audible;
-    int		cnum;
-    int		volume;
-    int		sep;
-    int		pitch;
+    INT32		audible;
+    INT32		cnum;
+    INT32		volume;
+    INT32		sep;
+    INT32		pitch;
     sfxinfo_t*	sfx;
     channel_t*	c;
     
@@ -613,7 +613,7 @@ void S_UpdateSounds(void* listener_p)
 }
 
 
-void S_SetMusicVolume(int volume)
+void S_SetMusicVolume(INT32 volume)
 {
     if (volume < 0 || volume > 127)
     {
@@ -628,7 +628,7 @@ void S_SetMusicVolume(int volume)
 
 
 
-void S_SetSfxVolume(int volume)
+void S_SetSfxVolume(INT32 volume)
 {
 
     if (volume < 0 || volume > 127)
@@ -641,18 +641,18 @@ void S_SetSfxVolume(int volume)
 //
 // Starts some music with the music id found in sounds.h.
 //
-void S_StartMusic(int m_id)
+void S_StartMusic(INT32 m_id)
 {
     S_ChangeMusic(m_id, false);
 }
 
 void
 S_ChangeMusic
-( int			musicnum,
-  int			looping )
+( INT32			musicnum,
+  INT32			looping )
 {
     musicinfo_t*	music;
-    char		namebuf[9];
+    CHAR8		namebuf[9];
 
     if ( (musicnum <= mus_None)
 	 || (musicnum >= NUMMUSIC) )
@@ -705,10 +705,10 @@ void S_StopMusic(void)
 
 
 
-void S_StopChannel(int cnum)
+void S_StopChannel(INT32 cnum)
 {
 
-    int		i;
+    INT32		i;
     channel_t*	c = &channels[cnum];
 
     if (c->sfxinfo)
@@ -749,13 +749,13 @@ void S_StopChannel(int cnum)
 // If the sound is not audible, returns a 0.
 // Otherwise, modifies parameters and returns 1.
 //
-int
+INT32
 S_AdjustSoundParams
 ( mobj_t*	listener,
   mobj_t*	source,
-  int*		vol,
-  int*		sep,
-  int*		pitch )
+  INT32*		vol,
+  INT32*		sep,
+  INT32*		pitch )
 {
     fixed_t	approx_dist;
     fixed_t	adx;
@@ -824,13 +824,13 @@ S_AdjustSoundParams
 // S_getChannel :
 //   If none available, return -1.  Otherwise channel #.
 //
-int
+INT32
 S_getChannel
 ( void*		origin,
   sfxinfo_t*	sfxinfo )
 {
     // channel number to use
-    int		cnum;
+    INT32		cnum;
     
     channel_t*	c;
 

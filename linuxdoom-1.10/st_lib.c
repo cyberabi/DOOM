@@ -27,6 +27,7 @@ rcsid[] = "$Id: st_lib.c,v 1.4 1997/02/03 16:47:56 b1 Exp $";
 
 #include <ctype.h>
 
+#include "doomtype.h"
 #include "doomdef.h"
 
 #include "z_zone.h"
@@ -65,12 +66,12 @@ void STlib_init(void)
 void
 STlib_initNum
 ( st_number_t*		n,
-  int			x,
-  int			y,
+  INT32			x,
+  INT32			y,
   patch_t**		pl,
-  int*			num,
+  INT32*			num,
   boolean*		on,
-  int			width )
+  INT32			width )
 {
     n->x	= x;
     n->y	= y;
@@ -93,14 +94,14 @@ STlib_drawNum
   boolean	refresh )
 {
 
-    int		numdigits = n->width;
-    int		num = *n->num;
+    INT32		numdigits = n->width;
+    INT32		num = *n->num;
     
-    int		w = SHORT(n->p[0]->width);
-    int		h = SHORT(n->p[0]->height);
-    int		x = n->x;
+    INT32		w = SHORT(n->p[0]->width);
+    INT32		h = SHORT(n->p[0]->height);
+    INT32		x = n->x;
     
-    int		neg;
+    INT32		neg;
 
     n->oldnum = *n->num;
 
@@ -162,10 +163,10 @@ STlib_updateNum
 void
 STlib_initPercent
 ( st_percent_t*		p,
-  int			x,
-  int			y,
+  INT32			x,
+  INT32			y,
   patch_t**		pl,
-  int*			num,
+  INT32*			num,
   boolean*		on,
   patch_t*		percent )
 {
@@ -179,7 +180,7 @@ STlib_initPercent
 void
 STlib_updatePercent
 ( st_percent_t*		per,
-  int			refresh )
+  INT32			refresh )
 {
     if (refresh && *per->n.on)
 	V_DrawPatch(per->n.x, per->n.y, FG, per->p);
@@ -192,10 +193,10 @@ STlib_updatePercent
 void
 STlib_initMultIcon
 ( st_multicon_t*	i,
-  int			x,
-  int			y,
+  INT32			x,
+  INT32			y,
   patch_t**		il,
-  int*			inum,
+  INT32*			inum,
   boolean*		on )
 {
     i->x	= x;
@@ -213,10 +214,10 @@ STlib_updateMultIcon
 ( st_multicon_t*	mi,
   boolean		refresh )
 {
-    int			w;
-    int			h;
-    int			x;
-    int			y;
+    INT32			w;
+    INT32			h;
+    INT32			x;
+    INT32			y;
 
     if (*mi->on
 	&& (mi->oldinum != *mi->inum || refresh)
@@ -244,8 +245,8 @@ STlib_updateMultIcon
 void
 STlib_initBinIcon
 ( st_binicon_t*		b,
-  int			x,
-  int			y,
+  INT32			x,
+  INT32			y,
   patch_t*		i,
   boolean*		val,
   boolean*		on )
@@ -265,10 +266,10 @@ STlib_updateBinIcon
 ( st_binicon_t*		bi,
   boolean		refresh )
 {
-    int			x;
-    int			y;
-    int			w;
-    int			h;
+    INT32			x;
+    INT32			y;
+    INT32			w;
+    INT32			h;
 
     if (*bi->on
 	&& (bi->oldval != *bi->val || refresh))

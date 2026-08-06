@@ -26,12 +26,12 @@
 //
 // MISC
 //
-extern  int	myargc;
-extern  char**	myargv;
+extern  INT32	myargc;
+extern  CHAR8**	myargv;
 
 // Returns the position of the given parameter
 // in the arg list (0 if not found).
-int M_CheckParm (char* check);
+INT32 M_CheckParm (CHAR8* check);
 
 
 #endif

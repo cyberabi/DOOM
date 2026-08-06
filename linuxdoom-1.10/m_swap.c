@@ -24,6 +24,7 @@
 static const char
 rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
+#include "doomtype.h"
 
 #ifdef __GNUG__
 #pragma implementation "m_swap.h"
@@ -35,14 +36,14 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 #ifndef __BIG_ENDIAN__
 
 // Swap 16bit, that is, MSB and LSB byte.
-unsigned short SwapSHORT(unsigned short x)
+USHORT16 SwapSHORT(USHORT16 x)
 {
     // No masking with 0xFF should be necessary. 
     return (x>>8) | (x<<8);
 }
 
 // Swapping 32bit.
-unsigned long SwapLONG( unsigned long x)
+ULONG32 SwapLONG( ULONG32 x)
 {
     return
 	(x>>24)

@@ -99,63 +99,63 @@ typedef struct player_s
 
     // This is only used between levels,
     // mo->health is used during levels.
-    int			health;	
-    int			armorpoints;
+    INT32			health;	
+    INT32			armorpoints;
     // Armor type is 0-2.
-    int			armortype;	
+    INT32			armortype;	
 
     // Power ups. invinc and invis are tic counters.
-    int			powers[NUMPOWERS];
+    INT32			powers[NUMPOWERS];
     boolean		cards[NUMCARDS];
     boolean		backpack;
     
     // Frags, kills of other players.
-    int			frags[MAXPLAYERS];
+    INT32			frags[MAXPLAYERS];
     weapontype_t	readyweapon;
     
     // Is wp_nochange if not changing.
     weapontype_t	pendingweapon;
 
     boolean		weaponowned[NUMWEAPONS];
-    int			ammo[NUMAMMO];
-    int			maxammo[NUMAMMO];
+    INT32			ammo[NUMAMMO];
+    INT32			maxammo[NUMAMMO];
 
     // True if button down last tic.
-    int			attackdown;
-    int			usedown;
+    INT32			attackdown;
+    INT32			usedown;
 
     // Bit flags, for cheats and debug.
     // See cheat_t, above.
-    int			cheats;		
+    INT32			cheats;		
 
     // Refired shots are less accurate.
-    int			refire;		
+    INT32			refire;		
 
      // For intermission stats.
-    int			killcount;
-    int			itemcount;
-    int			secretcount;
+    INT32			killcount;
+    INT32			itemcount;
+    INT32			secretcount;
 
     // Hint messages.
-    char*		message;	
+    CHAR8*		message;	
     
     // For screen flashing (red or bright).
-    int			damagecount;
-    int			bonuscount;
+    INT32			damagecount;
+    INT32			bonuscount;
 
     // Who did damage (NULL for floors/ceilings).
     mobj_t*		attacker;
     
     // So gun flashes light up areas.
-    int			extralight;
+    INT32			extralight;
 
     // Current PLAYPAL, ???
     //  can be set to REDCOLORMAP for pain, etc.
-    int			fixedcolormap;
+    INT32			fixedcolormap;
 
     // Player skin colorshift,
     //  0-3 for which color to draw player.
-    int			colormap;	
+    INT32			colormap;	
 
     // Overlay view sprites (gun, etc).
     pspdef_t		psprites[NUMPSPRITES];
@@ -175,36 +175,36 @@ typedef struct
     boolean	in;	// whether the player is in game
     
     // Player stats, kills, collected items etc.
-    int		skills;
-    int		sitems;
-    int		ssecret;
-    int		stime; 
-    int		frags[4];
-    int		score;	// current score on entry, modified on return
+    INT32		skills;
+    INT32		sitems;
+    INT32		ssecret;
+    INT32		stime; 
+    INT32		frags[4];
+    INT32		score;	// current score on entry, modified on return
   
 } wbplayerstruct_t;
 
 typedef struct
 {
-    int		epsd;	// episode # (0-2)
+    INT32		epsd;	// episode # (0-2)
 
     // if true, splash the secret level
     boolean	didsecret;
     
     // previous and next levels, origin 0
-    int		last;
-    int		next;	
+    INT32		last;
+    INT32		next;	
     
-    int		maxkills;
-    int		maxitems;
-    int		maxsecret;
-    int		maxfrags;
+    INT32		maxkills;
+    INT32		maxitems;
+    INT32		maxsecret;
+    INT32		maxfrags;
 
     // the par time
-    int		partime;
+    INT32		partime;
     
     // index of this player in game
-    int		pnum;	
+    INT32		pnum;	
 
     wbplayerstruct_t	plyr[MAXPLAYERS];
 

@@ -25,6 +25,7 @@
 static const char
 rcsid[] = "$Id: p_lights.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
 
+#include "doomtype.h"
 
 #include "z_zone.h"
 #include "m_random.h"
@@ -45,7 +46,7 @@ rcsid[] = "$Id: p_lights.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
 //
 void T_FireFlicker (fireflicker_t* flick)
 {
-    int	amount;
+    INT32	amount;
 	
     if (--flick->count)
 	return;
@@ -180,8 +181,8 @@ void T_StrobeFlash (strobe_t*		flash)
 void
 P_SpawnStrobeFlash
 ( sector_t*	sector,
-  int		fastOrSlow,
-  int		inSync )
+  INT32		fastOrSlow,
+  INT32		inSync )
 {
     strobe_t*	flash;
 	
@@ -214,7 +215,7 @@ P_SpawnStrobeFlash
 //
 void EV_StartLightStrobing(line_t*	line)
 {
-    int		secnum;
+    INT32		secnum;
     sector_t*	sec;
 	
     secnum = -1;
@@ -235,9 +236,9 @@ void EV_StartLightStrobing(line_t*	line)
 //
 void EV_TurnTagLightsOff(line_t* line)
 {
-    int			i;
-    int			j;
-    int			min;
+    INT32			i;
+    INT32			j;
+    INT32			min;
     sector_t*		sector;
     sector_t*		tsec;
     line_t*		templine;
@@ -270,10 +271,10 @@ void EV_TurnTagLightsOff(line_t* line)
 void
 EV_LightTurnOn
 ( line_t*	line,
-  int		bright )
+  INT32		bright )
 {
-    int		i;
-    int		j;
+    INT32		i;
+    INT32		j;
     sector_t*	sector;
     sector_t*	temp;
     line_t*	templine;

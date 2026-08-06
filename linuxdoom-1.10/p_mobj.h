@@ -221,7 +221,7 @@ typedef struct mobj_s
     //More drawing info: to determine current sprite.
     angle_t		angle;	// orientation
     spritenum_t		sprite;	// used to find patch_t and flip value
-    int			frame;	// might be ORed with FF_FULLBRIGHT
+    INT32			frame;	// might be ORed with FF_FULLBRIGHT
 
     // Interaction info, by BLOCKMAP.
     // Links in blocks (if needed).
@@ -244,19 +244,19 @@ typedef struct mobj_s
     fixed_t		momz;
 
     // If == validcount, already checked.
-    int			validcount;
+    INT32			validcount;
 
     mobjtype_t		type;
     mobjinfo_t*		info;	// &mobjinfo[mobj->type]
     
-    int			tics;	// state tic counter
+    INT32			tics;	// state tic counter
     state_t*		state;
-    int			flags;
-    int			health;
+    INT32			flags;
+    INT32			health;
 
     // Movement direction, movement generation (zig-zagging).
-    int			movedir;	// 0-7
-    int			movecount;	// when 0, select a new dir
+    INT32			movedir;	// 0-7
+    INT32			movecount;	// when 0, select a new dir
 
     // Thing being chased/attacked (or NULL),
     // also the originator for missiles.
@@ -264,18 +264,18 @@ typedef struct mobj_s
 
     // Reaction time: if non 0, don't attack yet.
     // Used by player to freeze a bit after teleporting.
-    int			reactiontime;   
+    INT32			reactiontime;   
 
     // If >0, the target will be chased
     // no matter what (even if shot)
-    int			threshold;
+    INT32			threshold;
 
     // Additional info record for player avatars only.
     // Only valid if type == MT_PLAYER
     struct player_s*	player;
 
     // Player number last looked for.
-    int			lastlook;	
+    INT32			lastlook;	
 
     // For nightmare respawn.
     mapthing_t		spawnpoint;	

@@ -26,6 +26,7 @@
 #ifndef __DSTRINGS__
 #define __DSTRINGS__
 
+#include "doomtype.h"
 
 // All important printed strings.
 // Language selection (message strings).
@@ -55,7 +56,7 @@
 // QuitDOOM messages
 #define NUM_QUITMESSAGES   22
 
-extern char* endmsg[];
+extern CHAR8* endmsg[];
 
 
 #endif

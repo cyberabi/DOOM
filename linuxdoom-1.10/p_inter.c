@@ -55,8 +55,8 @@ rcsid[] = "$Id: p_inter.c,v 1.4 1997/02/03 22:45:11 b1 Exp $";
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int	maxammo[NUMAMMO] = {200, 50, 300, 50};
-int	clipammo[NUMAMMO] = {10, 4, 20, 1};
+INT32	maxammo[NUMAMMO] = {200, 50, 300, 50};
+INT32	clipammo[NUMAMMO] = {10, 4, 20, 1};
 
 
 //
@@ -74,9 +74,9 @@ boolean
 P_GiveAmmo
 ( player_t*	player,
   ammotype_t	ammo,
-  int		num )
+  INT32		num )
 {
-    int		oldammo;
+    INT32		oldammo;
 	
     if (ammo == am_noammo)
 	return false;
@@ -228,7 +228,7 @@ P_GiveWeapon
 boolean
 P_GiveBody
 ( player_t*	player,
-  int		num )
+  INT32		num )
 {
     if (player->health >= MAXHEALTH)
 	return false;
@@ -251,9 +251,9 @@ P_GiveBody
 boolean
 P_GiveArmor
 ( player_t*	player,
-  int		armortype )
+  INT32		armortype )
 {
-    int		hits;
+    INT32		hits;
 	
     hits = armortype*100;
     if (player->armorpoints >= hits)
@@ -289,7 +289,7 @@ P_GiveCard
 boolean
 P_GivePower
 ( player_t*	player,
-  int /*powertype_t*/	power )
+  INT32 /*powertype_t*/	power )
 {
     if (power == pw_invulnerability)
     {
@@ -341,9 +341,9 @@ P_TouchSpecialThing
   mobj_t*	toucher )
 {
     player_t*	player;
-    int		i;
+    INT32		i;
     fixed_t	delta;
-    int		sound;
+    INT32		sound;
 		
     delta = special->z - toucher->z;
 
@@ -776,13 +776,13 @@ P_DamageMobj
 ( mobj_t*	target,
   mobj_t*	inflictor,
   mobj_t*	source,
-  int 		damage )
+  INT32 		damage )
 {
-    unsigned	ang;
-    int		saved;
+    UINT32	ang;
+    INT32		saved;
     player_t*	player;
     fixed_t	thrust;
-    int		temp;
+    INT32		temp;
 	
     if ( !(target->flags & MF_SHOOTABLE) )
 	return;	// shouldn't happen...

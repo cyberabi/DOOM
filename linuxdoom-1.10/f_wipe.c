@@ -26,6 +26,8 @@ static const char rcsid[] = "$Id: f_wipe.c,v 1.2 1997/02/03 22:45:09 b1 Exp $";
 
 
 
+#include "doomtype.h"
+
 #include "z_zone.h"
 #include "i_video.h"
 #include "v_video.h"
@@ -49,15 +51,15 @@ static byte*	wipe_scr;
 
 void
 wipe_shittyColMajorXform
-( short*	array,
-  int		width,
-  int		height )
+( SHORT16*	array,
+  INT32		width,
+  INT32		height )
 {
-    int		x;
-    int		y;
-    short*	dest;
+    INT32		x;
+    INT32		y;
+    SHORT16*	dest;
 
-    dest = (short*) Z_Malloc(width*height*2, PU_STATIC, 0);
+    dest = (SHORT16*) Z_Malloc(width*height*2, PU_STATIC, 0);
 
     for(y=0;y<height;y++)
 	for(x=0;x<width;x++)
@@ -69,26 +71,26 @@ wipe_shittyColMajorXform
 
 }
 
-int
+INT32
 wipe_initColorXForm
-( int	width,
-  int	height,
-  int	ticks )
+( INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
     memcpy(wipe_scr, wipe_scr_start, width*height);
     return 0;
 }
 
-int
+INT32
 wipe_doColorXForm
-( int	width,
-  int	height,
-  int	ticks )
+( INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
     boolean	changed;
     byte*	w;
     byte*	e;
-    int		newval;
+    INT32		newval;
 
     changed = false;
     w = wipe_scr;
@@ -125,37 +127,37 @@ wipe_doColorXForm
 
 }
 
-int
+INT32
 wipe_exitColorXForm
-( int	width,
-  int	height,
-  int	ticks )
+( INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
     return 0;
 }
 
 
-static int*	y;
+static INT32*	y;
 
-int
+INT32
 wipe_initMelt
-( int	width,
-  int	height,
-  int	ticks )
+( INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
-    int i, r;
+    INT32 i, r;
     
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, width*height);
     
     // makes this wipe faster (in theory)
     // to have stuff in column-major format
-    wipe_shittyColMajorXform((short*)wipe_scr_start, width/2, height);
-    wipe_shittyColMajorXform((short*)wipe_scr_end, width/2, height);
+    wipe_shittyColMajorXform((SHORT16*)wipe_scr_start, width/2, height);
+    wipe_shittyColMajorXform((SHORT16*)wipe_scr_end, width/2, height);
     
     // setup initial column positions
     // (y<0 => not ready to scroll yet)
-    y = (int *) Z_Malloc(width*sizeof(int), PU_STATIC, 0);
+    y = (INT32 *) Z_Malloc(width*sizeof(INT32), PU_STATIC, 0);
     y[0] = -(M_Random()%16);
     for (i=1;i<width;i++)
     {
@@ -168,19 +170,19 @@ wipe_initMelt
     return 0;
 }
 
-int
+INT32
 wipe_doMelt
-( int	width,
-  int	height,
-  int	ticks )
+( INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
-    int		i;
-    int		j;
-    int		dy;
-    int		idx;
+    INT32		i;
+    INT32		j;
+    INT32		dy;
+    INT32		idx;
     
-    short*	s;
-    short*	d;
+    SHORT16*	s;
+    SHORT16*	d;
     boolean	done = true;
 
     width/=2;
@@ -197,8 +199,8 @@ wipe_doMelt
 	    {
 		dy = (y[i] < 16) ? y[i]+1 : 8;
 		if (y[i]+dy >= height) dy = height - y[i];
-		s = &((short *)wipe_scr_end)[i*height+y[i]];
-		d = &((short *)wipe_scr)[y[i]*width+i];
+		s = &((SHORT16 *)wipe_scr_end)[i*height+y[i]];
+		d = &((SHORT16 *)wipe_scr)[y[i]*width+i];
 		idx = 0;
 		for (j=dy;j;j--)
 		{
@@ -206,8 +208,8 @@ wipe_doMelt
 		    idx += width;
 		}
 		y[i] += dy;
-		s = &((short *)wipe_scr_start)[i*height];
-		d = &((short *)wipe_scr)[y[i]*width+i];
+		s = &((SHORT16 *)wipe_scr_start)[i*height];
+		d = &((SHORT16 *)wipe_scr)[y[i]*width+i];
 		idx = 0;
 		for (j=height-y[i];j;j--)
 		{
@@ -223,34 +225,34 @@ wipe_doMelt
 
 }
 
-int
+INT32
 wipe_exitMelt
-( int	width,
-  int	height,
-  int	ticks )
+( INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
     Z_Free(y);
     return 0;
 }
 
-int
+INT32
 wipe_StartScreen
-( int	x,
-  int	y,
-  int	width,
-  int	height )
+( INT32	x,
+  INT32	y,
+  INT32	width,
+  INT32	height )
 {
     wipe_scr_start = screens[2];
     I_ReadScreen(wipe_scr_start);
     return 0;
 }
 
-int
+INT32
 wipe_EndScreen
-( int	x,
-  int	y,
-  int	width,
-  int	height )
+( INT32	x,
+  INT32	y,
+  INT32	width,
+  INT32	height )
 {
     wipe_scr_end = screens[3];
     I_ReadScreen(wipe_scr_end);
@@ -258,23 +260,23 @@ wipe_EndScreen
     return 0;
 }
 
-int
+INT32
 wipe_ScreenWipe
-( int	wipeno,
-  int	x,
-  int	y,
-  int	width,
-  int	height,
-  int	ticks )
+( INT32	wipeno,
+  INT32	x,
+  INT32	y,
+  INT32	width,
+  INT32	height,
+  INT32	ticks )
 {
-    int rc;
-    static int (*wipes[])(int, int, int) =
+    INT32 rc;
+    static INT32 (*wipes[])(INT32, INT32, INT32) =
     {
 	wipe_initColorXForm, wipe_doColorXForm, wipe_exitColorXForm,
 	wipe_initMelt, wipe_doMelt, wipe_exitMelt
     };
 
-    void V_MarkRect(int, int, int, int);
+    void V_MarkRect(INT32, INT32, INT32, INT32);
 
     // initial stuff
     if (!go)

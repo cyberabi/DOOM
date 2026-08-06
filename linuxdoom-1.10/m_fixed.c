@@ -45,7 +45,7 @@ FixedMul
 ( fixed_t	a,
   fixed_t	b )
 {
-    return ((long long) a * (long long) b) >> FRACBITS;
+    return ((LONGLONG64) a * (LONGLONG64) b) >> FRACBITS;
 }
 
 
@@ -72,8 +72,8 @@ FixedDiv2
   fixed_t	b )
 {
 #if 0
-    long long c;
-    c = ((long long)a<<16) / ((long long)b);
+    LONGLONG64 c;
+    c = ((LONGLONG64)a<<16) / ((LONGLONG64)b);
     return (fixed_t) c;
 #endif
 

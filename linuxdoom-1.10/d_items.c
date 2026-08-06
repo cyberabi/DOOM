@@ -23,6 +23,8 @@
 static const char
 rcsid[] = "$Id:$";
 
+#include "doomtype.h"
+
 // We are referring to sprite numbers.
 #include "info.h"
 

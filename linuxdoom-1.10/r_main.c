@@ -32,6 +32,7 @@ static const char rcsid[] = "$Id: r_main.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 #include <math.h>
 
 
+#include "doomtype.h"
 #include "doomdef.h"
 #include "d_net.h"
 
@@ -49,28 +50,28 @@ static const char rcsid[] = "$Id: r_main.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 
 
 
-int			viewangleoffset;
+INT32			viewangleoffset;
 
 // increment every time a check is made
-int			validcount = 1;		
+INT32			validcount = 1;		
 
 
 lighttable_t*		fixedcolormap;
 extern lighttable_t**	walllights;
 
-int			centerx;
-int			centery;
+INT32			centerx;
+INT32			centery;
 
 fixed_t			centerxfrac;
 fixed_t			centeryfrac;
 fixed_t			projection;
 
 // just for profiling purposes
-int			framecount;	
+INT32			framecount;	
 
-int			sscount;
-int			linecount;
-int			loopcount;
+INT32			sscount;
+INT32			linecount;
+INT32			loopcount;
 
 fixed_t			viewx;
 fixed_t			viewy;
@@ -84,7 +85,7 @@ fixed_t			viewsin;
 player_t*		viewplayer;
 
 // 0 = high, 1 = low
-int			detailshift;	
+INT32			detailshift;	
 
 //
 // precalculated math tables
@@ -95,7 +96,7 @@ angle_t			clipangle;
 // maps the visible view angles to screen X coordinates,
 // flattening the arc to a flat projection plane.
 // There will be many angles mapped to the same X. 
-int			viewangletox[FINEANGLES/2];
+INT32			viewangletox[FINEANGLES/2];
 
 // The xtoviewangleangle[] table maps a screen pixel
 // to the lowest viewangle that maps back to x ranges
@@ -118,7 +119,7 @@ lighttable_t*		scalelightfixed[MAXLIGHTSCALE];
 lighttable_t*		zlight[LIGHTLEVELS][MAXLIGHTZ];
 
 // bumped light from gun blasts
-int			extralight;			
+INT32			extralight;			
 
 
 
@@ -137,8 +138,8 @@ void (*spanfunc) (void);
 //
 void
 R_AddPointToBox
-( int		x,
-  int		y,
+( INT32		x,
+  INT32		y,
   fixed_t*	box )
 {
     if (x< box[BOXLEFT])
@@ -158,7 +159,7 @@ R_AddPointToBox
 //  check point against partition plane.
 // Returns side 0 (front) or 1 (back).
 //
-int
+INT32
 R_PointOnSide
 ( fixed_t	x,
   fixed_t	y,
@@ -211,7 +212,7 @@ R_PointOnSide
 }
 
 
-int
+INT32
 R_PointOnSegSide
 ( fixed_t	x,
   fixed_t	y,
@@ -393,7 +394,7 @@ R_PointToDist
 ( fixed_t	x,
   fixed_t	y )
 {
-    int		angle;
+    INT32		angle;
     fixed_t	dx;
     fixed_t	dy;
     fixed_t	temp;
@@ -427,8 +428,8 @@ void R_InitPointToAngle (void)
 {
     // UNUSED - now getting from tables.c
 #if 0
-    int	i;
-    long	t;
+    INT32	i;
+    LONG32	t;
     float	f;
 //
 // slope (tangent) to angle lookup
@@ -453,12 +454,12 @@ void R_InitPointToAngle (void)
 fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
 {
     fixed_t		scale;
-    int			anglea;
-    int			angleb;
-    int			sinea;
-    int			sineb;
+    INT32			anglea;
+    INT32			angleb;
+    INT32			sinea;
+    INT32			sineb;
     fixed_t		num;
-    int			den;
+    INT32			den;
 
     // UNUSED
 #if 0
@@ -510,10 +511,10 @@ void R_InitTables (void)
 {
     // UNUSED: now getting from tables.c
 #if 0
-    int		i;
+    INT32		i;
     float	a;
     float	fv;
-    int		t;
+    INT32		t;
     
     // viewangle tangent table
     for (i=0 ; i<FINEANGLES/2 ; i++)
@@ -543,9 +544,9 @@ void R_InitTables (void)
 //
 void R_InitTextureMapping (void)
 {
-    int			i;
-    int			x;
-    int			t;
+    INT32			i;
+    INT32			x;
+    INT32			t;
     fixed_t		focallength;
     
     // Use tangent table to generate viewangletox:
@@ -613,11 +614,11 @@ void R_InitTextureMapping (void)
 
 void R_InitLightTables (void)
 {
-    int		i;
-    int		j;
-    int		level;
-    int		startmap; 	
-    int		scale;
+    INT32		i;
+    INT32		j;
+    INT32		level;
+    INT32		startmap; 	
+    INT32		scale;
     
     // Calculate the light levels to use
     //  for each level / distance combination.
@@ -650,14 +651,14 @@ void R_InitLightTables (void)
 // The change will take effect next refresh.
 //
 boolean		setsizeneeded;
-int		setblocks;
-int		setdetail;
+INT32		setblocks;
+INT32		setdetail;
 
 
 void
 R_SetViewSize
-( int		blocks,
-  int		detail )
+( INT32		blocks,
+  INT32		detail )
 {
     setsizeneeded = true;
     setblocks = blocks;
@@ -672,10 +673,10 @@ void R_ExecuteSetViewSize (void)
 {
     fixed_t	cosadj;
     fixed_t	dy;
-    int		i;
-    int		j;
-    int		level;
-    int		startmap; 	
+    INT32		i;
+    INT32		j;
+    INT32		level;
+    INT32		startmap; 	
 
     setsizeneeded = false;
 
@@ -765,8 +766,8 @@ void R_ExecuteSetViewSize (void)
 //
 // R_Init
 //
-extern int	detailLevel;
-extern int	screenblocks;
+extern INT32	detailLevel;
+extern INT32	screenblocks;
 
 
 
@@ -803,8 +804,8 @@ R_PointInSubsector
   fixed_t	y )
 {
     node_t*	node;
-    int		side;
-    int		nodenum;
+    INT32		side;
+    INT32		nodenum;
 
     // single subsector is a special case
     if (!numnodes)				
@@ -829,7 +830,7 @@ R_PointInSubsector
 //
 void R_SetupFrame (player_t* player)
 {		
-    int		i;
+    INT32		i;
     
     viewplayer = player;
     viewx = player->mo->x;

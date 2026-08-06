@@ -37,12 +37,12 @@ void I_Init (void);
 // Called by startup code
 // to get the ammount of memory to malloc
 // for the zone management.
-byte*	I_ZoneBase (int *size);
+byte*	I_ZoneBase (INT32 *size);
 
 
 // Called by D_DoomLoop,
 // returns current time in tics.
-int I_GetTime (void);
+INT32 I_GetTime (void);
 
 
 //
@@ -81,12 +81,12 @@ void I_Quit (void);
 
 // Allocates from low memory under dos,
 // just mallocs under unix
-byte* I_AllocLow (int length);
+byte* I_AllocLow (INT32 length);
 
-void I_Tactile (int on, int off, int total);
+void I_Tactile (INT32 on, INT32 off, INT32 total);
 
 
-void I_Error (char *error, ...);
+void I_Error (CHAR8 *error, ...);
 
 
 #endif

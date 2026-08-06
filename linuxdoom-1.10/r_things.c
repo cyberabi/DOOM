@@ -53,12 +53,12 @@ rcsid[] = "$Id: r_things.c,v 1.5 1997/02/03 16:47:56 b1 Exp $";
 
 typedef struct
 {
-    int		x1;
-    int		x2;
+    INT32		x1;
+    INT32		x2;
 	
-    int		column;
-    int		topclip;
-    int		bottomclip;
+    INT32		column;
+    INT32		topclip;
+    INT32		bottomclip;
 
 } maskdraw_t;
 
@@ -78,8 +78,8 @@ lighttable_t**	spritelights;
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
-short		negonearray[SCREENWIDTH];
-short		screenheightarray[SCREENWIDTH];
+SHORT16		negonearray[SCREENWIDTH];
+SHORT16		screenheightarray[SCREENWIDTH];
 
 
 //
@@ -89,11 +89,11 @@ short		screenheightarray[SCREENWIDTH];
 // variables used to look up
 //  and range check thing_t sprites patches
 spritedef_t*	sprites;
-int		numsprites;
+INT32		numsprites;
 
 spriteframe_t	sprtemp[29];
-int		maxframe;
-char*		spritename;
+INT32		maxframe;
+CHAR8*		spritename;
 
 
 
@@ -104,18 +104,18 @@ char*		spritename;
 //
 void
 R_InstallSpriteLump
-( int		lump,
-  unsigned	frame,
-  unsigned	rotation,
+( INT32		lump,
+  UINT32	frame,
+  UINT32	rotation,
   boolean	flipped )
 {
-    int		r;
+    INT32		r;
 	
     if (frame >= 29 || rotation > 8)
 	I_Error("R_InstallSpriteLump: "
 		"Bad frame characters in lump %i", lump);
 	
-    if ((int)frame > maxframe)
+    if ((INT32)frame > maxframe)
 	maxframe = frame;
 		
     if (rotation == 0)
@@ -174,17 +174,17 @@ R_InstallSpriteLump
 //  letter/number appended.
 // The rotation character can be 0 to signify no rotations.
 //
-void R_InitSpriteDefs (char** namelist) 
+void R_InitSpriteDefs (CHAR8** namelist) 
 { 
-    char**	check;
-    int		i;
-    int		l;
-    int		intname;
-    int		frame;
-    int		rotation;
-    int		start;
-    int		end;
-    int		patched;
+    CHAR8**	check;
+    INT32		i;
+    INT32		l;
+    INT32		intname;
+    INT32		frame;
+    INT32		rotation;
+    INT32		start;
+    INT32		end;
+    INT32		patched;
 		
     // count the number of sprite names
     check = namelist;
@@ -210,13 +210,13 @@ void R_InitSpriteDefs (char** namelist)
 	memset (sprtemp,-1, sizeof(sprtemp));
 		
 	maxframe = -1;
-	intname = *(int *)namelist[i];
+	intname = *(INT32 *)namelist[i];
 	
 	// scan the lumps,
 	//  filling in the frames for whatever is found
 	for (l=start+1 ; l<end ; l++)
 	{
-	    if (*(int *)lumpinfo[l].name == intname)
+	    if (*(INT32 *)lumpinfo[l].name == intname)
 	    {
 		frame = lumpinfo[l].name[4] - 'A';
 		rotation = lumpinfo[l].name[5] - '0';
@@ -248,7 +248,7 @@ void R_InitSpriteDefs (char** namelist)
 	
 	for (frame = 0 ; frame < maxframe ; frame++)
 	{
-	    switch ((int)sprtemp[frame].rotate)
+	    switch ((INT32)sprtemp[frame].rotate)
 	    {
 	      case -1:
 		// no rotations were found for that frame at all
@@ -288,7 +288,7 @@ void R_InitSpriteDefs (char** namelist)
 //
 vissprite_t	vissprites[MAXVISSPRITES];
 vissprite_t*	vissprite_p;
-int		newvissprite;
+INT32		newvissprite;
 
 
 
@@ -296,9 +296,9 @@ int		newvissprite;
 // R_InitSprites
 // Called at program start.
 //
-void R_InitSprites (char** namelist)
+void R_InitSprites (CHAR8** namelist)
 {
-    int		i;
+    INT32		i;
 	
     for (i=0 ; i<SCREENWIDTH ; i++)
     {
@@ -342,16 +342,16 @@ vissprite_t* R_NewVisSprite (void)
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-short*		mfloorclip;
-short*		mceilingclip;
+SHORT16*		mfloorclip;
+SHORT16*		mceilingclip;
 
 fixed_t		spryscale;
 fixed_t		sprtopscreen;
 
 void R_DrawMaskedColumn (column_t* column)
 {
-    int		topscreen;
-    int 	bottomscreen;
+    INT32		topscreen;
+    INT32 	bottomscreen;
     fixed_t	basetexturemid;
 	
     basetexturemid = dc_texturemid;
@@ -396,11 +396,11 @@ void R_DrawMaskedColumn (column_t* column)
 void
 R_DrawVisSprite
 ( vissprite_t*		vis,
-  int			x1,
-  int			x2 )
+  INT32			x1,
+  INT32			x2 )
 {
     column_t*		column;
-    int			texturecolumn;
+    INT32			texturecolumn;
     fixed_t		frac;
     patch_t*		patch;
 	
@@ -462,17 +462,17 @@ void R_ProjectSprite (mobj_t* thing)
 
     fixed_t		xscale;
     
-    int			x1;
-    int			x2;
+    INT32			x1;
+    INT32			x2;
 
     spritedef_t*	sprdef;
     spriteframe_t*	sprframe;
-    int			lump;
+    INT32			lump;
     
-    unsigned		rot;
+    UINT32		rot;
     boolean		flip;
     
-    int			index;
+    INT32			index;
 
     vissprite_t*	vis;
     
@@ -504,7 +504,7 @@ void R_ProjectSprite (mobj_t* thing)
     
     // decide which patch to use for sprite relative to player
 #ifdef RANGECHECK
-    if ((unsigned)thing->sprite >= numsprites)
+    if ((UINT32)thing->sprite >= numsprites)
 	I_Error ("R_ProjectSprite: invalid sprite number %i ",
 		 thing->sprite);
 #endif
@@ -520,7 +520,7 @@ void R_ProjectSprite (mobj_t* thing)
     {
 	// choose a different rotation based on player view
 	ang = R_PointToAngle (thing->x, thing->y);
-	rot = (ang-thing->angle+(unsigned)(ANG45/2)*9)>>29;
+	rot = (ang-thing->angle+(UINT32)(ANG45/2)*9)>>29;
 	lump = sprframe->lump[rot];
 	flip = (boolean)sprframe->flip[rot];
     }
@@ -613,7 +613,7 @@ void R_ProjectSprite (mobj_t* thing)
 void R_AddSprites (sector_t* sec)
 {
     mobj_t*		thing;
-    int			lightnum;
+    INT32			lightnum;
 
     // BSP is traversed by subsector.
     // A sector might have been split into several
@@ -646,18 +646,18 @@ void R_AddSprites (sector_t* sec)
 void R_DrawPSprite (pspdef_t* psp)
 {
     fixed_t		tx;
-    int			x1;
-    int			x2;
+    INT32			x1;
+    INT32			x2;
     spritedef_t*	sprdef;
     spriteframe_t*	sprframe;
-    int			lump;
+    INT32			lump;
     boolean		flip;
     vissprite_t*	vis;
     vissprite_t		avis;
     
     // decide which patch to use
 #ifdef RANGECHECK
-    if ( (unsigned)psp->state->sprite >= numsprites)
+    if ( (UINT32)psp->state->sprite >= numsprites)
 	I_Error ("R_ProjectSprite: invalid sprite number %i ",
 		 psp->state->sprite);
 #endif
@@ -745,8 +745,8 @@ void R_DrawPSprite (pspdef_t* psp)
 //
 void R_DrawPlayerSprites (void)
 {
-    int		i;
-    int		lightnum;
+    INT32		i;
+    INT32		lightnum;
     pspdef_t*	psp;
     
     // get light level
@@ -786,8 +786,8 @@ vissprite_t	vsprsortedhead;
 
 void R_SortVisSprites (void)
 {
-    int			i;
-    int			count;
+    INT32			i;
+    INT32			count;
     vissprite_t*	ds;
     vissprite_t*	best;
     vissprite_t		unsorted;
@@ -842,14 +842,14 @@ void R_SortVisSprites (void)
 void R_DrawSprite (vissprite_t* spr)
 {
     drawseg_t*		ds;
-    short		clipbot[SCREENWIDTH];
-    short		cliptop[SCREENWIDTH];
-    int			x;
-    int			r1;
-    int			r2;
+    SHORT16		clipbot[SCREENWIDTH];
+    SHORT16		cliptop[SCREENWIDTH];
+    INT32			x;
+    INT32			r1;
+    INT32			r2;
     fixed_t		scale;
     fixed_t		lowscale;
-    int			silhouette;
+    INT32			silhouette;
 		
     for (x = spr->x1 ; x<=spr->x2 ; x++)
 	clipbot[x] = cliptop[x] = -2;

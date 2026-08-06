@@ -32,22 +32,22 @@ typedef struct sfxinfo_struct	sfxinfo_t;
 struct sfxinfo_struct
 {
     // up to 6-character name
-    char*	name;
+    CHAR8*	name;
 
     // Sfx singularity (only one at a time)
-    int		singularity;
+    INT32		singularity;
 
     // Sfx priority
-    int		priority;
+    INT32		priority;
 
     // referenced sound if a link
     sfxinfo_t*	link;
 
     // pitch if a link
-    int		pitch;
+    INT32		pitch;
 
     // volume if a link
-    int		volume;
+    INT32		volume;
 
     // sound data
     void*	data;
@@ -55,10 +55,10 @@ struct sfxinfo_struct
     // this is checked every second to see if sound
     // can be thrown out (if 0, then decrement, if -1,
     // then throw out, if > 0, then it is in use)
-    int		usefulness;
+    INT32		usefulness;
 
     // lump number of sfx
-    int		lumpnum;		
+    INT32		lumpnum;		
 };
 
 
@@ -70,16 +70,16 @@ struct sfxinfo_struct
 typedef struct
 {
     // up to 6-character name
-    char*	name;
+    CHAR8*	name;
 
     // lump number of music
-    int		lumpnum;
+    INT32		lumpnum;
     
     // music data
     void*	data;
 
     // music handle once registered
-    int handle;
+    INT32 handle;
     
 } musicinfo_t;
 

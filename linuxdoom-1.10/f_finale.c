@@ -49,41 +49,41 @@ rcsid[] = "$Id: f_finale.c,v 1.5 1997/02/03 21:26:34 b1 Exp $";
 
 // Stage of animation:
 //  0 = text, 1 = art screen, 2 = character cast
-int		finalestage;
+INT32		finalestage;
 
-int		finalecount;
+INT32		finalecount;
 
 #define	TEXTSPEED	3
 #define	TEXTWAIT	250
 
-char*	e1text = E1TEXT;
-char*	e2text = E2TEXT;
-char*	e3text = E3TEXT;
-char*	e4text = E4TEXT;
+CHAR8*	e1text = E1TEXT;
+CHAR8*	e2text = E2TEXT;
+CHAR8*	e3text = E3TEXT;
+CHAR8*	e4text = E4TEXT;
 
-char*	c1text = C1TEXT;
-char*	c2text = C2TEXT;
-char*	c3text = C3TEXT;
-char*	c4text = C4TEXT;
-char*	c5text = C5TEXT;
-char*	c6text = C6TEXT;
+CHAR8*	c1text = C1TEXT;
+CHAR8*	c2text = C2TEXT;
+CHAR8*	c3text = C3TEXT;
+CHAR8*	c4text = C4TEXT;
+CHAR8*	c5text = C5TEXT;
+CHAR8*	c6text = C6TEXT;
 
-char*	p1text = P1TEXT;
-char*	p2text = P2TEXT;
-char*	p3text = P3TEXT;
-char*	p4text = P4TEXT;
-char*	p5text = P5TEXT;
-char*	p6text = P6TEXT;
+CHAR8*	p1text = P1TEXT;
+CHAR8*	p2text = P2TEXT;
+CHAR8*	p3text = P3TEXT;
+CHAR8*	p4text = P4TEXT;
+CHAR8*	p5text = P5TEXT;
+CHAR8*	p6text = P6TEXT;
 
-char*	t1text = T1TEXT;
-char*	t2text = T2TEXT;
-char*	t3text = T3TEXT;
-char*	t4text = T4TEXT;
-char*	t5text = T5TEXT;
-char*	t6text = T6TEXT;
+CHAR8*	t1text = T1TEXT;
+CHAR8*	t2text = T2TEXT;
+CHAR8*	t3text = T3TEXT;
+CHAR8*	t4text = T4TEXT;
+CHAR8*	t5text = T5TEXT;
+CHAR8*	t6text = T6TEXT;
 
-char*	finaletext;
-char*	finaleflat;
+CHAR8*	finaletext;
+CHAR8*	finaleflat;
 
 void	F_StartCast (void);
 void	F_CastTicker (void);
@@ -206,7 +206,7 @@ boolean F_Responder (event_t *event)
 //
 void F_Ticker (void)
 {
-    int		i;
+    INT32		i;
     
     // check for skipping
     if ( (gamemode == commercial)
@@ -263,12 +263,12 @@ void F_TextWrite (void)
     byte*	src;
     byte*	dest;
     
-    int		x,y,w;
-    int		count;
-    char*	ch;
-    int		c;
-    int		cx;
-    int		cy;
+    INT32		x,y,w;
+    INT32		count;
+    CHAR8*	ch;
+    INT32		c;
+    INT32		cx;
+    INT32		cy;
     
     // erase the entire screen to a tiled background
     src = W_CacheLumpName ( finaleflat , PU_CACHE);
@@ -333,7 +333,7 @@ void F_TextWrite (void)
 //
 typedef struct
 {
-    char		*name;
+    CHAR8		*name;
     mobjtype_t	type;
 } castinfo_t;
 
@@ -359,12 +359,12 @@ castinfo_t	castorder[] = {
     {NULL,0}
 };
 
-int		castnum;
-int		casttics;
+INT32		castnum;
+INT32		casttics;
 state_t*	caststate;
 boolean		castdeath;
-int		castframes;
-int		castonmelee;
+INT32		castframes;
+INT32		castonmelee;
 boolean		castattacking;
 
 
@@ -394,8 +394,8 @@ void F_StartCast (void)
 //
 void F_CastTicker (void)
 {
-    int		st;
-    int		sfx;
+    INT32		st;
+    INT32		sfx;
 	
     if (--casttics > 0)
 	return;			// not time to change state yet
@@ -520,13 +520,13 @@ boolean F_CastResponder (event_t* ev)
 }
 
 
-void F_CastPrint (char* text)
+void F_CastPrint (CHAR8* text)
 {
-    char*	ch;
-    int		c;
-    int		cx;
-    int		w;
-    int		width;
+    CHAR8*	ch;
+    INT32		c;
+    INT32		cx;
+    INT32		w;
+    INT32		width;
     
     // find width
     ch = text;
@@ -574,13 +574,13 @@ void F_CastPrint (char* text)
 //
 // F_CastDrawer
 //
-void V_DrawPatchFlipped (int x, int y, int scrn, patch_t *patch);
+void V_DrawPatchFlipped (INT32 x, INT32 y, INT32 scrn, patch_t *patch);
 
 void F_CastDrawer (void)
 {
     spritedef_t*	sprdef;
     spriteframe_t*	sprframe;
-    int			lump;
+    INT32			lump;
     boolean		flip;
     patch_t*		patch;
     
@@ -608,15 +608,15 @@ void F_CastDrawer (void)
 //
 void
 F_DrawPatchCol
-( int		x,
+( INT32		x,
   patch_t*	patch,
-  int		col )
+  INT32		col )
 {
     column_t*	column;
     byte*	source;
     byte*	dest;
     byte*	desttop;
-    int		count;
+    INT32		count;
 	
     column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
     desttop = screens[0]+x;
@@ -643,13 +643,13 @@ F_DrawPatchCol
 //
 void F_BunnyScroll (void)
 {
-    int		scrolled;
-    int		x;
+    INT32		scrolled;
+    INT32		x;
     patch_t*	p1;
     patch_t*	p2;
-    char	name[10];
-    int		stage;
-    static int	laststage;
+    CHAR8	name[10];
+    INT32		stage;
+    static INT32	laststage;
 		
     p1 = W_CacheLumpName ("PFUB2", PU_LEVEL);
     p2 = W_CacheLumpName ("PFUB1", PU_LEVEL);

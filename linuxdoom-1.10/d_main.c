@@ -89,7 +89,7 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 void D_DoomLoop (void);
 
 
-char*		wadfiles[MAXWADFILES];
+CHAR8*		wadfiles[MAXWADFILES];
 
 
 boolean		devparm;	// started game with -devparm
@@ -103,15 +103,15 @@ boolean		singletics = false; // debug flag to cancel adaptiveness
 
 
 
-//extern int soundVolume;
-//extern  int	sfxVolume;
-//extern  int	musicVolume;
+//extern INT32 soundVolume;
+//extern  INT32	sfxVolume;
+//extern  INT32	musicVolume;
 
 extern  boolean	inhelpscreens;
 
 skill_t		startskill;
-int             startepisode;
-int		startmap;
+INT32             startepisode;
+INT32		startmap;
 boolean		autostart;
 
 FILE*		debugfile;
@@ -121,9 +121,9 @@ boolean		advancedemo;
 
 
 
-char		wadfile[1024];		// primary wad file
-char		mapdir[1024];           // directory of development maps
-char		basedefault[1024];      // default file
+CHAR8		wadfile[1024];		// primary wad file
+CHAR8		mapdir[1024];           // directory of development maps
+CHAR8		basedefault[1024];      // default file
 
 
 void D_CheckNetGame (void);
@@ -139,8 +139,8 @@ void D_DoAdvanceDemo (void);
 // Events can be discarded if no responder claims them
 //
 event_t         events[MAXEVENTS];
-int             eventhead;
-int 		eventtail;
+INT32             eventhead;
+INT32 		eventtail;
 
 
 //
@@ -187,7 +187,7 @@ void D_ProcessEvents (void)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
 extern  boolean setsizeneeded;
-extern  int             showMessages;
+extern  INT32             showMessages;
 void R_ExecuteSetViewSize (void);
 
 void D_Display (void)
@@ -197,11 +197,11 @@ void D_Display (void)
     static  boolean		inhelpscreensstate = false;
     static  boolean		fullscreen = false;
     static  gamestate_t		oldgamestate = -1;
-    static  int			borderdrawcount;
-    int				nowtime;
-    int				tics;
-    int				wipestart;
-    int				y;
+    static  INT32			borderdrawcount;
+    INT32				nowtime;
+    INT32				tics;
+    INT32				wipestart;
+    INT32				y;
     boolean			done;
     boolean			wipe;
     boolean			redrawsbar;
@@ -358,7 +358,7 @@ void D_DoomLoop (void)
 		
     if (M_CheckParm ("-debugfile"))
     {
-	char    filename[20];
+	CHAR8    filename[20];
 	sprintf (filename,"debug%i.txt",consoleplayer);
 	printf ("debug output to: %s\n",filename);
 	debugfile = fopen (filename,"w");
@@ -411,9 +411,9 @@ void D_DoomLoop (void)
 //
 //  DEMO LOOP
 //
-int             demosequence;
-int             pagetic;
-char                    *pagename;
+INT32             demosequence;
+INT32             pagetic;
+CHAR8                    *pagename;
 
 
 //
@@ -533,17 +533,17 @@ void D_StartTitle (void)
 
 
 //      print title for every printed line
-char            title[128];
+CHAR8            title[128];
 
 
 
 //
 // D_AddFile
 //
-void D_AddFile (char *file)
+void D_AddFile (CHAR8 *file)
 {
-    int     numwadfiles;
-    char    *newfile;
+    INT32     numwadfiles;
+    CHAR8    *newfile;
 	
     for (numwadfiles = 0 ; wadfiles[numwadfiles] ; numwadfiles++)
 	;
@@ -563,18 +563,18 @@ void D_AddFile (char *file)
 void IdentifyVersion (void)
 {
 
-    char*	doom1wad;
-    char*	doomwad;
-    char*	doomuwad;
-    char*	doom2wad;
+    CHAR8*	doom1wad;
+    CHAR8*	doomwad;
+    CHAR8*	doomuwad;
+    CHAR8*	doom2wad;
 
-    char*	doom2fwad;
-    char*	plutoniawad;
-    char*	tntwad;
+    CHAR8*	doom2fwad;
+    CHAR8*	plutoniawad;
+    CHAR8*	tntwad;
 
 #ifdef NORMALUNIX
-    char *home;
-    char *doomwaddir;
+    CHAR8 *home;
+    CHAR8 *doomwaddir;
     doomwaddir = getenv("DOOMWADDIR");
     if (!doomwaddir)
 	doomwaddir = ".";
@@ -721,21 +721,21 @@ void IdentifyVersion (void)
 //
 void FindResponseFile (void)
 {
-    int             i;
+    INT32             i;
 #define MAXARGVS        100
 	
     for (i = 1;i < myargc;i++)
 	if (myargv[i][0] == '@')
 	{
 	    FILE *          handle;
-	    int             size;
-	    int             k;
-	    int             index;
-	    int             indexinfile;
-	    char    *infile;
-	    char    *file;
-	    char    *moreargs[20];
-	    char    *firstargv;
+	    INT32             size;
+	    INT32             k;
+	    INT32             index;
+	    INT32             indexinfile;
+	    CHAR8    *infile;
+	    CHAR8    *file;
+	    CHAR8    *moreargs[20];
+	    CHAR8    *firstargv;
 			
 	    // READ THE RESPONSE FILE INTO MEMORY
 	    handle = fopen (&myargv[i][1],"rb");
@@ -757,8 +757,8 @@ void FindResponseFile (void)
 		moreargs[index++] = myargv[k];
 			
 	    firstargv = myargv[0];
-	    myargv = malloc(sizeof(char *)*MAXARGVS);
-	    memset(myargv,0,sizeof(char *)*MAXARGVS);
+	    myargv = malloc(sizeof(CHAR8 *)*MAXARGVS);
+	    memset(myargv,0,sizeof(CHAR8 *)*MAXARGVS);
 	    myargv[0] = firstargv;
 			
 	    infile = file;
@@ -795,8 +795,8 @@ void FindResponseFile (void)
 //
 void D_DoomMain (void)
 {
-    int             p;
-    char                    file[256];
+    INT32             p;
+    CHAR8                    file[256];
 
     FindResponseFile ();
 	
@@ -884,9 +884,9 @@ void D_DoomMain (void)
     // turbo option
     if ( (p=M_CheckParm ("-turbo")) )
     {
-	int     scale = 200;
-	extern int forwardmove[2];
-	extern int sidemove[2];
+	INT32     scale = 200;
+	extern INT32 forwardmove[2];
+	extern INT32 sidemove[2];
 	
 	if (p<myargc-1)
 	    scale = atoi (myargv[p+1]);
@@ -982,7 +982,7 @@ void D_DoomMain (void)
     p = M_CheckParm ("-timer");
     if (p && p < myargc-1 && deathmatch)
     {
-	int     time;
+	INT32     time;
 	time = atoi(myargv[p+1]);
 	printf("Levels will end after %d minute",time);
 	if (time>1)
@@ -1026,13 +1026,13 @@ void D_DoomMain (void)
     {
 	// These are the lumps that will be checked in IWAD,
 	// if any one is not present, execution will be aborted.
-	char name[23][8]=
+	CHAR8 name[23][8]=
 	{
 	    "e2m1","e2m2","e2m3","e2m4","e2m5","e2m6","e2m7","e2m8","e2m9",
 	    "e3m1","e3m3","e3m3","e3m4","e3m5","e3m6","e3m7","e3m8","e3m9",
 	    "dphoof","bfgga0","heada1","cybra1","spida1d1"
 	};
-	int i;
+	INT32 i;
 	
 	if ( gamemode == shareware)
 	    I_Error("\nYou cannot -file with the shareware "

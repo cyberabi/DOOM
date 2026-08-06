@@ -38,30 +38,30 @@ enum
     wipe_NUMWIPES
 };
 
-int
+INT32
 wipe_StartScreen
-( int		x,
-  int		y,
-  int		width,
-  int		height );
+( INT32		x,
+  INT32		y,
+  INT32		width,
+  INT32		height );
 
 
-int
+INT32
 wipe_EndScreen
-( int		x,
-  int		y,
-  int		width,
-  int		height );
+( INT32		x,
+  INT32		y,
+  INT32		width,
+  INT32		height );
 
 
-int
+INT32
 wipe_ScreenWipe
-( int		wipeno,
-  int		x,
-  int		y,
-  int		width,
-  int		height,
-  int		ticks );
+( INT32		wipeno,
+  INT32		x,
+  INT32		y,
+  INT32		width,
+  INT32		height,
+  INT32		ticks );
 
 #endif
 //-----------------------------------------------------------------------------

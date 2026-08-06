@@ -28,6 +28,7 @@
 static const char
 rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
+#include "doomtype.h"
 
 // Needed for FRACUNIT.
 #include "m_fixed.h"
@@ -44,9 +45,9 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 //
 // sky mapping
 //
-int			skyflatnum;
-int			skytexture;
-int			skytexturemid;
+INT32			skyflatnum;
+INT32			skytexture;
+INT32			skytexturemid;
 
 
 

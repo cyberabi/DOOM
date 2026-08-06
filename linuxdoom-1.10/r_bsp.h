@@ -34,8 +34,8 @@ extern line_t*		linedef;
 extern sector_t*	frontsector;
 extern sector_t*	backsector;
 
-extern int		rw_x;
-extern int		rw_stopx;
+extern INT32		rw_x;
+extern INT32		rw_stopx;
 
 extern boolean		segtextured;
 
@@ -53,7 +53,7 @@ extern lighttable_t**	vscalelight;
 extern lighttable_t**	dscalelight;
 
 
-typedef void (*drawfunc_t) (int start, int stop);
+typedef void (*drawfunc_t) (INT32 start, INT32 stop);
 
 
 // BSP?
@@ -61,7 +61,7 @@ void R_ClearClipSegs (void);
 void R_ClearDrawSegs (void);
 
 
-void R_RenderBSPNode (int bspnum);
+void R_RenderBSPNode (INT32 bspnum);
 
 
 #endif

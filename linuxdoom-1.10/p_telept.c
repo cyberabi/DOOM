@@ -26,6 +26,7 @@ rcsid[] = "$Id: p_telept.c,v 1.3 1997/01/28 22:08:29 b1 Exp $";
 
 
 
+#include "doomtype.h"
 #include "doomdef.h"
 
 #include "s_sound.h"
@@ -44,17 +45,17 @@ rcsid[] = "$Id: p_telept.c,v 1.3 1997/01/28 22:08:29 b1 Exp $";
 //
 // TELEPORTATION
 //
-int
+INT32
 EV_Teleport
 ( line_t*	line,
-  int		side,
+  INT32		side,
   mobj_t*	thing )
 {
-    int		i;
-    int		tag;
+    INT32		i;
+    INT32		tag;
     mobj_t*	m;
     mobj_t*	fog;
-    unsigned	an;
+    UINT32	an;
     thinker_t*	thinker;
     sector_t*	sector;
     fixed_t	oldx;

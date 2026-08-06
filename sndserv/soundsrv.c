@@ -52,8 +52,8 @@ static const char rcsid[] = "$Id: soundsrv.c,v 1.3 1997/01/29 22:40:44 b1 Exp $"
 #include <sys/time.h>
 #include <string.h>
 
-#include "sounds.h"
 #include "soundsrv.h"
+#include "sounds.h"
 #include "wadread.h"
 
 
@@ -64,94 +64,94 @@ static const char rcsid[] = "$Id: soundsrv.c,v 1.3 1997/01/29 22:40:44 b1 Exp $"
 typedef struct wadinfo_struct
 {
     // should be IWAD
-    char	identification[4];	
-    int		numlumps;
-    int		infotableofs;
+    CHAR8	identification[4];	
+    INT32		numlumps;
+    INT32		infotableofs;
     
 } wadinfo_t;
 
 
 typedef struct filelump_struct
 {
-    int		filepos;
-    int		size;
-    char	name[8];
+    INT32		filepos;
+    INT32		size;
+    CHAR8	name[8];
     
 } filelump_t;
 
 
 // an internal time keeper
-static int	mytime = 0;
+static INT32	mytime = 0;
 
 // number of sound effects
-int 		numsounds;
+INT32 		numsounds;
 
 // longest sound effect
-int 		longsound;
+INT32 		longsound;
 
 // lengths of all sound effects
-int 		lengths[NUMSFX];
+INT32 		lengths[NUMSFX];
 
 // mixing buffer
-signed short	mixbuffer[MIXBUFFERSIZE];
+SHORT16	mixbuffer[MIXBUFFERSIZE];
 
 // file descriptor of sfx device
-int		sfxdevice;			
+INT32		sfxdevice;			
 
 // file descriptor of music device
-int 		musdevice;			
+INT32 		musdevice;			
 
 // the channel data pointers
-unsigned char*	channels[8];
+UCHAR8*	channels[8];
 
 // the channel step amount
-unsigned int	channelstep[8];
+UINT32	channelstep[8];
 
 // 0.16 bit remainder of last step
-unsigned int	channelstepremainder[8];
+UINT32	channelstepremainder[8];
 
 // the channel data end pointers
-unsigned char*	channelsend[8];
+UCHAR8*	channelsend[8];
 
 // time that the channel started playing
-int		channelstart[8];
+INT32		channelstart[8];
 
 // the channel handles
-int 		channelhandles[8];
+INT32 		channelhandles[8];
 
 // the channel left volume lookup
-int*		channelleftvol_lookup[8];
+INT32*		channelleftvol_lookup[8];
 
 // the channel right volume lookup
-int*		channelrightvol_lookup[8];
+INT32*		channelrightvol_lookup[8];
 
 // sfx id of the playing sound effect
-int		channelids[8];			
+INT32		channelids[8];			
 
-int		snd_verbose=1;
+INT32		snd_verbose=1;
 
-int		steptable[256];
+INT32		steptable[256];
 
-int		vol_lookup[128*256];
+INT32		vol_lookup[128*256];
 
-static void derror(char* msg)
+static void derror(CHAR8* msg)
 {
     fprintf(stderr, "error: %s\n", msg);
     exit(-1);
 }
 
-int mix(void)
+INT32 mix(void)
 {
 
-    register int		dl;
-    register int		dr;
-    register unsigned int	sample;
+    register INT32		dl;
+    register INT32		dr;
+    register UINT32	sample;
     
-    signed short*		leftout;
-    signed short*		rightout;
-    signed short*		leftend;
+    SHORT16*		leftout;
+    SHORT16*		rightout;
+    SHORT16*		leftend;
     
-    int				step;
+    INT32				step;
 
     leftout = mixbuffer;
     rightout = mixbuffer+1;
@@ -303,20 +303,20 @@ int mix(void)
 
 void
 grabdata
-( int		c,
-  char**	v )
+( INT32		c,
+  CHAR8**	v )
 {
-    int		i;
-    char*	name;
-    char*	doom1wad;
-    char*	doomwad;
-    char*	doomuwad;
-    char*	doom2wad;
-    char*	doom2fwad;
+    INT32		i;
+    CHAR8*	name;
+    CHAR8*	doom1wad;
+    CHAR8*	doomwad;
+    CHAR8*	doomuwad;
+    CHAR8*	doom2wad;
+    CHAR8*	doom2fwad;
     // Now where are TNT and Plutonia. Yuck.
     
-    //	char *home;
-    char*	doomwaddir;
+    //	CHAR8 *home;
+    CHAR8*	doomwaddir;
 
     doomwaddir = getenv("DOOMWADDIR");
 
@@ -392,8 +392,8 @@ grabdata
 	}
 	// test only
 	//  {
-	//  int fd;
-	//  char name[10];
+	//  INT32 fd;
+	//  CHAR8 name[10];
 	//  sprintf(name, "sfx%d", i);
 	//  fd = open(name, O_WRONLY|O_CREAT, 0644);
 	//  write(fd, S_sfx[i].data, lengths[i]);
@@ -416,23 +416,23 @@ void updatesounds(void)
 
 }
 
-int
+INT32
 addsfx
-( int		sfxid,
-  int		volume,
-  int		step,
-  int		seperation )
+( INT32		sfxid,
+  INT32		volume,
+  INT32		step,
+  INT32		seperation )
 {
-    static unsigned short	handlenums = 0;
+    static USHORT16	handlenums = 0;
  
-    int		i;
-    int		rc = -1;
+    INT32		i;
+    INT32		rc = -1;
     
-    int		oldest = mytime;
-    int		oldestnum = 0;
-    int		slot;
-    int		rightvol;
-    int		leftvol;
+    INT32		oldest = mytime;
+    INT32		oldestnum = 0;
+    INT32		slot;
+    INT32		rightvol;
+    INT32		leftvol;
 
     // play these sound effects
     //  only one at a time
@@ -467,7 +467,7 @@ addsfx
     else
 	slot = i;
 
-    channels[slot] = (unsigned char *) S_sfx[sfxid].data;
+    channels[slot] = (UCHAR8 *) S_sfx[sfxid].data;
     channelsend[slot] = channels[slot] + lengths[sfxid];
 
     if (!handlenums)
@@ -510,11 +510,11 @@ addsfx
 }
 
 
-void outputushort(int num)
+void outputushort(INT32 num)
 {
 
-    static unsigned char	buff[5] = { 0, 0, 0, 0, '\n' };
-    static char*		badbuff = "xxxx\n";
+    static UCHAR8	buff[5] = { 0, 0, 0, 0, '\n' };
+    static CHAR8*		badbuff = "xxxx\n";
 
     // outputs a 16-bit # in hex or "xxxx" if -1.
     if (num < 0)
@@ -538,13 +538,13 @@ void outputushort(int num)
 void initdata(void)
 {
 
-    int		i;
-    int		j;
+    INT32		i;
+    INT32		j;
     
-    int*	steptablemid = steptable + 128;
+    INT32*	steptablemid = steptable + 128;
 
     for (i=0 ;
-	 i<sizeof(channels)/sizeof(unsigned char *) ;
+	 i<sizeof(channels)/sizeof(UCHAR8 *) ;
 	 i++)
     {
 	channels[i] = 0;
@@ -585,28 +585,28 @@ fd_set		scratchset;
 
 
 
-int
+INT32
 main
-( int		c,
-  char**	v )
+( INT32		c,
+  CHAR8**	v )
 {
 
-    int		done = 0;
-    int		rc;
-    int		nrc;
-    int		sndnum;
-    int		handle = 0;
+    INT32		done = 0;
+    INT32		rc;
+    INT32		nrc;
+    INT32		sndnum;
+    INT32		handle = 0;
     
-    unsigned char	commandbuf[10];
+    UCHAR8	commandbuf[10];
     struct timeval	zerowait = { 0, 0 };
 
     
-    int 	step;
-    int 	vol;
-    int		sep;
+    INT32 	step;
+    INT32 	vol;
+    INT32		sep;
     
-    int		i;
-    int		waitingtofinish=0;
+    INT32		i;
+    INT32		waitingtofinish=0;
 
     // get sound data
     grabdata(c, v);
@@ -699,10 +699,10 @@ main
 			    
 			  case 's':
 			  {
-			      int fd;
+			      INT32 fd;
 			      read(0, commandbuf, 3);
 			      commandbuf[2] = 0;
-			      fd = open((char*)commandbuf, O_CREAT|O_WRONLY, 0644);
+			      fd = open((CHAR8*)commandbuf, O_CREAT|O_WRONLY, 0644);
 			      commandbuf[0] -= commandbuf[0]>='a' ? 'a'-10 : '0';
 			      commandbuf[1] -= commandbuf[1]>='a' ? 'a'-10 : '0';
 			      sndnum = (commandbuf[0]<<4) + commandbuf[1];

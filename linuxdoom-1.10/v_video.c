@@ -43,7 +43,7 @@ rcsid[] = "$Id: v_video.c,v 1.5 1997/02/03 22:45:13 b1 Exp $";
 // Each screen is [SCREENWIDTH*SCREENHEIGHT]; 
 byte*				screens[5];	
  
-int				dirtybox[4]; 
+INT32				dirtybox[4]; 
 
 
 
@@ -134,17 +134,17 @@ byte gammatable[5][256] =
 
 
 
-int	usegamma;
+INT32	usegamma;
 			 
 //
 // V_MarkRect 
 // 
 void
 V_MarkRect
-( int		x,
-  int		y,
-  int		width,
-  int		height ) 
+( INT32		x,
+  INT32		y,
+  INT32		width,
+  INT32		height ) 
 { 
     M_AddToBox (dirtybox, x, y); 
     M_AddToBox (dirtybox, x+width-1, y+height-1); 
@@ -156,14 +156,14 @@ V_MarkRect
 // 
 void
 V_CopyRect
-( int		srcx,
-  int		srcy,
-  int		srcscrn,
-  int		width,
-  int		height,
-  int		destx,
-  int		desty,
-  int		destscrn ) 
+( INT32		srcx,
+  INT32		srcy,
+  INT32		srcscrn,
+  INT32		width,
+  INT32		height,
+  INT32		destx,
+  INT32		desty,
+  INT32		destscrn ) 
 { 
     byte*	src;
     byte*	dest; 
@@ -176,8 +176,8 @@ V_CopyRect
 	||destx<0||destx+width >SCREENWIDTH
 	|| desty<0
 	|| desty+height>SCREENHEIGHT 
-	|| (unsigned)srcscrn>4
-	|| (unsigned)destscrn>4)
+	|| (UINT32)srcscrn>4
+	|| (UINT32)destscrn>4)
     {
 	I_Error ("Bad V_CopyRect");
     }
@@ -202,19 +202,19 @@ V_CopyRect
 //
 void
 V_DrawPatch
-( int		x,
-  int		y,
-  int		scrn,
+( INT32		x,
+  INT32		y,
+  INT32		scrn,
   patch_t*	patch ) 
 { 
 
-    int		count;
-    int		col; 
+    INT32		count;
+    INT32		col; 
     column_t*	column; 
     byte*	desttop;
     byte*	dest;
     byte*	source; 
-    int		w; 
+    INT32		w; 
 	 
     y -= SHORT(patch->topoffset); 
     x -= SHORT(patch->leftoffset); 
@@ -223,7 +223,7 @@ V_DrawPatch
 	||x+SHORT(patch->width) >SCREENWIDTH
 	|| y<0
 	|| y+SHORT(patch->height)>SCREENHEIGHT 
-	|| (unsigned)scrn>4)
+	|| (UINT32)scrn>4)
     {
       fprintf( stderr, "Patch at %d,%d exceeds LFB\n", x,y );
       // No I_Error abort - what is up with TNT.WAD?
@@ -269,19 +269,19 @@ V_DrawPatch
 //
 void
 V_DrawPatchFlipped
-( int		x,
-  int		y,
-  int		scrn,
+( INT32		x,
+  INT32		y,
+  INT32		scrn,
   patch_t*	patch ) 
 { 
 
-    int		count;
-    int		col; 
+    INT32		count;
+    INT32		col; 
     column_t*	column; 
     byte*	desttop;
     byte*	dest;
     byte*	source; 
-    int		w; 
+    INT32		w; 
 	 
     y -= SHORT(patch->topoffset); 
     x -= SHORT(patch->leftoffset); 
@@ -290,7 +290,7 @@ V_DrawPatchFlipped
 	||x+SHORT(patch->width) >SCREENWIDTH
 	|| y<0
 	|| y+SHORT(patch->height)>SCREENHEIGHT 
-	|| (unsigned)scrn>4)
+	|| (UINT32)scrn>4)
     {
       fprintf( stderr, "Patch origin %d,%d exceeds LFB\n", x,y );
       I_Error ("Bad V_DrawPatch in V_DrawPatchFlipped");
@@ -335,21 +335,21 @@ V_DrawPatchFlipped
 //
 void
 V_DrawPatchDirect
-( int		x,
-  int		y,
-  int		scrn,
+( INT32		x,
+  INT32		y,
+  INT32		scrn,
   patch_t*	patch ) 
 {
     V_DrawPatch (x,y,scrn, patch); 
 
     /*
-    int		count;
-    int		col; 
+    INT32		count;
+    INT32		col; 
     column_t*	column; 
     byte*	desttop;
     byte*	dest;
     byte*	source; 
-    int		w; 
+    INT32		w; 
 	 
     y -= SHORT(patch->topoffset); 
     x -= SHORT(patch->leftoffset); 
@@ -359,7 +359,7 @@ V_DrawPatchDirect
 	||x+SHORT(patch->width) >SCREENWIDTH
 	|| y<0
 	|| y+SHORT(patch->height)>SCREENHEIGHT 
-	|| (unsigned)scrn>4)
+	|| (UINT32)scrn>4)
     {
 	I_Error ("Bad V_DrawPatchDirect");
     }
@@ -403,11 +403,11 @@ V_DrawPatchDirect
 //
 void
 V_DrawBlock
-( int		x,
-  int		y,
-  int		scrn,
-  int		width,
-  int		height,
+( INT32		x,
+  INT32		y,
+  INT32		scrn,
+  INT32		width,
+  INT32		height,
   byte*		src ) 
 { 
     byte*	dest; 
@@ -417,7 +417,7 @@ V_DrawBlock
 	||x+width >SCREENWIDTH
 	|| y<0
 	|| y+height>SCREENHEIGHT 
-	|| (unsigned)scrn>4 )
+	|| (UINT32)scrn>4 )
     {
 	I_Error ("Bad V_DrawBlock");
     }
@@ -443,11 +443,11 @@ V_DrawBlock
 //
 void
 V_GetBlock
-( int		x,
-  int		y,
-  int		scrn,
-  int		width,
-  int		height,
+( INT32		x,
+  INT32		y,
+  INT32		scrn,
+  INT32		width,
+  INT32		height,
   byte*		dest ) 
 { 
     byte*	src; 
@@ -457,7 +457,7 @@ V_GetBlock
 	||x+width >SCREENWIDTH
 	|| y<0
 	|| y+height>SCREENHEIGHT 
-	|| (unsigned)scrn>4 )
+	|| (UINT32)scrn>4 )
     {
 	I_Error ("Bad V_DrawBlock");
     }
@@ -481,7 +481,7 @@ V_GetBlock
 // 
 void V_Init (void) 
 { 
-    int		i;
+    INT32		i;
     byte*	base;
 		
     // stick these in low dos memory on PCs

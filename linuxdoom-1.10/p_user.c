@@ -76,7 +76,7 @@ P_Thrust
 //
 void P_CalcHeight (player_t* player) 
 {
-    int		angle;
+    INT32		angle;
     fixed_t	bob;
     
     // Regular movement bobbing
@@ -206,7 +206,7 @@ void P_DeathThink (player_t* player)
 	
 	delta = angle - player->mo->angle;
 	
-	if (delta < ANG5 || delta > (unsigned)-ANG5)
+	if (delta < ANG5 || delta > (UINT32)-ANG5)
 	{
 	    // Looking at killer,
 	    //  so fade damage flash down.

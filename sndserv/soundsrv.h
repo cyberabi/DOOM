@@ -35,6 +35,8 @@
 #ifndef __SNDSERVER_H__
 #define __SNDSERVER_H__
 
+#include "strongtype.h"
+
 #define SAMPLECOUNT		512
 #define MIXBUFFERSIZE	(SAMPLECOUNT*2*2)
 #define SPEED			11025
@@ -44,13 +46,13 @@ void I_InitMusic(void);
 
 void
 I_InitSound
-( int		samplerate,
-  int		samplesound );
+( INT32		samplerate,
+  INT32		samplesound );
 
 void
 I_SubmitOutputBuffer
 ( void*		samples,
-  int		samplecount );
+  INT32		samplecount );
 
 void I_ShutdownSound(void);
 void I_ShutdownMusic(void);

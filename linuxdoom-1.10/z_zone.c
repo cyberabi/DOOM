@@ -24,6 +24,8 @@
 static const char
 rcsid[] = "$Id: z_zone.c,v 1.4 1997/02/03 16:47:58 b1 Exp $";
 
+#include "doomtype.h"
+
 #include "z_zone.h"
 #include "i_system.h"
 #include "doomdef.h"
@@ -46,7 +48,7 @@ rcsid[] = "$Id: z_zone.c,v 1.4 1997/02/03 16:47:58 b1 Exp $";
 typedef struct
 {
     // total bytes malloced, including header
-    int		size;
+    INT32		size;
 
     // start / end cap for linked list
     memblock_t	blocklist;
@@ -93,7 +95,7 @@ void Z_ClearZone (memzone_t* zone)
 void Z_Init (void)
 {
     memblock_t*	block;
-    int		size;
+    INT32		size;
 
     mainzone = (memzone_t *)I_ZoneBase (&size);
     mainzone->size = size;
@@ -182,11 +184,11 @@ void Z_Free (void* ptr)
 
 void*
 Z_Malloc
-( int		size,
-  int		tag,
+( INT32		size,
+  INT32		tag,
   void*		user )
 {
-    int		extra;
+    INT32		extra;
     memblock_t*	start;
     memblock_t* rover;
     memblock_t* newblock;
@@ -295,8 +297,8 @@ Z_Malloc
 //
 void
 Z_FreeTags
-( int		lowtag,
-  int		hightag )
+( INT32		lowtag,
+  INT32		hightag )
 {
     memblock_t*	block;
     memblock_t*	next;
@@ -325,8 +327,8 @@ Z_FreeTags
 //
 void
 Z_DumpHeap
-( int		lowtag,
-  int		hightag )
+( INT32		lowtag,
+  INT32		hightag )
 {
     memblock_t*	block;
 	
@@ -428,7 +430,7 @@ void Z_CheckHeap (void)
 void
 Z_ChangeTag2
 ( void*		ptr,
-  int		tag )
+  INT32		tag )
 {
     memblock_t*	block;
 	
@@ -437,7 +439,7 @@ Z_ChangeTag2
     if (block->id != ZONEID)
 	I_Error ("Z_ChangeTag: freed a pointer without ZONEID");
 
-    if (tag >= PU_PURGELEVEL && (unsigned)block->user < 0x100)
+    if (tag >= PU_PURGELEVEL && (UINT32)block->user < 0x100)
 	I_Error ("Z_ChangeTag: an owner is required for purgable blocks");
 
     block->tag = tag;
@@ -448,10 +450,10 @@ Z_ChangeTag2
 //
 // Z_FreeMemory
 //
-int Z_FreeMemory (void)
+INT32 Z_FreeMemory (void)
 {
     memblock_t*		block;
-    int			free;
+    INT32			free;
 	
     free = 0;
     

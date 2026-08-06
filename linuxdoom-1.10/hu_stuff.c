@@ -25,6 +25,7 @@ rcsid[] = "$Id: hu_stuff.c,v 1.4 1997/02/03 16:47:52 b1 Exp $";
 
 #include <ctype.h>
 
+#include "doomtype.h"
 #include "doomdef.h"
 
 #include "z_zone.h"
@@ -62,7 +63,7 @@ rcsid[] = "$Id: hu_stuff.c,v 1.4 1997/02/03 16:47:52 b1 Exp $";
 
 
 
-char*	chat_macros[] =
+CHAR8*	chat_macros[] =
 {
     HUSTR_CHATMACRO0,
     HUSTR_CHATMACRO1,
@@ -76,7 +77,7 @@ char*	chat_macros[] =
     HUSTR_CHATMACRO9
 };
 
-char*	player_names[] =
+CHAR8*	player_names[] =
 {
     HUSTR_PLRGREEN,
     HUSTR_PLRINDIGO,
@@ -85,14 +86,14 @@ char*	player_names[] =
 };
 
 
-char			chat_char; // remove later.
+CHAR8			chat_char; // remove later.
 static player_t*	plr;
 patch_t*		hu_font[HU_FONTSIZE];
 static hu_textline_t	w_title;
 boolean			chat_on;
 static hu_itext_t	w_chat;
 static boolean		always_off = false;
-static char		chat_dest[MAXPLAYERS];
+static CHAR8		chat_dest[MAXPLAYERS];
 static hu_itext_t w_inputbuffer[MAXPLAYERS];
 
 static boolean		message_on;
@@ -100,9 +101,9 @@ boolean			message_dontfuckwithme;
 static boolean		message_nottobefuckedwith;
 
 static hu_stext_t	w_message;
-static int		message_counter;
+static INT32		message_counter;
 
-extern int		showMessages;
+extern INT32		showMessages;
 extern boolean		automapactive;
 
 static boolean		headsupactive = false;
@@ -112,7 +113,7 @@ static boolean		headsupactive = false;
 // The actual names can be found in DStrings.h.
 //
 
-char*	mapnames[] =	// DOOM shareware/registered/retail (Ultimate) names.
+CHAR8*	mapnames[] =	// DOOM shareware/registered/retail (Ultimate) names.
 {
 
     HUSTR_E1M1,
@@ -166,7 +167,7 @@ char*	mapnames[] =	// DOOM shareware/registered/retail (Ultimate) names.
     "NEWLEVEL"
 };
 
-char*	mapnames2[] =	// DOOM 2 map names.
+CHAR8*	mapnames2[] =	// DOOM 2 map names.
 {
     HUSTR_1,
     HUSTR_2,
@@ -205,7 +206,7 @@ char*	mapnames2[] =	// DOOM 2 map names.
 };
 
 
-char*	mapnamesp[] =	// Plutonia WAD map names.
+CHAR8*	mapnamesp[] =	// Plutonia WAD map names.
 {
     PHUSTR_1,
     PHUSTR_2,
@@ -244,7 +245,7 @@ char*	mapnamesp[] =	// Plutonia WAD map names.
 };
 
 
-char *mapnamest[] =	// TNT WAD map names.
+CHAR8 *mapnamest[] =	// TNT WAD map names.
 {
     THUSTR_1,
     THUSTR_2,
@@ -283,9 +284,9 @@ char *mapnamest[] =	// TNT WAD map names.
 };
 
 
-const char*	shiftxform;
+const CHAR8*	shiftxform;
 
-const char french_shiftxform[] =
+const CHAR8 french_shiftxform[] =
 {
     0,
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -327,7 +328,7 @@ const char french_shiftxform[] =
 
 };
 
-const char english_shiftxform[] =
+const CHAR8 english_shiftxform[] =
 {
 
     0,
@@ -369,7 +370,7 @@ const char english_shiftxform[] =
     '{', '|', '}', '~', 127
 };
 
-char frenchKeyMap[128]=
+CHAR8 frenchKeyMap[128]=
 {
     0,
     1,2,3,4,5,6,7,8,9,10,
@@ -384,7 +385,7 @@ char frenchKeyMap[128]=
     'P','A','R','S','T','U','V','Z','X','Y','W','^','\\','$','^',127
 };
 
-char ForeignTranslation(unsigned char ch)
+CHAR8 ForeignTranslation(UCHAR8 ch)
 {
     return ch < 128 ? frenchKeyMap[ch] : ch;
 }
@@ -392,9 +393,9 @@ char ForeignTranslation(unsigned char ch)
 void HU_Init(void)
 {
 
-    int		i;
-    int		j;
-    char	buffer[9];
+    INT32		i;
+    INT32		j;
+    CHAR8	buffer[9];
 
     if (french)
 	shiftxform = french_shiftxform;
@@ -419,8 +420,8 @@ void HU_Stop(void)
 void HU_Start(void)
 {
 
-    int		i;
-    char*	s;
+    INT32		i;
+    CHAR8*	s;
 
     if (headsupactive)
 	HU_Stop();
@@ -505,8 +506,8 @@ void HU_Erase(void)
 void HU_Ticker(void)
 {
 
-    int i, rc;
-    char c;
+    INT32 i, rc;
+    CHAR8 c;
 
     // tick down message counter if message is up
     if (message_counter && !--message_counter)
@@ -547,7 +548,7 @@ void HU_Ticker(void)
 		else
 		{
 		    if (c >= 'a' && c <= 'z')
-			c = (char) shiftxform[(unsigned char) c];
+			c = (CHAR8) shiftxform[(UCHAR8) c];
 		    rc = HUlib_keyInIText(&w_inputbuffer[i], c);
 		    if (rc && c == KEY_ENTER)
 		    {
@@ -579,12 +580,12 @@ void HU_Ticker(void)
 
 #define QUEUESIZE		128
 
-static char	chatchars[QUEUESIZE];
-static int	head = 0;
-static int	tail = 0;
+static CHAR8	chatchars[QUEUESIZE];
+static INT32	head = 0;
+static INT32	tail = 0;
 
 
-void HU_queueChatChar(char c)
+void HU_queueChatChar(CHAR8 c)
 {
     if (((head + 1) & (QUEUESIZE-1)) == tail)
     {
@@ -597,9 +598,9 @@ void HU_queueChatChar(char c)
     }
 }
 
-char HU_dequeueChatChar(void)
+CHAR8 HU_dequeueChatChar(void)
 {
-    char c;
+    CHAR8 c;
 
     if (head != tail)
     {
@@ -617,16 +618,16 @@ char HU_dequeueChatChar(void)
 boolean HU_Responder(event_t *ev)
 {
 
-    static char		lastmessage[HU_MAXLINELENGTH+1];
-    char*		macromessage;
+    static CHAR8		lastmessage[HU_MAXLINELENGTH+1];
+    CHAR8*		macromessage;
     boolean		eatkey = false;
     static boolean	shiftdown = false;
     static boolean	altdown = false;
-    unsigned char 	c;
-    int			i;
-    int			numplayers;
+    UCHAR8 	c;
+    INT32			i;
+    INT32			numplayers;
     
-    static char		destination_keys[MAXPLAYERS] =
+    static CHAR8		destination_keys[MAXPLAYERS] =
     {
 	HUSTR_KEYGREEN,
 	HUSTR_KEYINDIGO,
@@ -634,7 +635,7 @@ boolean HU_Responder(event_t *ev)
 	HUSTR_KEYRED
     };
     
-    static int		num_nobrainers = 0;
+    static INT32		num_nobrainers = 0;
 
     numplayers = 0;
     for (i=0 ; i<MAXPLAYERS ; i++)
@@ -734,7 +735,7 @@ boolean HU_Responder(event_t *ev)
 	    eatkey = HUlib_keyInIText(&w_chat, c);
 	    if (eatkey)
 	    {
-		// static unsigned char buf[20]; // DEBUG
+		// static UCHAR8 buf[20]; // DEBUG
 		HU_queueChatChar(c);
 		
 		// sprintf(buf, "KEY: %d => %d", ev->data1, c);

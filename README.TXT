@@ -2,7 +2,7 @@ This branch, based on my 'ubuntu' branch, replaces all generic
 type declarations (e.g. int, long) with macros identifying the
 signedness and bit width of the datatype. For example, on the
 original 32-bit Linux code both int and long were 32 bits; here
-they both become INT32.
+they become INT32 and LONG32.
 
 The purpose of this is to facilitate bare-metal ports onto
 platforms with smaller word sizes, such as 16-bit or 8-bit
@@ -10,9 +10,11 @@ computers. The candidates I have in mind are the PDP-11 and
 the Tandy Color Computer 3, but these changes are applicable
 to other, similar platforms.
 
-To test the changes I'll look for similar C preprocessor output
-from the 'ubuntu' branch and from this branch, with allowance
-made for the merging of int and long datatypes.
+To test the changes I'll verify that no short / int / long
+references remain in the code, that I haven't changed any
+occurrences of these terms in comments, and that I get C
+preprocessor output identical to the 'ubuntu' branch. I'll
+also build it and run it.
 
 Believe in fun!
 

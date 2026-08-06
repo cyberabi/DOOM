@@ -34,11 +34,11 @@
 typedef struct
 {
     ammotype_t	ammo;
-    int		upstate;
-    int		downstate;
-    int		readystate;
-    int		atkstate;
-    int		flashstate;
+    INT32		upstate;
+    INT32		downstate;
+    INT32		readystate;
+    INT32		atkstate;
+    INT32		flashstate;
 
 } weaponinfo_t;
 

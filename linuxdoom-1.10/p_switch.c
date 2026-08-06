@@ -96,8 +96,8 @@ switchlist_t alphSwitchList[] =
     {"\0",		"\0",		0}
 };
 
-int		switchlist[MAXSWITCHES * 2];
-int		numswitches;
+INT32		switchlist[MAXSWITCHES * 2];
+INT32		numswitches;
 button_t        buttonlist[MAXBUTTONS];
 
 //
@@ -106,9 +106,9 @@ button_t        buttonlist[MAXBUTTONS];
 //
 void P_InitSwitchList(void)
 {
-    int		i;
-    int		index;
-    int		episode;
+    INT32		i;
+    INT32		index;
+    INT32		episode;
 	
     episode = 1;
 
@@ -130,7 +130,7 @@ void P_InitSwitchList(void)
 	if (alphSwitchList[i].episode <= episode)
 	{
 #if 0	// UNUSED - debug?
-	    int		value;
+	    INT32		value;
 			
 	    if (R_CheckTextureNumForName(alphSwitchList[i].name1) < 0)
 	    {
@@ -155,10 +155,10 @@ void
 P_StartButton
 ( line_t*	line,
   bwhere_e	w,
-  int		texture,
-  int		time )
+  INT32		texture,
+  INT32		time )
 {
-    int		i;
+    INT32		i;
     
     // See if button is already pressed
     for (i = 0;i < MAXBUTTONS;i++)
@@ -200,13 +200,13 @@ P_StartButton
 void
 P_ChangeSwitchTexture
 ( line_t*	line,
-  int 		useAgain )
+  INT32 		useAgain )
 {
-    int     texTop;
-    int     texMid;
-    int     texBot;
-    int     i;
-    int     sound;
+    INT32     texTop;
+    INT32     texMid;
+    INT32     texBot;
+    INT32     i;
+    INT32     sound;
 	
     if (!useAgain)
 	line->special = 0;
@@ -276,7 +276,7 @@ boolean
 P_UseSpecialLine
 ( mobj_t*	thing,
   line_t*	line,
-  int		side )
+  INT32		side )
 {               
 
     // Err...

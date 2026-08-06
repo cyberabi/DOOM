@@ -23,6 +23,7 @@
 static const char
 rcsid[] = "$Id: p_doors.c,v 1.4 1997/02/03 16:47:53 b1 Exp $";
 
+#include "doomtype.h"
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -203,7 +204,7 @@ void T_VerticalDoor (vldoor_t* door)
 // Move a locked door up/down
 //
 
-int
+INT32
 EV_DoLockedDoor
 ( line_t*	line,
   vldoor_e	type,
@@ -260,12 +261,12 @@ EV_DoLockedDoor
 }
 
 
-int
+INT32
 EV_DoDoor
 ( line_t*	line,
   vldoor_e	type )
 {
-    int		secnum,rtn;
+    INT32		secnum,rtn;
     sector_t*	sec;
     vldoor_t*	door;
 	
@@ -356,10 +357,10 @@ EV_VerticalDoor
   mobj_t*	thing )
 {
     player_t*	player;
-    int		secnum;
+    INT32		secnum;
     sector_t*	sec;
     vldoor_t*	door;
-    int		side;
+    INT32		side;
 	
     side = 0;	// only front sides can be used
 
@@ -527,7 +528,7 @@ void P_SpawnDoorCloseIn30 (sector_t* sec)
 void
 P_SpawnDoorRaiseIn5Mins
 ( sector_t*	sec,
-  int		secnum )
+  INT32		secnum )
 {
     vldoor_t*	door;
 	
@@ -565,11 +566,11 @@ slideframe_t slideFrames[MAXSLIDEDOORS];
 
 void P_InitSlidingDoorFrames(void)
 {
-    int		i;
-    int		f1;
-    int		f2;
-    int		f3;
-    int		f4;
+    INT32		i;
+    INT32		f1;
+    INT32		f2;
+    INT32		f3;
+    INT32		f4;
 	
     // DOOM II ONLY...
     if ( gamemode != commercial)
@@ -607,10 +608,10 @@ void P_InitSlidingDoorFrames(void)
 // Return index into "slideFrames" array
 // for which door type to use
 //
-int P_FindSlidingDoorType(line_t*	line)
+INT32 P_FindSlidingDoorType(line_t*	line)
 {
-    int		i;
-    int		val;
+    INT32		i;
+    INT32		val;
 	
     for (i = 0;i < MAXSLIDEDOORS;i++)
     {

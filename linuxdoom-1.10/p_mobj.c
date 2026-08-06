@@ -40,7 +40,7 @@ rcsid[] = "$Id: p_mobj.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 #include "doomstat.h"
 
 
-void G_PlayerReborn (int player);
+void G_PlayerReborn (INT32 player);
 void P_SpawnMapThing (mapthing_t*	mthing);
 
 
@@ -48,7 +48,7 @@ void P_SpawnMapThing (mapthing_t*	mthing);
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-int test;
+INT32 test;
 
 boolean
 P_SetMobjState
@@ -227,7 +227,7 @@ void P_XYMovement (mobj_t* mo)
 		&& player->cmd.sidemove == 0 ) ) )
     {
 	// if in a walking frame, stop moving
-	if ( player&&(unsigned)((player->mo->state - states)- S_PLAY_RUN1) < 4)
+	if ( player&&(UINT32)((player->mo->state - states)- S_PLAY_RUN1) < 4)
 	    P_SetMobjState (player->mo, S_PLAY);
 	
 	mo->momx = 0;
@@ -538,9 +538,9 @@ P_SpawnMobj
 // P_RemoveMobj
 //
 mapthing_t	itemrespawnque[ITEMQUESIZE];
-int		itemrespawntime[ITEMQUESIZE];
-int		iquehead;
-int		iquetail;
+INT32		itemrespawntime[ITEMQUESIZE];
+INT32		iquehead;
+INT32		iquetail;
 
 
 void P_RemoveMobj (mobj_t* mobj)
@@ -585,7 +585,7 @@ void P_RespawnSpecials (void)
     mobj_t*		mo;
     mapthing_t*		mthing;
     
-    int			i;
+    INT32			i;
 
     // only respawn items in deathmatch
     if (deathmatch != 2)
@@ -648,7 +648,7 @@ void P_SpawnPlayer (mapthing_t* mthing)
 
     mobj_t*		mobj;
 
-    int			i;
+    INT32			i;
 
     // not playing?
     if (!playeringame[mthing->type-1])
@@ -707,8 +707,8 @@ void P_SpawnPlayer (mapthing_t* mthing)
 //
 void P_SpawnMapThing (mapthing_t* mthing)
 {
-    int			i;
-    int			bit;
+    INT32			i;
+    INT32			bit;
     mobj_t*		mobj;
     fixed_t		x;
     fixed_t		y;
@@ -840,7 +840,7 @@ P_SpawnBlood
 ( fixed_t	x,
   fixed_t	y,
   fixed_t	z,
-  int		damage )
+  INT32		damage )
 {
     mobj_t*	th;
 	
@@ -893,7 +893,7 @@ P_SpawnMissile
 {
     mobj_t*	th;
     angle_t	an;
-    int		dist;
+    INT32		dist;
 
     th = P_SpawnMobj (source->x,
 		      source->y,

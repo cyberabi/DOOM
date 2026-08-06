@@ -48,14 +48,14 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 
 
-int	mb_used = 6;
+INT32	mb_used = 6;
 
 
 void
 I_Tactile
-( int	on,
-  int	off,
-  int	total )
+( INT32	on,
+  INT32	off,
+  INT32	total )
 {
   // UNUSED.
   on = off = total = 0;
@@ -68,12 +68,12 @@ ticcmd_t*	I_BaseTiccmd(void)
 }
 
 
-int  I_GetHeapSize (void)
+INT32  I_GetHeapSize (void)
 {
     return mb_used*1024*1024;
 }
 
-byte* I_ZoneBase (int*	size)
+byte* I_ZoneBase (INT32*	size)
 {
     *size = mb_used*1024*1024;
     return (byte *) malloc (*size);
@@ -85,12 +85,12 @@ byte* I_ZoneBase (int*	size)
 // I_GetTime
 // returns time in 1/70th second tics
 //
-int  I_GetTime (void)
+INT32  I_GetTime (void)
 {
     struct timeval	tp;
     struct timezone	tzp;
-    int			newtics;
-    static int		basetime=0;
+    INT32			newtics;
+    static INT32		basetime=0;
   
     gettimeofday(&tp, &tzp);
     if (!basetime)
@@ -123,7 +123,7 @@ void I_Quit (void)
     exit(0);
 }
 
-void I_WaitVBL(int count)
+void I_WaitVBL(INT32 count)
 {
 #ifdef SGI
     sginap(1);                                           
@@ -144,7 +144,7 @@ void I_EndRead(void)
 {
 }
 
-byte*	I_AllocLow(int length)
+byte*	I_AllocLow(INT32 length)
 {
     byte*	mem;
         
@@ -159,7 +159,7 @@ byte*	I_AllocLow(int length)
 //
 extern boolean demorecording;
 
-void I_Error (char *error, ...)
+void I_Error (CHAR8 *error, ...)
 {
     va_list	argptr;
 

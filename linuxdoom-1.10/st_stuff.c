@@ -273,16 +273,16 @@ static player_t*	plyr;
 static boolean		st_firsttime;
 
 // used to execute ST_Init() only once
-static int		veryfirsttime = 1;
+static INT32		veryfirsttime = 1;
 
 // lump number for PLAYPAL
-static int		lu_palette;
+static INT32		lu_palette;
 
 // used for timing
-static unsigned int	st_clock;
+static UINT32	st_clock;
 
 // used for making messages go away
-static int		st_msgcounter=0;
+static INT32		st_msgcounter=0;
 
 // used when in chat 
 static st_chatstateenum_t	st_chatstate;
@@ -372,73 +372,73 @@ static st_number_t	w_maxammo[4];
 
 
  // number of frags so far in deathmatch
-static int	st_fragscount;
+static INT32	st_fragscount;
 
 // used to use appopriately pained face
-static int	st_oldhealth = -1;
+static INT32	st_oldhealth = -1;
 
 // used for evil grin
 static boolean	oldweaponsowned[NUMWEAPONS]; 
 
  // count until face changes
-static int	st_facecount = 0;
+static INT32	st_facecount = 0;
 
 // current face index, used by w_faces
-static int	st_faceindex = 0;
+static INT32	st_faceindex = 0;
 
 // holds key-type for each key box on bar
-static int	keyboxes[3]; 
+static INT32	keyboxes[3]; 
 
 // a random number per tick
-static int	st_randomnumber;  
+static INT32	st_randomnumber;  
 
 
 
 // Massive bunches of cheat shit
 //  to keep it from being easy to figure them out.
 // Yeah, right...
-unsigned char	cheat_mus_seq[] =
+UCHAR8	cheat_mus_seq[] =
 {
     0xb2, 0x26, 0xb6, 0xae, 0xea, 1, 0, 0, 0xff
 };
 
-unsigned char	cheat_choppers_seq[] =
+UCHAR8	cheat_choppers_seq[] =
 {
     0xb2, 0x26, 0xe2, 0x32, 0xf6, 0x2a, 0x2a, 0xa6, 0x6a, 0xea, 0xff // id...
 };
 
-unsigned char	cheat_god_seq[] =
+UCHAR8	cheat_god_seq[] =
 {
     0xb2, 0x26, 0x26, 0xaa, 0x26, 0xff  // iddqd
 };
 
-unsigned char	cheat_ammo_seq[] =
+UCHAR8	cheat_ammo_seq[] =
 {
     0xb2, 0x26, 0xf2, 0x66, 0xa2, 0xff	// idkfa
 };
 
-unsigned char	cheat_ammonokey_seq[] =
+UCHAR8	cheat_ammonokey_seq[] =
 {
     0xb2, 0x26, 0x66, 0xa2, 0xff	// idfa
 };
 
 
 // Smashing Pumpkins Into Samml Piles Of Putried Debris. 
-unsigned char	cheat_noclip_seq[] =
+UCHAR8	cheat_noclip_seq[] =
 {
     0xb2, 0x26, 0xea, 0x2a, 0xb2,	// idspispopd
     0xea, 0x2a, 0xf6, 0x2a, 0x26, 0xff
 };
 
 //
-unsigned char	cheat_commercial_noclip_seq[] =
+UCHAR8	cheat_commercial_noclip_seq[] =
 {
     0xb2, 0x26, 0xe2, 0x36, 0xb2, 0x2a, 0xff	// idclip
 }; 
 
 
 
-unsigned char	cheat_powerup_seq[7][10] =
+UCHAR8	cheat_powerup_seq[7][10] =
 {
     { 0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0x6e, 0xff }, 	// beholdv
     { 0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0xea, 0xff }, 	// beholds
@@ -450,14 +450,14 @@ unsigned char	cheat_powerup_seq[7][10] =
 };
 
 
-unsigned char	cheat_clev_seq[] =
+UCHAR8	cheat_clev_seq[] =
 {
     0xb2, 0x26,  0xe2, 0x36, 0xa6, 0x6e, 1, 0, 0, 0xff	// idclev
 };
 
 
 // my position cheat
-unsigned char	cheat_mypos_seq[] =
+UCHAR8	cheat_mypos_seq[] =
 {
     0xb2, 0x26, 0xb6, 0xba, 0x2a, 0xf6, 0xea, 0xff	// idmypos
 }; 
@@ -488,7 +488,7 @@ cheatseq_t	cheat_mypos = { cheat_mypos_seq, 0 };
 
 
 // 
-extern char*	mapnames[];
+extern CHAR8*	mapnames[];
 
 
 //
@@ -517,7 +517,7 @@ void ST_refreshBackground(void)
 boolean
 ST_Responder (event_t* ev)
 {
-  int		i;
+  INT32		i;
     
   // Filter automap on/off.
   if (ev->type == ev_keyup
@@ -595,8 +595,8 @@ ST_Responder (event_t* ev)
       else if (cht_CheckCheat(&cheat_mus, ev->data1))
       {
 	
-	char	buf[3];
-	int		musnum;
+	CHAR8	buf[3];
+	INT32		musnum;
 	
 	plyr->message = STSTR_MUS;
 	cht_GetParam(&cheat_mus, buf);
@@ -663,7 +663,7 @@ ST_Responder (event_t* ev)
       // 'mypos' for player position
       else if (cht_CheckCheat(&cheat_mypos, ev->data1))
       {
-	static char	buf[ST_MSGWIDTH];
+	static CHAR8	buf[ST_MSGWIDTH];
 	sprintf(buf, "ang=0x%x;x,y=(0x%x,0x%x)",
 		players[consoleplayer].mo->angle,
 		players[consoleplayer].mo->x,
@@ -675,9 +675,9 @@ ST_Responder (event_t* ev)
     // 'clev' change-level cheat
     if (cht_CheckCheat(&cheat_clev, ev->data1))
     {
-      char		buf[3];
-      int		epsd;
-      int		map;
+      CHAR8		buf[3];
+      INT32		epsd;
+      INT32		map;
       
       cht_GetParam(&cheat_clev, buf);
       
@@ -726,11 +726,11 @@ ST_Responder (event_t* ev)
 
 
 
-int ST_calcPainOffset(void)
+INT32 ST_calcPainOffset(void)
 {
-    int		health;
-    static int	lastcalc;
-    static int	oldhealth = -1;
+    INT32		health;
+    static INT32	lastcalc;
+    static INT32	oldhealth = -1;
     
     health = plyr->health > 100 ? 100 : plyr->health;
 
@@ -751,11 +751,11 @@ int ST_calcPainOffset(void)
 //
 void ST_updateFaceWidget(void)
 {
-    int		i;
+    INT32		i;
     angle_t	badguyangle;
     angle_t	diffang;
-    static int	lastattackdown = -1;
-    static int	priority = 0;
+    static INT32	lastattackdown = -1;
+    static INT32	priority = 0;
     boolean	doevilgrin;
 
     if (priority < 10)
@@ -923,8 +923,8 @@ void ST_updateFaceWidget(void)
 
 void ST_updateWidgets(void)
 {
-    static int	largeammo = 1994; // means "n/a"
-    int		i;
+    static INT32	largeammo = 1994; // means "n/a"
+    INT32		i;
 
     // must redirect the pointer if the ready weapon has changed.
     //  if (w_ready.data != plyr->readyweapon)
@@ -934,8 +934,8 @@ void ST_updateWidgets(void)
     else
 	w_ready.num = &plyr->ammo[weaponinfo[plyr->readyweapon].ammo];
     //{
-    // static int tic=0;
-    // static int dir=-1;
+    // static INT32 tic=0;
+    // static INT32 dir=-1;
     // if (!(tic&15))
     //   plyr->ammo[weaponinfo[plyr->readyweapon].ammo]+=dir;
     // if (plyr->ammo[weaponinfo[plyr->readyweapon].ammo] == -100)
@@ -995,15 +995,15 @@ void ST_Ticker (void)
 
 }
 
-static int st_palette = 0;
+static INT32 st_palette = 0;
 
 void ST_doPaletteStuff(void)
 {
 
-    int		palette;
+    INT32		palette;
     byte*	pal;
-    int		cnt;
-    int		bzc;
+    INT32		cnt;
+    INT32		bzc;
 
     cnt = plyr->damagecount;
 
@@ -1053,7 +1053,7 @@ void ST_doPaletteStuff(void)
 
 void ST_drawWidgets(boolean refresh)
 {
-    int		i;
+    INT32		i;
 
     // used by w_arms[] widgets
     st_armson = st_statusbaron && !deathmatch;
@@ -1124,11 +1124,11 @@ void ST_Drawer (boolean fullscreen, boolean refresh)
 void ST_loadGraphics(void)
 {
 
-    int		i;
-    int		j;
-    int		facenum;
+    INT32		i;
+    INT32		j;
+    INT32		facenum;
     
-    char	namebuf[9];
+    CHAR8	namebuf[9];
 
     // Load the numbers, tall and short
     for (i=0;i<10;i++)
@@ -1207,7 +1207,7 @@ void ST_loadData(void)
 void ST_unloadGraphics(void)
 {
 
-    int i;
+    INT32 i;
 
     // unload the numbers, tall and short
     for (i=0;i<10;i++)
@@ -1249,7 +1249,7 @@ void ST_unloadData(void)
 void ST_initData(void)
 {
 
-    int		i;
+    INT32		i;
 
     st_firsttime = true;
     plyr = &players[consoleplayer];
@@ -1282,7 +1282,7 @@ void ST_initData(void)
 void ST_createWidgets(void)
 {
 
-    int i;
+    INT32 i;
 
     // ready weapon ammo
     STlib_initNum(&w_ready,
@@ -1319,7 +1319,7 @@ void ST_createWidgets(void)
 	STlib_initMultIcon(&w_arms[i],
 			   ST_ARMSX+(i%3)*ST_ARMSXSPACE,
 			   ST_ARMSY+(i/3)*ST_ARMSYSPACE,
-			   arms[i], (int *) &plyr->weaponowned[i+1],
+			   arms[i], (INT32 *) &plyr->weaponowned[i+1],
 			   &st_armson);
     }
 

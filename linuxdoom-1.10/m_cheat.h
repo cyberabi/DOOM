@@ -33,21 +33,21 @@
 
 typedef struct
 {
-    unsigned char*	sequence;
-    unsigned char*	p;
+    UCHAR8*	sequence;
+    UCHAR8*	p;
     
 } cheatseq_t;
 
-int
+INT32
 cht_CheckCheat
 ( cheatseq_t*		cht,
-  char			key );
+  CHAR8			key );
 
 
 void
 cht_GetParam
 ( cheatseq_t*		cht,
-  char*			buffer );
+  CHAR8*			buffer );
 
 
 #endif

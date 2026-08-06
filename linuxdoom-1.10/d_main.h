@@ -34,9 +34,9 @@
 
 
 #define MAXWADFILES             20
-extern char*		wadfiles[MAXWADFILES];
+extern CHAR8*		wadfiles[MAXWADFILES];
 
-void D_AddFile (char *file);
+void D_AddFile (CHAR8 *file);
 
 
 

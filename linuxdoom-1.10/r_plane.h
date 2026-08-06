@@ -32,16 +32,16 @@
 
 
 // Visplane related.
-extern  short*		lastopening;
+extern  SHORT16*		lastopening;
 
 
-typedef void (*planefunction_t) (int top, int bottom);
+typedef void (*planefunction_t) (INT32 top, INT32 bottom);
 
 extern planefunction_t	floorfunc;
 extern planefunction_t	ceilingfunc_t;
 
-extern short		floorclip[SCREENWIDTH];
-extern short		ceilingclip[SCREENWIDTH];
+extern SHORT16		floorclip[SCREENWIDTH];
+extern SHORT16		ceilingclip[SCREENWIDTH];
 
 extern fixed_t		yslope[SCREENHEIGHT];
 extern fixed_t		distscale[SCREENWIDTH];
@@ -51,31 +51,31 @@ void R_ClearPlanes (void);
 
 void
 R_MapPlane
-( int		y,
-  int		x1,
-  int		x2 );
+( INT32		y,
+  INT32		x1,
+  INT32		x2 );
 
 void
 R_MakeSpans
-( int		x,
-  int		t1,
-  int		b1,
-  int		t2,
-  int		b2 );
+( INT32		x,
+  INT32		t1,
+  INT32		b1,
+  INT32		t2,
+  INT32		b2 );
 
 void R_DrawPlanes (void);
 
 visplane_t*
 R_FindPlane
 ( fixed_t	height,
-  int		picnum,
-  int		lightlevel );
+  INT32		picnum,
+  INT32		lightlevel );
 
 visplane_t*
 R_CheckPlane
 ( visplane_t*	pl,
-  int		start,
-  int		stop );
+  INT32		start,
+  INT32		stop );
 
 
 

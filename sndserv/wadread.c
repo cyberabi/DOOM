@@ -52,37 +52,37 @@ static const char rcsid[] = "$Id: wadread.c,v 1.3 1997/01/30 19:54:23 b1 Exp $";
 #include "wadread.h"
 
 
-int*		sfxlengths;
+INT32*		sfxlengths;
 
 typedef struct wadinfo_struct
 {
-    char	identification[4];		                 
-    int		numlumps;
-    int		infotableofs;
+    CHAR8	identification[4];		                 
+    INT32		numlumps;
+    INT32		infotableofs;
 
 } wadinfo_t;
 
 typedef struct filelump_struct
 {
-    int		filepos;
-    int		size;
-    char	name[8];
+    INT32		filepos;
+    INT32		size;
+    CHAR8	name[8];
 
 } filelump_t;
 
 typedef struct lumpinfo_struct
 {
-    int		handle;
-    int		filepos;
-    int		size;
-    char	name[8];
+    INT32		handle;
+    INT32		filepos;
+    INT32		size;
+    CHAR8	name[8];
 
 } lumpinfo_t;
 
 
 
 lumpinfo_t*	lumpinfo;		                                
-int		numlumps;
+INT32		numlumps;
 
 void**		lumpcache;
 
@@ -101,10 +101,10 @@ void**		lumpcache;
 
 #else
 
-#define LONG(x) ((long)SwapLONG((unsigned long) (x)))
-#define SHORT(x) ((short)SwapSHORT((unsigned short) (x)))
+#define LONG(x) ((LONG32)SwapLONG((ULONG32) (x)))
+#define SHORT(x) ((SHORT16)SwapSHORT((USHORT16) (x)))
 
-unsigned long SwapLONG(unsigned long x)
+ULONG32 SwapLONG(ULONG32 x)
 {
     return
 	(x>>24)
@@ -113,7 +113,7 @@ unsigned long SwapLONG(unsigned long x)
 	| (x<<24);
 }
 
-unsigned short SwapSHORT(unsigned short x)
+USHORT16 SwapSHORT(USHORT16 x)
 {
     return
 	(x>>8) | (x<<8);
@@ -124,20 +124,20 @@ unsigned short SwapSHORT(unsigned short x)
 
 
 // Way too many of those...
-static void derror(char* msg)
+static void derror(CHAR8* msg)
 {
     fprintf(stderr, "\nwadread error: %s\n", msg);
     exit(-1);
 }
 
 
-void strupr (char *s)
+void strupr (CHAR8 *s)
 {
     while (*s)
 	*s++ = toupper(*s);
 }
 
-int filelength (int handle)
+INT32 filelength (INT32 handle)
 {
     struct stat	fileinfo;
   
@@ -149,14 +149,14 @@ int filelength (int handle)
 
 
 
-void openwad(char* wadname)
+void openwad(CHAR8* wadname)
 {
 
-    int		wadfile;
-    int		tableoffset;
-    int		tablelength;
-    int		tablefilelength;
-    int		i;
+    INT32		wadfile;
+    INT32		tableoffset;
+    INT32		tablelength;
+    INT32		tablefilelength;
+    INT32		i;
     wadinfo_t	header;
     filelump_t*	filetable;
 
@@ -176,7 +176,7 @@ void openwad(char* wadname)
     tablelength = numlumps * sizeof(lumpinfo_t);
     tablefilelength = numlumps * sizeof(filelump_t);
     lumpinfo = (lumpinfo_t *) malloc(tablelength);
-    filetable = (filelump_t *) ((char*)lumpinfo + tablelength - tablefilelength);
+    filetable = (filelump_t *) ((CHAR8*)lumpinfo + tablelength - tablefilelength);
 
     // get the lumpinfo table
     lseek(wadfile, tableoffset, SEEK_SET);
@@ -196,11 +196,11 @@ void openwad(char* wadname)
 
 void*
 loadlump
-( char*		lumpname,
-  int*		size )
+( CHAR8*		lumpname,
+  INT32*		size )
 {
 
-    int		i;
+    INT32		i;
     void*	lump;
 
     for (i=0 ; i<numlumps ; i++)
@@ -229,24 +229,24 @@ loadlump
 
 void*
 getsfx
-( char*		sfxname,
-  int*		len )
+( CHAR8*		sfxname,
+  INT32*		len )
 {
 
-    unsigned char*	sfx;
-    unsigned char*	paddedsfx;
-    int			i;
-    int			size;
-    int			paddedsize;
-    char		name[20];
+    UCHAR8*	sfx;
+    UCHAR8*	paddedsfx;
+    INT32			i;
+    INT32			size;
+    INT32			paddedsize;
+    CHAR8		name[20];
 
     sprintf(name, "ds%s", sfxname);
 
-    sfx = (unsigned char *) loadlump(name, &size);
+    sfx = (UCHAR8 *) loadlump(name, &size);
 
     // pad the sound effect out to the mixing buffer size
     paddedsize = ((size-8 + (SAMPLECOUNT-1)) / SAMPLECOUNT) * SAMPLECOUNT;
-    paddedsfx = (unsigned char *) realloc(sfx, paddedsize+8);
+    paddedsfx = (UCHAR8 *) realloc(sfx, paddedsize+8);
     for (i=size ; i<paddedsize+8 ; i++)
 	paddedsfx[i] = 128;
 
