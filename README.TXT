@@ -16,6 +16,9 @@ $ ./PREREQUISITES.ubuntu.sh
 Then have a look at README.ubuntu.sh for next steps including
 how to download a WAD and how to build and run the game.
 
+IMPORTANT: I did not modify or test any code in the ipx or
+sersrc directories.
+
 Believe in fun!
 
 Chris Burke 8-3-26
