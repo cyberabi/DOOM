@@ -10,12 +10,13 @@ computers. The candidates I have in mind are the PDP-11 and
 the Tandy Color Computer 3, but these changes are applicable
 to other, similar platforms.
 
-To test the changes I'll verify that no short / int / long
-references remain in the code, that I haven't changed any
-occurrences of these terms in comments, and that I get C
-preprocessor output identical to the 'ubuntu' branch (other
-than the forced 'signed char' to avoid platform / compiler
-dependencies). I'll also build it and run it.
+To test the changes I verified that no short / int / long
+references remain in the code, that I didn't change any
+occurrences of these terms in comments, and that I got C
+preprocessor output equivalent to the 'ubuntu' branch (other
+than the forced 'signed' default types for char and short to
+avoid compiler dependencies). The game builds and runs with
+sound on Ubuntu / Debian after these changes.
 
 Believe in fun!
 
