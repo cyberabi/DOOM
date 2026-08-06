@@ -4,6 +4,9 @@ signedness and bit width of the datatype. For example, on the
 original 32-bit Linux code both int and long were 32 bits; here
 they become INT32 and LONG32.
 
+IMPORTANT: I did not apply these changes to the ipx or sersrc
+directories, nor did I test the code in those directories.
+
 The purpose of this is to facilitate bare-metal ports onto
 platforms with smaller word sizes, such as 16-bit or 8-bit
 computers. The candidates I have in mind are the PDP-11 and
