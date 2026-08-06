@@ -13,8 +13,9 @@ to other, similar platforms.
 To test the changes I'll verify that no short / int / long
 references remain in the code, that I haven't changed any
 occurrences of these terms in comments, and that I get C
-preprocessor output identical to the 'ubuntu' branch. I'll
-also build it and run it.
+preprocessor output identical to the 'ubuntu' branch (other
+than the forced 'signed char' to avoid platform / compiler
+dependencies). I'll also build it and run it.
 
 Believe in fun!
 

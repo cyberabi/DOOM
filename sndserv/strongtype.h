@@ -26,56 +26,47 @@
 
 // Signed
 
-#ifndef CHAR8_DEFINED
-typedef char CHAR8;
-#define CHAR8_DEFINED
+#ifndef CHAR8
+// Default signed vs unsigned of 'char' is compiler dependent
+#define CHAR8 signed char
 #endif
 
-#ifndef SHORT16_DEFINED
-typedef short SHORT16;
-#define SHORT16_DEFINED
+#ifndef SHORT16
+#define SHORT16 short
 #endif
 
-#ifndef INT32_DEFINED
-typedef int INT32;
-#define INT32_DEFINED
+#ifndef INT32
+#define INT32 int
 #endif
 
-#ifndef LONG32_DEFINED
-typedef long LONG32;
-#define LONG32_DEFINED
+#ifndef LONG32
+#define LONG32 long
 #endif
 
-#ifndef LONGLONG64_DEFINED
-typedef long long LONGLONG64;
-#define LONGLONG64_DEFINED
+#ifndef LONGLONG64
+#define LONGLONG64 long long
 #endif
 
 // Unsigned
 
-#ifndef UCHAR8_DEFINED
-typedef unsigned char UCHAR8;
-#define UCHAR8_DEFINED
+#ifndef UCHAR8
+#define UCHAR8 unsigned char
 #endif
 
-#ifndef USHORT16_DEFINED
-typedef unsigned short USHORT16;
-#define USHORT16_DEFINED
+#ifndef USHORT16
+#define USHORT16 unsigned short
 #endif
 
-#ifndef UINT32_DEFINED
-typedef unsigned int UINT32;
-#define UINT32_DEFINED
+#ifndef UINT32
+#define UINT32 unsigned int
 #endif
 
-#ifndef ULONG32_DEFINED
-typedef unsigned long ULONG32;
-#define ULONG32_DEFINED
+#ifndef ULONG32
+#define ULONG32 unsigned long
 #endif
 
-#ifndef ULONGLONG64_DEFINED
-typedef unsigned long long ULONGLONG64;
-#define ULONGLONG64_DEFINED
+#ifndef ULONGLONG64
+#define ULONGLONG64 unsigned long long
 #endif
 
 #endif

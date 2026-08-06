@@ -77,11 +77,19 @@ OBJS=				\
 		$(O)/info.o				\
 		$(O)/sounds.o
 
+PRESOURCES=$(OBJS:.o=.c)
+SOURCES=$(PRESOURCES:$(O)/%=%)
+
 all:	 $(O)/linuxxdoom
 
 clean:
 	rm -f *.o *~ *.flc
 	rm -f linux/*
+	rm -f preprocessor.txt
+
+prep: 	$(SOURCES)
+	rm -f preprocessor.txt
+	$(CC) -E $(CFLAGS) $(SOURCES) | grep . | awk '{$$1=$$1};1' >> preprocessor.txt
 
 $(O)/linuxxdoom:	$(OBJS) $(O)/i_main.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(O)/i_main.o \

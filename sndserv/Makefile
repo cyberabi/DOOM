@@ -18,6 +18,11 @@ all:	 $(O)/sndserver
 clean:
 	rm -f *.o *~ *.flc
 	rm -f linux/*
+	rm -f preprocessor.txt
+
+prep:	soundsrv.c sounds.c wadread.c linux.c
+	rm -f preprocessor.txt
+	$(CC) -E $(CFLAGS) soundsrv.c sounds.c wadread.c linux.c | grep . | awk '{$$1=$$1};1' >> preprocessor.txt
 
 # Target
 $(O)/sndserver: \
