@@ -310,12 +310,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 0
-		return tantoangle[ SlopeDiv(y,x)];
+		return TANTOANGLE( SlopeDiv(y,x));
 	    }
 	    else
 	    {
 		// octant 1
-		return ANG90-1-tantoangle[ SlopeDiv(x,y)];
+		return ANG90-1-TANTOANGLE( SlopeDiv(x,y));
 	    }
 	}
 	else
@@ -326,12 +326,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 8
-		return -tantoangle[SlopeDiv(y,x)];
+		return -TANTOANGLE(SlopeDiv(y,x));
 	    }
 	    else
 	    {
 		// octant 7
-		return ANG270+tantoangle[ SlopeDiv(x,y)];
+		return ANG270+TANTOANGLE( SlopeDiv(x,y));
 	    }
 	}
     }
@@ -346,12 +346,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 3
-		return ANG180-1-tantoangle[ SlopeDiv(y,x)];
+		return ANG180-1-TANTOANGLE( SlopeDiv(y,x));
 	    }
 	    else
 	    {
 		// octant 2
-		return ANG90+ tantoangle[ SlopeDiv(x,y)];
+		return ANG90+ TANTOANGLE( SlopeDiv(x,y));
 	    }
 	}
 	else
@@ -362,12 +362,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 4
-		return ANG180+tantoangle[ SlopeDiv(y,x)];
+		return ANG180+TANTOANGLE( SlopeDiv(y,x));
 	    }
 	    else
 	    {
 		 // octant 5
-		return ANG270-1-tantoangle[ SlopeDiv(x,y)];
+		return ANG270-1-TANTOANGLE( SlopeDiv(x,y));
 	    }
 	}
     }
@@ -410,10 +410,10 @@ R_PointToDist
 	dy = temp;
     }
 	
-    angle = (tantoangle[ FixedDiv(dy,dx)>>DBITS ]+ANG90) >> ANGLETOFINESHIFT;
+    angle = (TANTOANGLE( FixedDiv(dy,dx)>>DBITS )+ANG90) >> ANGLETOFINESHIFT;
 
     // use as cosine
-    dist = FixedDiv (dx, finesine[angle] );	
+    dist = FixedDiv (dx, FINESINE(angle) );	
 	
     return dist;
 }
@@ -469,9 +469,9 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     fixed_t		sinv;
     fixed_t		cosv;
 	
-    sinv = finesine[(visangle-rw_normalangle)>>ANGLETOFINESHIFT];	
+    sinv = FINESINE((visangle-rw_normalangle)>>ANGLETOFINESHIFT);	
     dist = FixedDiv (rw_distance, sinv);
-    cosv = finecosine[(viewangle-visangle)>>ANGLETOFINESHIFT];
+    cosv = FINECOSINE((viewangle-visangle)>>ANGLETOFINESHIFT);
     z = abs(FixedMul (dist, cosv));
     scale = FixedDiv(projection, z);
     return scale;
@@ -482,8 +482,8 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     angleb = ANG90 + (visangle-rw_normalangle);
 
     // both sines are allways positive
-    sinea = finesine[anglea>>ANGLETOFINESHIFT];	
-    sineb = finesine[angleb>>ANGLETOFINESHIFT];
+    sinea = FINESINE(anglea>>ANGLETOFINESHIFT);	
+    sineb = FINESINE(angleb>>ANGLETOFINESHIFT);
     num = FixedMul(projection,sineb)<<detailshift;
     den = FixedMul(rw_distance,sinea);
 
@@ -556,17 +556,17 @@ void R_InitTextureMapping (void)
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
     focallength = FixedDiv (centerxfrac,
-			    finetangent[FINEANGLES/4+FIELDOFVIEW/2] );
+			    FINETANGENT(FINEANGLES/4+FIELDOFVIEW/2) );
 	
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
-	if (finetangent[i] > FRACUNIT*2)
+	if (FINETANGENT(i) > FRACUNIT*2)
 	    t = -1;
-	else if (finetangent[i] < -FRACUNIT*2)
+	else if (FINETANGENT(i) < -FRACUNIT*2)
 	    t = viewwidth+1;
 	else
 	{
-	    t = FixedMul (finetangent[i], focallength);
+	    t = FixedMul (FINETANGENT(i), focallength);
 	    t = (centerxfrac - t+FRACUNIT-1)>>FRACBITS;
 
 	    if (t < -1)
@@ -591,7 +591,7 @@ void R_InitTextureMapping (void)
     // Take out the fencepost cases from viewangletox.
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
-	t = FixedMul (finetangent[i], focallength);
+	t = FixedMul (FINETANGENT(i), focallength);
 	t = centerx - t;
 	
 	if (viewangletox[i] == -1)
@@ -737,7 +737,7 @@ void R_ExecuteSetViewSize (void)
 	
     for (i=0 ; i<viewwidth ; i++)
     {
-	cosadj = abs(finecosine[xtoviewangle[i]>>ANGLETOFINESHIFT]);
+	cosadj = abs(FINECOSINE(xtoviewangle[i]>>ANGLETOFINESHIFT));
 	distscale[i] = FixedDiv (FRACUNIT,cosadj);
     }
     
@@ -840,8 +840,8 @@ void R_SetupFrame (player_t* player)
 
     viewz = player->viewz;
     
-    viewsin = finesine[viewangle>>ANGLETOFINESHIFT];
-    viewcos = finecosine[viewangle>>ANGLETOFINESHIFT];
+    viewsin = FINESINE(viewangle>>ANGLETOFINESHIFT);
+    viewcos = FINECOSINE(viewangle>>ANGLETOFINESHIFT);
 	
     sscount = 0;
 	

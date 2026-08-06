@@ -1179,12 +1179,12 @@ AM_rotate
     fixed_t tmpx;
 
     tmpx =
-	FixedMul(*x,finecosine[a>>ANGLETOFINESHIFT])
-	- FixedMul(*y,finesine[a>>ANGLETOFINESHIFT]);
+	FixedMul(*x,FINECOSINE(a>>ANGLETOFINESHIFT))
+	- FixedMul(*y,FINESINE(a>>ANGLETOFINESHIFT));
     
     *y   =
-	FixedMul(*x,finesine[a>>ANGLETOFINESHIFT])
-	+ FixedMul(*y,finecosine[a>>ANGLETOFINESHIFT]);
+	FixedMul(*x,FINESINE(a>>ANGLETOFINESHIFT))
+	+ FixedMul(*y,FINECOSINE(a>>ANGLETOFINESHIFT));
 
     *x = tmpx;
 }

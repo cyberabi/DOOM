@@ -878,7 +878,7 @@ G_CheckSpot
     ss = R_PointInSubsector (x,y); 
     an = ( ANG45 * (mthing->angle/45) ) >> ANGLETOFINESHIFT; 
  
-    mo = P_SpawnMobj (x+20*finecosine[an], y+20*finesine[an] 
+    mo = P_SpawnMobj (x+20*FINECOSINE(an), y+20*FINESINE(an) 
 		      , ss->sector->floorheight 
 		      , MT_TFOG); 
 	 

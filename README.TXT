@@ -1,29 +1,21 @@
-This branch, based on my 'ubuntu' branch, replaces all generic
-type declarations (e.g. int, long) with macros identifying the
-signedness and bit width of the datatype. For example, on the
-original 32-bit Linux code both int and long were 32 bits; here
-they become INT32 and LONG32.
+This branch, based on my 'strongly_typed' branch, experiments
+with alternative implementations of DOOM's fast trigonometric
+fuctions. To do this, it encapsulates the original table
+lookups in macros, and incorporates both selectable lower
+precision tables and methods that use a small amount of
+computation in addition to table lookup.
 
-IMPORTANT: I did not apply these changes to the ipx or sersrc
-directories, nor did I test the code in those directories.
+Two main objectives in this branch: reduce the amount of
+memory used for trig tables, and efficient implementation
+on platforms (such as 16-bit platforms) that lack native
+32-bit math support.
 
-The purpose of this is to facilitate bare-metal ports onto
-platforms with smaller word sizes, such as 16-bit or 8-bit
-computers. The candidates I have in mind are the PDP-11 and
-the Tandy Color Computer 3, but these changes are applicable
-to other, similar platforms.
-
-To test the changes I verified that no short / int / long
-references remain in the code, that I didn't change any
-occurrences of these terms in comments, and that I got C
-preprocessor output equivalent to the 'ubuntu' branch (other
-than the forced 'signed' default types for char and short to
-avoid compiler dependencies). The game builds and runs with
-sound on Ubuntu / Debian after these changes.
+To test the changes I verified that the game builds and runs
+on Ubuntu with minimal visual issues at 320x200 resolution.
 
 Believe in fun!
 
-Chris Burke 8-5-26
+Chris Burke 8-6-26
 
 John Carmack's original README.TXT follows.
 

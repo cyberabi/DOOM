@@ -46,7 +46,9 @@
 
 
 #include "m_fixed.h"
-	
+
+#define FIXED_MASK_CJB		0xFFFFFFFFL
+
 #define FINEANGLES		8192
 #define FINEMASK		(FINEANGLES-1)
 
@@ -56,13 +58,19 @@
 
 // Effective size is 10240.
 extern  fixed_t		finesine[5*FINEANGLES/4];
+#define FINESINE(theta) (INT32)(finesine[(theta)] & FIXED_MASK_CJB)
+//#define FINESINE(theta) finesine[(theta)]
 
 // Re-use data, is just PI/2 pahse shift.
 extern  fixed_t*	finecosine;
+#define FINECOSINE(theta) (INT32)(finecosine[(theta)] & FIXED_MASK_CJB)
+//#define FINECOSINE(theta) finecosine[(theta)]
 
 
 // Effective size is 4096.
 extern fixed_t		finetangent[FINEANGLES/2];
+#define FINETANGENT(theta) (INT32)(finetangent[(theta)] & FIXED_MASK_CJB)
+//#define FINETANGENT(theta) finetangent[(theta)]
 
 // Binary Angle Measument, BAM.
 #define ANG45			0x20000000
@@ -82,6 +90,8 @@ typedef UINT32 angle_t;
 // The +1 size is to handle the case when x==y
 //  without additional checking.
 extern angle_t		tantoangle[SLOPERANGE+1];
+#define TANTOANGLE(m) (INT32)(tantoangle[(m)] & FIXED_MASK_CJB)
+//#define TANTOANGLE(m) tantoangle[(m)]
 
 
 // Utility function,
