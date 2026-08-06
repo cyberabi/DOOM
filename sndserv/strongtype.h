@@ -29,10 +29,13 @@
 #ifndef CHAR8
 // Default signed vs unsigned of 'char' is compiler dependent
 #define CHAR8 signed char
+//#define CHAR8 char
 #endif
 
 #ifndef SHORT16
-#define SHORT16 short
+// Default 'short' is strongly recommended to be signed but not mandatory
+#define SHORT16 signed short
+//#define SHORT16 short
 #endif
 
 #ifndef INT32

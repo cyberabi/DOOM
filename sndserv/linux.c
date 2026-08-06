@@ -97,7 +97,7 @@ I_InitSound
     if (i&=AFMT_S16_LE)    
         myioctl(audio_fd, SNDCTL_DSP_SETFMT, &i);
     else
-        fprintf(stderr, "Could not play INT32 16 data\n");
+        fprintf(stderr, "Could not play signed 16 data\n");
 
 }
 
