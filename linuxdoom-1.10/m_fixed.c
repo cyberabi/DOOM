@@ -76,7 +76,7 @@ FixedDiv2
 {
     // Fixme. Consider using using fast 1/x and multiplication.
     // for platforms with no hardware floating point.
-#if 0
+#if 1
     fixed_squared_t c;
     c = FIXEDTOSQUARED(a) / ((fixed_squared_t)b);
     return (fixed_t) c;
