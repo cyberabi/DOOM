@@ -913,10 +913,8 @@ P_SpawnMissile
 	an += (P_Random()-P_Random())<<20;	
 
     th->angle = an;
-    an >>= ANGLETOFINESHIFT;
-    th->momx = RCOSTHETA_IDX (th->info->speed, an);
-    th->momy = RSINTHETA_IDX (th->info->speed, an);
-	
+    INITMOMXY(th);
+
     dist = P_AproxDistance (dest->x - source->x, dest->y - source->y);
     dist = dist / th->info->speed;
 
@@ -980,8 +978,7 @@ P_SpawnPlayerMissile
 
     th->target = source;
     th->angle = an;
-    th->momx = RCOSTHETA_IDX( th->info->speed, an>>ANGLETOFINESHIFT);
-    th->momy = RSINTHETA_IDX( th->info->speed, an>>ANGLETOFINESHIFT);
+    INITMOMXY(th);
     th->momz = FixedMul( th->info->speed, slope);
 
     P_CheckMissileSpawn (th);

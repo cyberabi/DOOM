@@ -21,15 +21,15 @@
 //	Do not try to look them up :-).
 //	In the order of appearance: 
 //
-//	INT32 finetangent[4096]	- Tangens LUT.
+//	fixed_t finetangent[4096]	- Tangents LUT.
 //	 Should work with BAM fairly well (12 of 16bit,
 //      effectively, by shifting).
 //
-//	INT32 finesine[10240]		- Sine lookup.
+//	fixed_t finesine[10240]		- Sine lookup.
 //	 Guess what, serves as cosine, too.
 //	 Remarkable thing is, how to use BAMs with this? 
 //
-//	INT32 tantoangle[2049]	- ArcTan LUT,
+//	fixed_t tantoangle[2049]	- ArcTan LUT,
 //	  maps tan(angle) to angle fast. Gotta search.
 //	
 //    
@@ -45,14 +45,17 @@ rcsid[] = "$Id: tables.c,v 1.4 1997/02/03 16:47:57 b1 Exp $";
 
 
 
-
-INT32
+// Returns an index into the arctangent table
+// given two fixed-point arguments, based on
+// the associated line slope.
+int
 SlopeDiv
-( UINT32	num,
-  UINT32	den)
+( fixed_t	num,
+  fixed_t	den)
 {
     UINT32 	ans;
-    
+
+    // Fixme. Make these magic numbers track the underlying table sizes and data types    
     if (den < 512)
 	return SLOPERANGE;
 
@@ -64,7 +67,7 @@ SlopeDiv
 
 
 
-INT32 finetangent[4096] =
+fixed_t finetangent[4096] =
 {
     -170910304,-56965752,-34178904,-24413316,-18988036,-15535599,-13145455,-11392683,
     -10052327,-8994149,-8137527,-7429880,-6835455,-6329090,-5892567,-5512368,
@@ -581,7 +584,7 @@ INT32 finetangent[4096] =
 };
 
 
-INT32 finesine[10240] =
+fixed_t finesine[10240] =
 {
     25,75,125,175,226,276,326,376,
     427,477,527,578,628,678,728,779,

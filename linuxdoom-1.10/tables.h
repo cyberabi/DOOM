@@ -86,30 +86,39 @@
 // per 2pi is sufficient for low-end performance.
 
 //#define SIN_MASK_CJB	0xFFFFF800
-#define SIN_MASK_CJB	0xFFFFFFFF
+//#define SIN_MASK_CJB	0xFFFFFFFF
 
 #define FINEANGLES		8192
 #define FINEMASK		(FINEANGLES-1)
 
 
+// NOTE: In original code, same shift factor is used for sin, cos, tan
+// WARNING: This also dictates the sizes of the tables
+// NOTE: Tables for each trig function cover a different number of pi/4
+
 // 0x100000000 to 0x2000
-#define ANGLETOFINESHIFT	19		
+#define ANGLETOIDXSHIFT	19		
+
+#define ANGLETOIDX(angle)	((angle)>>ANGLETOIDXSHIFT)
+#define IDXTOANGLE(idx)		((idx)<<ANGLETOIDXSHIFT)
 
 // Effective size is 10240.
 extern  fixed_t		finesine[5*FINEANGLES/4];
-#define FINESINE(theta) (INT32)(finesine[(theta)] & SIN_MASK_CJB)
-//#define FINESINE(theta) finesine[(theta)]
+//#define FIXEDSIN_IDX(theta_sin_idx) (INT32)(finesine[(theta_sin_idx)] & SIN_MASK_CJB)
+#define FIXEDSIN_IDX(theta_sin_idx) finesine[(theta_sin_idx)]
+#define FIXEDSIN(theta)	FIXEDSIN_IDX(ANGLETOIDX(theta))
 
 // Re-use data, is just PI/2 pahse shift.
 extern  fixed_t*	finecosine;
-#define FINECOSINE(theta) (INT32)(finecosine[(theta)] & SIN_MASK_CJB)
-//#define FINECOSINE(theta) finecosine[(theta)]
-
+//#define FIXEDCOS_IDX(theta_cos_idx) (INT32)(finecosine[(theta_cos_idx)] & SIN_MASK_CJB)
+#define FIXEDCOS_IDX(theta_cos_idx) finecosine[(theta_cos_idx)]
+#define FIXEDCOS(theta)	FIXEDCOS_IDX(ANGLETOIDX(theta))
 
 // Effective size is 4096.
+// NOTE: Currently used only to build lookup tables at launch
 extern fixed_t		finetangent[FINEANGLES/2];
-#define FINETANGENT(theta) (INT32)(finetangent[(theta)] & TAN_MASK_CJB)
-//#define FINETANGENT(theta) finetangent[(theta)]
+//#define FIXEDTAN_IDX(theta_tan_idx) (INT32)(finetangent[(theta_tan_idx)] & TAN_MASK_CJB)
+#define FIXEDTAN_IDX(theta_tan_idx) finetangent[(theta_tan_idx)]
 
 // Binary Angle Measument, BAM.
 #define ANG45			0x20000000
@@ -118,6 +127,7 @@ extern fixed_t		finetangent[FINEANGLES/2];
 #define ANG270		0xc0000000
 
 
+// Fixme. Adjust for size of underlying tables and data types
 #define SLOPERANGE		2048
 #define SLOPEBITS		11
 #define DBITS			(FRACBITS-SLOPEBITS)
@@ -129,8 +139,8 @@ typedef UINT32 angle_t;
 // The +1 size is to handle the case when x==y
 //  without additional checking.
 extern angle_t		tantoangle[SLOPERANGE+1];
-#define TANTOANGLE(m) (INT32)(tantoangle[(m)] & TAN_MASK_CJB)
-//#define TANTOANGLE(m) tantoangle[(m)]
+//#define TANTOANGLE(m) (INT32)(tantoangle[(m)] & TAN_MASK_CJB)
+#define TANTOANGLE(m) tantoangle[(m)]
 
 
 // Utility function,

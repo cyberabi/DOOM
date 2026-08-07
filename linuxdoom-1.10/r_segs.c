@@ -262,7 +262,7 @@ void R_RenderSegLoop (void)
 	if (segtextured)
 	{
 	    // calculate texture offset
-	    angle = (rw_centerangle + xtoviewangle[rw_x])>>ANGLETOFINESHIFT;
+	    angle = (rw_centerangle + xtoviewangle[rw_x])>>ANGLETOIDXSHIFT;
 	    texturecolumn = FIXEDTOINT(rw_offset-RTANTHETA_IDX(rw_distance,angle));
 	    // calculate lighting
 	    index = rw_scale>>LIGHTSCALESHIFT;
@@ -376,7 +376,6 @@ R_StoreWallRange
   INT32	stop )
 {
     fixed_t		hyp;
-    fixed_t		sineval;
     angle_t		distangle, offsetangle;
     fixed_t		vtop;
     INT32			lightnum;
@@ -405,9 +404,7 @@ R_StoreWallRange
 
     distangle = ANG90 - offsetangle;
     hyp = R_PointToDist (curline->v1->x, curline->v1->y);
-    sineval = FINESINE(distangle>>ANGLETOFINESHIFT);
-    rw_distance = FixedMul (hyp, sineval);
-		
+    rw_distance = RSINTHETA_IDX(hyp, distangle>>ANGLETOIDXSHIFT);
 	
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -625,8 +622,7 @@ R_StoreWallRange
 	if (offsetangle > ANG90)
 	    offsetangle = ANG90;
 
-	sineval = FINESINE(offsetangle >>ANGLETOFINESHIFT);
-	rw_offset = FixedMul (hyp, sineval);
+        rw_offset = RSINTHETA_IDX(hyp, offsetangle>>ANGLETOIDXSHIFT);
 
 	if (rw_normalangle-rw_angle1 < ANG180)
 	    rw_offset = -rw_offset;

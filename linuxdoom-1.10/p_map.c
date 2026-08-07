@@ -622,14 +622,12 @@ void P_HitSlideLine (line_t* ld)
 	deltaangle += ANG180;
     //	I_Error ("SlideLine: ang>ANG180");
 
-    lineangle >>= ANGLETOFINESHIFT;
-    deltaangle >>= ANGLETOFINESHIFT;
+    deltaangle >>= ANGLETOIDXSHIFT;
 	
     movelen = P_AproxDistance (tmxmove, tmymove);
     newlen = RCOSTHETA_IDX (movelen, deltaangle);
 
-    tmxmove = RCOSTHETA_IDX (newlen, lineangle);	
-    tmymove = RSINTHETA_IDX (newlen, lineangle);	
+    XYFROMRTHETA(tmxmove, tmymove, newlen, lineangle);
 }
 
 
@@ -1031,11 +1029,11 @@ P_AimLineAttack
     fixed_t	x2;
     fixed_t	y2;
 	
-    angle >>= ANGLETOFINESHIFT;
+    angle >>= ANGLETOIDXSHIFT;
     shootthing = t1;
     
-    x2 = t1->x + (FIXEDTOINT(distance))*FINECOSINE(angle);
-    y2 = t1->y + (FIXEDTOINT(distance))*FINESINE(angle);
+    x2 = t1->x + (FIXEDTOINT(distance))*FIXEDCOS_IDX(angle);
+    y2 = t1->y + (FIXEDTOINT(distance))*FIXEDSIN_IDX(angle);
     shootz = t1->z + (t1->height>>1) + 8*FRACUNIT;
 
     // can't shoot outside view angles
@@ -1073,11 +1071,11 @@ P_LineAttack
     fixed_t	x2;
     fixed_t	y2;
 	
-    angle >>= ANGLETOFINESHIFT;
+    angle >>= ANGLETOIDXSHIFT;
     shootthing = t1;
     la_damage = damage;
-    x2 = t1->x + (FIXEDTOINT(distance))*FINECOSINE(angle);
-    y2 = t1->y + (FIXEDTOINT(distance))*FINESINE(angle);
+    x2 = t1->x + (FIXEDTOINT(distance))*FIXEDCOS_IDX(angle);
+    y2 = t1->y + (FIXEDTOINT(distance))*FIXEDSIN_IDX(angle);
     shootz = t1->z + (t1->height>>1) + 8*FRACUNIT;
     attackrange = distance;
     aimslope = slope;
@@ -1140,12 +1138,12 @@ void P_UseLines (player_t*	player)
 	
     usething = player->mo;
 		
-    angle = player->mo->angle >> ANGLETOFINESHIFT;
+    angle = player->mo->angle >> ANGLETOIDXSHIFT;
 
     x1 = player->mo->x;
     y1 = player->mo->y;
-    x2 = x1 + (FIXEDTOINT(USERANGE))*FINECOSINE(angle);
-    y2 = y1 + (FIXEDTOINT(USERANGE))*FINESINE(angle);
+    x2 = x1 + (FIXEDTOINT(USERANGE))*FIXEDCOS_IDX(angle);
+    y2 = y1 + (FIXEDTOINT(USERANGE))*FIXEDSIN_IDX(angle);
 	
     P_PathTraverse ( x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse );
 }

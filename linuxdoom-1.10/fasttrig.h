@@ -29,12 +29,37 @@
 
 // Operations that produce a fixed-point result from fixed-point operands
 
-// Use these if the angle has been prescaled to a lookup table index
-// Note that the sine, cosine, and tangent tables use different prescalers
-#define RTANTHETA_IDX(r,theta_tan_idx) FixedMul(FINETANGENT(theta_tan_idx),r)
-#define RCOTANTHETA_IDX(r,theta_tan_idx) FixedDiv(r,FINETANGENT(theta_tan_idx))
-#define RSINTHETA_IDX(r,theta_sin_idx) FixedMul(FINESINE(theta_sin_idx),r)
-#define RCOSTHETA_IDX(r,theta_cos_idx) FixedMul(FINECOSINE(theta_cos_idx),r)
+// Use these if the angle has been prescaled to a lookup table index.
+// Initial implementations are naive, pending future optimization.
+// NOTE: Discouraging use of these as they expose the sizes of trig tables.
+// NOTE: sine, cosine, and tangent tables might use different prescalers.
+
+#define RTANTHETA_IDX(r, theta_tan_idx)		FixedMul(FIXEDTAN_IDX(theta_tan_idx), (r))
+#define RCOTANTHETA_IDX(r, theta_tan_idx)	FixedDiv((r), FIXEDTAN_IDX(theta_tan_idx))
+#define RSINTHETA_IDX(r, theta_sin_idx)		FixedMul(FIXEDSIN_IDX(theta_sin_idx), (r))
+#define RCOSTHETA_IDX(r, theta_cos_idx)		FixedMul(FIXEDCOS_IDX(theta_cos_idx), (r))
+
+#define XYFROMRTHETA_IDX(x_dest, y_dest, r, theta_sin_idx) \
+	x_dest = RCOSTHETA_IDX((r), (theta_sin_idx)); \
+	y_dest = RSINTHETA_IDX((r), (theta_sin_idx));
+
+#define SINCOSFROMTHETA_IDX(s_dest, c_dest, theta_sin_idx) \
+	s_dest = FIXEDSIN_IDX(theta_sin_idx); \
+	c_dest = FIXEDCOS_IDX(theta_sin_idx);
+
+// Use these if the angle etc. is a fixed point number.
+// Initial implementations are naive, pending future optimization.
+
+#define XYFROMRTHETA(x_dest, y_dest, r, theta) \
+	{ angle_t theta_sin_idx = (theta) >> ANGLETOIDXSHIFT; \
+	  x_dest = RCOSTHETA_IDX((r), (theta_sin_idx)); \
+	  y_dest = RSINTHETA_IDX((r), (theta_sin_idx)); }
+
+#define SLOPETOANGLE(num, den)	(TANTOANGLE(SlopeDiv((num),(den))))
+
+// Specialized macros for recurring actions on specific data structures
+
+#define INITMOMXY(mob)	XYFROMRTHETA(mob->momx, mob->momy, (mob)->info->speed, (mob)->angle)
 
 #endif
 //-----------------------------------------------------------------------------

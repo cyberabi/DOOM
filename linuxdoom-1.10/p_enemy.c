@@ -1072,9 +1072,7 @@ void A_Tracer (mobj_t* actor)
 	}
     }
 	
-    exact = actor->angle>>ANGLETOFINESHIFT;
-    actor->momx = RCOSTHETA_IDX (actor->info->speed, exact);
-    actor->momy = RSINTHETA_IDX (actor->info->speed, exact);
+    INITMOMXY(actor);
     
     // change slope
     dist = P_AproxDistance (dest->x - actor->x,
@@ -1270,7 +1268,7 @@ void A_Fire (mobj_t* actor)
     if (!P_CheckSight (actor->target, dest) )
 	return;
 
-    an = dest->angle >> ANGLETOFINESHIFT;
+    an = dest->angle >> ANGLETOIDXSHIFT;
 
     P_UnsetThingPosition (actor);
     actor->x = dest->x + RCOSTHETA_IDX (24*FRACUNIT, an);
@@ -1327,7 +1325,7 @@ void A_VileAttack (mobj_t* actor)
     P_DamageMobj (actor->target, actor, actor, 20);
     actor->target->momz = 1000*FRACUNIT/actor->target->info->mass;
 	
-    an = actor->angle >> ANGLETOFINESHIFT;
+    an = actor->angle >> ANGLETOIDXSHIFT;
 
     fire = actor->tracer;
 
@@ -1361,8 +1359,7 @@ void A_FatRaise (mobj_t *actor)
 void A_FatAttack1 (mobj_t* actor)
 {
     mobj_t*	mo;
-    INT32		an;
-	
+
     A_FaceTarget (actor);
     // Change direction  to ...
     actor->angle += FATSPREAD;
@@ -1370,15 +1367,12 @@ void A_FatAttack1 (mobj_t* actor)
 
     mo = P_SpawnMissile (actor, actor->target, MT_FATSHOT);
     mo->angle += FATSPREAD;
-    an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = RCOSTHETA_IDX (mo->info->speed, an);
-    mo->momy = RSINTHETA_IDX (mo->info->speed, an);
+    INITMOMXY(mo);
 }
 
 void A_FatAttack2 (mobj_t* actor)
 {
     mobj_t*	mo;
-    INT32		an;
 
     A_FaceTarget (actor);
     // Now here choose opposite deviation.
@@ -1387,29 +1381,22 @@ void A_FatAttack2 (mobj_t* actor)
 
     mo = P_SpawnMissile (actor, actor->target, MT_FATSHOT);
     mo->angle -= FATSPREAD*2;
-    an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = RCOSTHETA_IDX (mo->info->speed, an);
-    mo->momy = RSINTHETA_IDX (mo->info->speed, an);
+    INITMOMXY(mo);
 }
 
 void A_FatAttack3 (mobj_t*	actor)
 {
     mobj_t*	mo;
-    INT32		an;
 
     A_FaceTarget (actor);
     
     mo = P_SpawnMissile (actor, actor->target, MT_FATSHOT);
     mo->angle -= FATSPREAD/2;
-    an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = RCOSTHETA_IDX (mo->info->speed, an);
-    mo->momy = RSINTHETA_IDX (mo->info->speed, an);
+    INITMOMXY(mo);
 
     mo = P_SpawnMissile (actor, actor->target, MT_FATSHOT);
     mo->angle += FATSPREAD/2;
-    an = mo->angle >> ANGLETOFINESHIFT;
-    mo->momx = RCOSTHETA_IDX (mo->info->speed, an);
-    mo->momy = RSINTHETA_IDX (mo->info->speed, an);
+    INITMOMXY(mo);
 }
 
 
@@ -1422,8 +1409,7 @@ void A_FatAttack3 (mobj_t*	actor)
 void A_SkullAttack (mobj_t* actor)
 {
     mobj_t*		dest;
-    angle_t		an;
-    INT32			dist;
+    INT32		dist;
 
     if (!actor->target)
 	return;
@@ -1433,9 +1419,7 @@ void A_SkullAttack (mobj_t* actor)
 
     S_StartSound (actor, actor->info->attacksound);
     A_FaceTarget (actor);
-    an = actor->angle >> ANGLETOFINESHIFT;
-    actor->momx = RCOSTHETA_IDX (SKULLSPEED, an);
-    actor->momy = RSINTHETA_IDX (SKULLSPEED, an);
+    XYFROMRTHETA(actor->momx, actor->momy, SKULLSPEED, actor->angle);
     dist = P_AproxDistance (dest->x - actor->x, dest->y - actor->y);
     dist = dist / SKULLSPEED;
     
@@ -1483,7 +1467,7 @@ A_PainShootSkull
 
 
     // okay, there's playe for another one
-    an = angle >> ANGLETOFINESHIFT;
+    an = angle >> ANGLETOIDXSHIFT;
     
     prestep =
 	4*FRACUNIT

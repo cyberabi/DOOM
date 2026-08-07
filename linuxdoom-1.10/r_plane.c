@@ -156,7 +156,7 @@ R_MapPlane
     }
 	
     length = FixedMul (distance,distscale[x1]);
-    angle = (viewangle + xtoviewangle[x1])>>ANGLETOFINESHIFT;
+    angle = (viewangle + xtoviewangle[x1])>>ANGLETOIDXSHIFT;
     ds_xfrac = viewx + RCOSTHETA_IDX(length, angle);
     ds_yfrac = -viewy - RSINTHETA_IDX(length, angle);
 
@@ -204,11 +204,11 @@ void R_ClearPlanes (void)
     memset (cachedheight, 0, sizeof(cachedheight));
 
     // left to right mapping
-    angle = (viewangle-ANG90)>>ANGLETOFINESHIFT;
+    angle = (viewangle-ANG90)>>ANGLETOIDXSHIFT;
 	
     // scale will be unit scale at SCREENWIDTH/2 distance
-    basexscale = FixedDiv (FINECOSINE(angle),centerxfrac);
-    baseyscale = -FixedDiv (FINESINE(angle),centerxfrac);
+    basexscale = FixedDiv (FIXEDCOS_IDX(angle),centerxfrac);
+    baseyscale = -FixedDiv (FIXEDSIN_IDX(angle),centerxfrac);
 }
 
 

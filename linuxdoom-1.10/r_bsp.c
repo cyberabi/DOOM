@@ -309,8 +309,8 @@ void R_AddLine (seg_t*	line)
     
     // The seg is in the view range,
     // but not necessarily visible.
-    angle1 = (angle1+ANG90)>>ANGLETOFINESHIFT;
-    angle2 = (angle2+ANG90)>>ANGLETOFINESHIFT;
+    angle1 = (angle1+ANG90)>>ANGLETOIDXSHIFT;
+    angle2 = (angle2+ANG90)>>ANGLETOIDXSHIFT;
     x1 = viewangletox[angle1];
     x2 = viewangletox[angle2];
 
@@ -463,8 +463,8 @@ boolean R_CheckBBox (fixed_t*	bspcoord)
     // Find the first clippost
     //  that touches the source post
     //  (adjacent pixels are touching).
-    angle1 = (angle1+ANG90)>>ANGLETOFINESHIFT;
-    angle2 = (angle2+ANG90)>>ANGLETOFINESHIFT;
+    angle1 = (angle1+ANG90)>>ANGLETOIDXSHIFT;
+    angle2 = (angle2+ANG90)>>ANGLETOIDXSHIFT;
     sx1 = viewangletox[angle1];
     sx2 = viewangletox[angle2];
 

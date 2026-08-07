@@ -830,7 +830,7 @@ P_DamageMobj
 	    thrust *= 4;
 	}
 		
-	ang >>= ANGLETOFINESHIFT;
+	ang >>= ANGLETOIDXSHIFT;
 	target->momx += RCOSTHETA_IDX (thrust, ang);
 	target->momy += RSINTHETA_IDX (thrust, ang);
     }

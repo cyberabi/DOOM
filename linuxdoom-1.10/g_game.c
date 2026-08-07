@@ -876,9 +876,9 @@ G_CheckSpot
 	
     // spawn a teleport fog 
     ss = R_PointInSubsector (x,y); 
-    an = ( ANG45 * (mthing->angle/45) ) >> ANGLETOFINESHIFT; 
+    an = ( ANG45 * (mthing->angle/45) ) >> ANGLETOIDXSHIFT; 
  
-    mo = P_SpawnMobj (x+20*FINECOSINE(an), y+20*FINESINE(an) 
+    mo = P_SpawnMobj (x+20*FIXEDCOS_IDX(an), y+20*FIXEDSIN_IDX(an) 
 		      , ss->sector->floorheight 
 		      , MT_TFOG); 
 	 

@@ -29,6 +29,9 @@ rcsid[] = "$Id: s_sound.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "doomtype.h"
+#include "fasttrig.h"
+
 #include "i_system.h"
 #include "i_sound.h"
 #include "sounds.h"
@@ -787,10 +790,10 @@ S_AdjustSoundParams
     else
 	angle = angle + (0xffffffff - listener->angle);
 
-    angle >>= ANGLETOFINESHIFT;
+    angle >>= ANGLETOIDXSHIFT;
 
     // stereo separation
-    *sep = 128 - FIXEDTOINT(FixedMul(S_STEREO_SWING,FINESINE(angle)));
+    *sep = 128 - FIXEDTOINT( RSINTHETA_IDX(S_STEREO_SWING, angle));
 
     // volume calculation
     if (approx_dist < S_CLOSE_DIST)

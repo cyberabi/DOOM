@@ -64,7 +64,7 @@ P_Thrust
   angle_t	angle,
   fixed_t	move ) 
 {
-    angle >>= ANGLETOFINESHIFT;
+    angle >>= ANGLETOIDXSHIFT;
     
     player->mo->momx += RCOSTHETA_IDX(move,angle); 
     player->mo->momy += RSINTHETA_IDX(move,angle);

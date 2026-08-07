@@ -106,7 +106,7 @@ angle_t			xtoviewangle[SCREENWIDTH+1];
 
 
 // UNUSED.
-// The finetangentgent[angle+FINEANGLES/4] table
+// The finetangent[angle+FINEANGLES/4] table
 // holds the fixed_t tangent values for view angles,
 // ranging from MININT to 0 to MAXINT.
 // fixed_t		finetangent[FINEANGLES/2];
@@ -311,12 +311,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 0
-		return TANTOANGLE( SlopeDiv(y,x));
+		return SLOPETOANGLE(y,x);
 	    }
 	    else
 	    {
 		// octant 1
-		return ANG90-1-TANTOANGLE( SlopeDiv(x,y));
+		return ANG90-1-SLOPETOANGLE(x,y);
 	    }
 	}
 	else
@@ -327,12 +327,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 8
-		return -TANTOANGLE(SlopeDiv(y,x));
+		return -SLOPETOANGLE(y,x);
 	    }
 	    else
 	    {
 		// octant 7
-		return ANG270+TANTOANGLE( SlopeDiv(x,y));
+		return ANG270+SLOPETOANGLE(x,y);
 	    }
 	}
     }
@@ -347,12 +347,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 3
-		return ANG180-1-TANTOANGLE( SlopeDiv(y,x));
+		return ANG180-1-SLOPETOANGLE(y,x);
 	    }
 	    else
 	    {
 		// octant 2
-		return ANG90+ TANTOANGLE( SlopeDiv(x,y));
+		return ANG90+SLOPETOANGLE(x,y);
 	    }
 	}
 	else
@@ -363,12 +363,12 @@ R_PointToAngle
 	    if (x>y)
 	    {
 		// octant 4
-		return ANG180+TANTOANGLE( SlopeDiv(y,x));
+		return ANG180+SLOPETOANGLE(y,x);
 	    }
 	    else
 	    {
 		 // octant 5
-		return ANG270-1-TANTOANGLE( SlopeDiv(x,y));
+		return ANG270-1-SLOPETOANGLE(x,y);
 	    }
 	}
     }
@@ -411,10 +411,10 @@ R_PointToDist
 	dy = temp;
     }
 	
-    angle = (TANTOANGLE( FixedDiv(dy,dx)>>DBITS )+ANG90) >> ANGLETOFINESHIFT;
+    angle = TANTOANGLE( FixedDiv(dy,dx)>>DBITS )+ANG90;
 
     // use as cosine
-    dist = FixedDiv (dx, FINESINE(angle) );	
+    dist = FixedDiv (dx, FIXEDSIN(angle) );	
 	
     return dist;
 }
@@ -457,8 +457,6 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     fixed_t		scale;
     INT32			anglea;
     INT32			angleb;
-    INT32			sinea;
-    INT32			sineb;
     fixed_t		num;
     INT32			den;
 
@@ -470,10 +468,9 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     fixed_t		sinv;
     fixed_t		cosv;
 	
-    sinv = FINESINE((visangle-rw_normalangle)>>ANGLETOFINESHIFT);	
+    sinv = FIXEDSIN_IDX((visangle-rw_normalangle)>>ANGLETOIDXSHIFT);	
     dist = FixedDiv (rw_distance, sinv);
-    cosv = FINECOSINE((viewangle-visangle)>>ANGLETOFINESHIFT);
-    z = abs(FixedMul (dist, cosv));
+    z = abs(RCOSTHETA_IDX (dist, (viewangle-visangle)>>ANGLETOIDXSHIFT));
     scale = FixedDiv(projection, z);
     return scale;
 }
@@ -483,10 +480,8 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     angleb = ANG90 + (visangle-rw_normalangle);
 
     // both sines are allways positive
-    sinea = FINESINE(anglea>>ANGLETOFINESHIFT);	
-    sineb = FINESINE(angleb>>ANGLETOFINESHIFT);
-    num = FixedMul(projection,sineb)<<detailshift;
-    den = FixedMul(rw_distance,sinea);
+    num = RSINTHETA_IDX(projection, angleb>>ANGLETOIDXSHIFT)<<detailshift;
+    den = RSINTHETA_IDX(rw_distance, anglea>>ANGLETOIDXSHIFT);
 
     if (den > num>>16)
     {
@@ -560,9 +555,9 @@ void R_InitTextureMapping (void)
 	
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
-	if (FINETANGENT(i) > FRACUNIT*2)
+	if (FIXEDTAN_IDX(i) > FRACUNIT*2)
 	    t = -1;
-	else if (FINETANGENT(i) < -FRACUNIT*2)
+	else if (FIXEDTAN_IDX(i) < -FRACUNIT*2)
 	    t = viewwidth+1;
 	else
 	{
@@ -585,7 +580,7 @@ void R_InitTextureMapping (void)
 	i = 0;
 	while (viewangletox[i]>x)
 	    i++;
-	xtoviewangle[x] = (i<<ANGLETOFINESHIFT)-ANG90;
+	xtoviewangle[x] = (i<<ANGLETOIDXSHIFT)-ANG90;
     }
     
     // Take out the fencepost cases from viewangletox.
@@ -737,7 +732,7 @@ void R_ExecuteSetViewSize (void)
 	
     for (i=0 ; i<viewwidth ; i++)
     {
-	cosadj = abs(FINECOSINE(xtoviewangle[i]>>ANGLETOFINESHIFT));
+	cosadj = abs(FIXEDCOS_IDX(xtoviewangle[i]>>ANGLETOIDXSHIFT));
 	distscale[i] = FixedDiv (FRACUNIT,cosadj);
     }
     
@@ -840,8 +835,7 @@ void R_SetupFrame (player_t* player)
 
     viewz = player->viewz;
     
-    viewsin = FINESINE(viewangle>>ANGLETOFINESHIFT);
-    viewcos = FINECOSINE(viewangle>>ANGLETOFINESHIFT);
+    SINCOSFROMTHETA_IDX(viewsin, viewcos, viewangle>>ANGLETOIDXSHIFT);
 	
     sscount = 0;
 	
