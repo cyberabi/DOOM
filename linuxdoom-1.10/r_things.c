@@ -43,7 +43,7 @@ rcsid[] = "$Id: r_things.c,v 1.5 1997/02/03 16:47:56 b1 Exp $";
 
 
 
-#define MINZ				(FIXEDUNIT*4)
+#define MINZ				INTTOFIXED(4)
 #define BASEYCENTER			100
 
 //void R_DrawColumn (void);
@@ -363,7 +363,7 @@ void R_DrawMaskedColumn (column_t* column)
 	topscreen = sprtopscreen + spryscale*column->topdelta;
 	bottomscreen = topscreen + spryscale*column->length;
 
-	dc_yl = FIXEDTOINT(topscreen+FIXEDUNIT-1);
+	dc_yl = FIXEDTOINT(topscreen + FIXED1MINUSEPSILON);
 	dc_yh = FIXEDTOINT(bottomscreen-1);
 		
 	if (dc_yh >= mfloorclip[dc_x])
@@ -557,7 +557,7 @@ void R_ProjectSprite (mobj_t* thing)
     vis->texturemid = vis->gzt - viewz;
     vis->x1 = x1 < 0 ? 0 : x1;
     vis->x2 = x2 >= viewwidth ? viewwidth-1 : x2;	
-    iscale = FixedDiv (FIXEDUNIT, xscale);
+    iscale = FIXEDINVERSE(xscale);
 
     if (flip)
     {

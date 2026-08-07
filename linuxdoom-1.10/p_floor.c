@@ -325,7 +325,7 @@ EV_DoFloor
 		P_FindLowestCeilingSurrounding(sec);
 	    if (floor->floordestheight > sec->ceilingheight)
 		floor->floordestheight = sec->ceilingheight;
-	    floor->floordestheight -= (8*FIXEDUNIT)*
+	    floor->floordestheight -= INTTOFIXED(8) *
 		(floortype == raiseFloorCrush);
 	    break;
 
@@ -350,14 +350,14 @@ EV_DoFloor
 	    floor->sector = sec;
 	    floor->speed = FLOORSPEED;
 	    floor->floordestheight = floor->sector->floorheight +
-		24 * FIXEDUNIT;
+		INTTOFIXED(24);
 	    break;
 	  case raiseFloor512:
 	    floor->direction = 1;
 	    floor->sector = sec;
 	    floor->speed = FLOORSPEED;
 	    floor->floordestheight = floor->sector->floorheight +
-		512 * FIXEDUNIT;
+		INTTOFIXED(512);
 	    break;
 
 	  case raiseFloor24AndChange:
@@ -365,7 +365,7 @@ EV_DoFloor
 	    floor->sector = sec;
 	    floor->speed = FLOORSPEED;
 	    floor->floordestheight = floor->sector->floorheight +
-		24 * FIXEDUNIT;
+		INTTOFIXED(24);
 	    sec->floorpic = line->frontsector->floorpic;
 	    sec->special = line->frontsector->special;
 	    break;

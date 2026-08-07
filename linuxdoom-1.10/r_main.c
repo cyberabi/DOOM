@@ -483,6 +483,7 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     num = RSINTHETA_IDX(projection, angleb>>ANGLETOIDXSHIFT)<<detailshift;
     den = RSINTHETA_IDX(rw_distance, anglea>>ANGLETOIDXSHIFT);
 
+    // Fixme. Modify magic numbers for actual underlying data types
     if (den > num>>16)
     {
 	scale = FixedDiv (num, den);
@@ -516,7 +517,7 @@ void R_InitTables (void)
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
 	a = (i-FINEANGLES/4+0.5)*PI*2/FINEANGLES;
-	fv = FIXEDUNIT*tan (a);
+	fv = FLOATTOFIXED(tan (a));
 	t = fv;
 	finetangent[i] = t;
     }
@@ -526,7 +527,7 @@ void R_InitTables (void)
     {
 	// OPTIMIZE: mirror...
 	a = (i+0.5)*PI*2/FINEANGLES;
-	t = FIXEDUNIT*sin (a);
+	t = FLOATTOFIXED(sin (a));
 	finesine[i] = t;
     }
 #endif
@@ -557,12 +558,12 @@ void R_InitTextureMapping (void)
     {
 	if (FIXEDTAN_IDX(i) > INTTOFIXED(2))
 	    t = -1;
-	else if (FIXEDTAN_IDX(i) < -INTTOFIXED(2))
+	else if (FIXEDTAN_IDX(i) < INTTOFIXED(-2))
 	    t = viewwidth+1;
 	else
 	{
 	    t = RTANTHETA_IDX(focallength, i);
-	    t = FIXEDTOINT((centerxfrac - t+FIXEDUNIT-1));
+	    t = FIXEDTOINT((centerxfrac - t + FIXED1MINUSEPSILON));
 
 	    if (t < -1)
 		t = -1;
@@ -715,8 +716,8 @@ void R_ExecuteSetViewSize (void)
     R_InitTextureMapping ();
     
     // psprite scales
-    pspritescale = FIXEDUNIT*viewwidth/SCREENWIDTH;
-    pspriteiscale = FIXEDUNIT*SCREENWIDTH/viewwidth;
+    pspritescale = INTTOFIXED(viewwidth) / SCREENWIDTH;
+    pspriteiscale = INTTOFIXED(SCREENWIDTH) / viewwidth;
     
     // thing clipping
     for (i=0 ; i<viewwidth ; i++)
@@ -733,7 +734,7 @@ void R_ExecuteSetViewSize (void)
     for (i=0 ; i<viewwidth ; i++)
     {
 	cosadj = abs(FIXEDCOS_IDX(xtoviewangle[i]>>ANGLETOIDXSHIFT));
-	distscale[i] = FixedDiv (FIXEDUNIT,cosadj);
+	distscale[i] = FIXEDINVERSE(cosadj);
     }
     
     // Calculate the light levels to use

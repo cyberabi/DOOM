@@ -352,7 +352,7 @@ P_TouchSpecialThing
     delta = special->z - toucher->z;
 
     if (delta > toucher->height
-	|| delta < -8*FIXEDUNIT)
+	|| delta < INTTOFIXED(-8))
     {
 	// out of reach
 	return;
@@ -818,12 +818,12 @@ P_DamageMobj
 				target->x,
 				target->y);
 		
-	thrust = damage*(FIXEDUNIT>>3)*100/target->info->mass;
+	thrust = damage*FIXEDEIGHTH*100/target->info->mass;
 
 	// make fall forwards sometimes
 	if ( damage < 40
 	     && damage > target->health
-	     && target->z - inflictor->z > 64*FIXEDUNIT
+	     && target->z - inflictor->z > INTTOFIXED(64)
 	     && (P_Random ()&1) )
 	{
 	    ang += ANG180;

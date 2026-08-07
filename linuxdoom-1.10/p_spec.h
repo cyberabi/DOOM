@@ -302,7 +302,7 @@ typedef struct
 
 
 #define PLATWAIT		3
-#define PLATSPEED		FIXEDUNIT
+#define PLATSPEED		FIXED1
 #define MAXPLATS		30
 
 
@@ -513,7 +513,7 @@ typedef struct
 
 
 
-#define CEILSPEED		FIXEDUNIT
+#define CEILSPEED		FIXED1
 #define CEILWAIT		150
 #define MAXCEILINGS		30
 
@@ -597,7 +597,7 @@ typedef struct
 
 
 
-#define FLOORSPEED		FIXEDUNIT
+#define FLOORSPEED		FIXED1
 
 typedef enum
 {

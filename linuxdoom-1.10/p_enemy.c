@@ -265,8 +265,8 @@ boolean P_CheckMissileRange (mobj_t* actor)
 // returns false if the move is blocked.
 //
 // Fixme. Adjust this for different implementations of fixed point
-fixed_t	xspeed[8] = {FIXEDUNIT,47000,0,-47000,-FIXEDUNIT,-47000,0,47000};
-fixed_t yspeed[8] = {0,47000,FIXEDUNIT,47000,0,-47000,-FIXEDUNIT,-47000};
+fixed_t	xspeed[8] = {FIXED1,47000,0,-47000,-FIXED1,-47000,0,47000};
+fixed_t yspeed[8] = {0,47000,FIXED1,47000,0,-47000,-FIXED1,-47000};
 
 #define MAXSPECIALCROSS	8
 
@@ -394,7 +394,7 @@ void P_NewChaseDir (mobj_t*	actor)
 
     if (deltay<INTTOFIXED(-10))
 	d[2]= DI_SOUTH;
-    else if (deltay>INTTOFIXED(10)
+    else if (deltay>INTTOFIXED(10))
 	d[2]= DI_NORTH;
     else
 	d[2]=DI_NODIR;
@@ -1040,7 +1040,7 @@ void A_Tracer (mobj_t* actor)
 		      actor->y-actor->momy,
 		      actor->z, MT_SMOKE);
     
-    th->momz = FIXEDUNIT;
+    th->momz = FIXED1;
     th->tics -= P_Random()&3;
     if (th->tics < 1)
 	th->tics = 1;
@@ -1086,9 +1086,9 @@ void A_Tracer (mobj_t* actor)
     slope = (dest->z+INTTOFIXED(40) - actor->z) / dist;
 
     if (slope < actor->momz)
-	actor->momz -= FIXEDUNIT/8;
+	actor->momz -= FIXEDEIGHTH;
     else
-	actor->momz += FIXEDUNIT/8;
+	actor->momz += FIXEDEIGHTH;
 }
 
 
@@ -1840,7 +1840,8 @@ void A_BrainScream (mobj_t*	mo)
     INT32		y;
     INT32		z;
     mobj_t*	th;
-	
+
+    // Fixme. Is this locked to a 320 screen width?    
     for (x=mo->x - INTTOFIXED(196) ; x< mo->x + INTTOFIXED(320) ; x+= INTTOFIXED(8))
     {
 	y = mo->y - INTTOFIXED(320);

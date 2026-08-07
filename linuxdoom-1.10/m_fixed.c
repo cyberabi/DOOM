@@ -83,7 +83,7 @@ FixedDiv2
 #else
     double c;
 
-    c = ((double)a) / ((double)b) * FIXEDUNIT;
+    c = ((double)a) / ((double)b) * FIXED1;
 
     if (c >= FIXED_T_UNDERLYING_TYPEMAX_AS_DOUBLE ||
 	c < -FIXED_T_UNDERLYING_TYPEMAX_AS_DOUBLE)

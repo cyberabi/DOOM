@@ -50,7 +50,7 @@
 // but we do not have any moving sectors nearby
 #define MAXRADIUS		INTTOFIXED(32)
 
-#define GRAVITY		INTTOFIXED(1)
+#define GRAVITY		FIXED1
 #define MAXMOVE		INTTOFIXED(30)
 
 #define USERANGE		INTTOFIXED(64)

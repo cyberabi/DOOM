@@ -196,7 +196,7 @@ mline_t cheat_player_arrow[] = {
 #undef R
 #define NUMCHEATPLYRLINES (sizeof(cheat_player_arrow)/sizeof(mline_t))
 
-#define R (FIXEDUNIT)
+#define R FIXED1
 mline_t triangle_guy[] = {
     { { -.867*R, -.5*R }, { .867*R, -.5*R } },
     { { .867*R, -.5*R } , { 0, R } },
@@ -205,7 +205,7 @@ mline_t triangle_guy[] = {
 #undef R
 #define NUMTRIANGLEGUYLINES (sizeof(triangle_guy)/sizeof(mline_t))
 
-#define R (FIXEDUNIT)
+#define R FIXED1
 mline_t thintriangle_guy[] = {
     { { -.5*R, -.7*R }, { R, 0 } },
     { { R, 0 }, { -.5*R, .7*R } },
@@ -372,7 +372,7 @@ void AM_restoreScaleAndLoc(void)
 
     // Change the scaling multipliers
     scale_mtof = FixedDiv(INTTOFIXED(f_w), m_w);
-    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
+    scale_ftom = FIXEDINVERSE(scale_mtof);
 }
 
 //
@@ -472,8 +472,8 @@ void AM_initVariables(void)
     lightlev = 0;
 
     m_paninc.x = m_paninc.y = 0;
-    ftom_zoommul = FIXEDUNIT;
-    mtof_zoommul = FIXEDUNIT;
+    ftom_zoommul = FIXED1;
+    mtof_zoommul = FIXED1;
 
     m_w = FTOM(f_w);
     m_h = FTOM(f_h);
@@ -552,7 +552,7 @@ void AM_LevelInit(void)
     scale_mtof = FixedDiv(min_scale_mtof, FLOATTOFIXED(0.7));
     if (scale_mtof > max_scale_mtof)
 	scale_mtof = min_scale_mtof;
-    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
+    scale_ftom = FIXEDINVERSE(scale_mtof);
 }
 
 
@@ -596,7 +596,7 @@ void AM_Start (void)
 void AM_minOutWindowScale(void)
 {
     scale_mtof = min_scale_mtof;
-    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
+    scale_ftom = FIXEDINVERSE(scale_mtof);
     AM_activateNewScale();
 }
 
@@ -606,7 +606,7 @@ void AM_minOutWindowScale(void)
 void AM_maxOutWindowScale(void)
 {
     scale_mtof = max_scale_mtof;
-    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
+    scale_ftom = FIXEDINVERSE(scale_mtof);
     AM_activateNewScale();
 }
 
@@ -728,8 +728,8 @@ AM_Responder
 	    break;
 	  case AM_ZOOMOUTKEY:
 	  case AM_ZOOMINKEY:
-	    mtof_zoommul = FIXEDUNIT;
-	    ftom_zoommul = FIXEDUNIT;
+	    mtof_zoommul = FIXED1;
+	    ftom_zoommul = FIXED1;
 	    break;
 	}
     }
@@ -747,7 +747,7 @@ void AM_changeWindowScale(void)
 
     // Change the scaling multipliers
     scale_mtof = FixedMul(scale_mtof, mtof_zoommul);
-    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
+    scale_ftom = FIXEDINVERSE(scale_mtof);
 
     if (scale_mtof < min_scale_mtof)
 	AM_minOutWindowScale();
@@ -818,7 +818,7 @@ void AM_Ticker (void)
 	AM_doFollowPlayer();
 
     // Change the zoom if necessary
-    if (ftom_zoommul != FIXEDUNIT)
+    if (ftom_zoommul != FIXED1)
 	AM_changeWindowScale();
 
     // Change x,y location
