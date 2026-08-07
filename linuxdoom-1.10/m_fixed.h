@@ -45,7 +45,7 @@
 #define FIXEDTOSQUARED(x)	((fixed_squared_t)(x)<<FRACBITS)
 #define FLOATTOFIXED(n)		((fixed_t)((n)*FIXED1))
 
-#define FIXED1			((fixed_t)(1<<FRACBITS)
+#define FIXED1			((fixed_t)(1<<FRACBITS))
 #define FIXEDHALF		((fixed_t)(1<<(FRACBITS-1)))
 #define FIXEDQUARTER		((fixed_t)(1<<(FRACBITS-2)))
 #define FIXEDEIGHTH		((fixed_t)(1<<(FRACBITS-3)))

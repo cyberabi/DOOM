@@ -196,7 +196,7 @@ mline_t cheat_player_arrow[] = {
 #undef R
 #define NUMCHEATPLYRLINES (sizeof(cheat_player_arrow)/sizeof(mline_t))
 
-#define R FIXED1
+#define R (FIXED1)
 mline_t triangle_guy[] = {
     { { -.867*R, -.5*R }, { .867*R, -.5*R } },
     { { .867*R, -.5*R } , { 0, R } },
@@ -205,7 +205,7 @@ mline_t triangle_guy[] = {
 #undef R
 #define NUMTRIANGLEGUYLINES (sizeof(triangle_guy)/sizeof(mline_t))
 
-#define R FIXED1
+#define R (FIXED1)
 mline_t thintriangle_guy[] = {
     { { -.5*R, -.7*R }, { R, 0 } },
     { { R, 0 }, { -.5*R, .7*R } },
