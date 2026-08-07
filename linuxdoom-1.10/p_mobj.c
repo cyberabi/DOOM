@@ -24,6 +24,9 @@
 static const char
 rcsid[] = "$Id: p_mobj.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 
+#include "doomtype.h"
+#include "fasttrig.h"
+
 #include "i_system.h"
 #include "z_zone.h"
 #include "m_random.h"
@@ -911,8 +914,8 @@ P_SpawnMissile
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;
-    th->momx = FixedMul (th->info->speed, FINECOSINE(an));
-    th->momy = FixedMul (th->info->speed, FINESINE(an));
+    th->momx = RCOSTHETA_IDX (th->info->speed, an);
+    th->momy = RSINTHETA_IDX (th->info->speed, an);
 	
     dist = P_AproxDistance (dest->x - source->x, dest->y - source->y);
     dist = dist / th->info->speed;
@@ -977,10 +980,8 @@ P_SpawnPlayerMissile
 
     th->target = source;
     th->angle = an;
-    th->momx = FixedMul( th->info->speed,
-			 FINECOSINE(an>>ANGLETOFINESHIFT));
-    th->momy = FixedMul( th->info->speed,
-			 FINESINE(an>>ANGLETOFINESHIFT));
+    th->momx = RCOSTHETA_IDX( th->info->speed, an>>ANGLETOFINESHIFT);
+    th->momy = RSINTHETA_IDX( th->info->speed, an>>ANGLETOFINESHIFT);
     th->momz = FixedMul( th->info->speed, slope);
 
     P_CheckMissileSpawn (th);

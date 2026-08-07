@@ -27,6 +27,10 @@ rcsid[] = "$Id: p_inter.c,v 1.4 1997/02/03 22:45:11 b1 Exp $";
 
 
 // Data.
+
+#include "doomtype.h"
+#include "fasttrig.h"
+
 #include "doomdef.h"
 #include "dstrings.h"
 #include "sounds.h"
@@ -827,8 +831,8 @@ P_DamageMobj
 	}
 		
 	ang >>= ANGLETOFINESHIFT;
-	target->momx += FixedMul (thrust, FINECOSINE(ang));
-	target->momy += FixedMul (thrust, FINESINE(ang));
+	target->momx += RCOSTHETA_IDX (thrust, ang);
+	target->momy += RSINTHETA_IDX (thrust, ang);
     }
     
     // player specific

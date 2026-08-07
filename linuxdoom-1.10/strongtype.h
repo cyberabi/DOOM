@@ -3,7 +3,7 @@
 //
 // $Id:$
 //
-// Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 1993-1996, 2026 by id Software, Inc.
 //
 // This source is available for distribution and/or modification
 // only under the terms of the DOOM Source Code License as

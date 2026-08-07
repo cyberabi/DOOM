@@ -28,6 +28,7 @@ rcsid[] = "$Id: p_map.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
 #include <stdlib.h>
 
 #include "doomtype.h"
+#include "fasttrig.h"
 
 #include "m_bbox.h"
 #include "m_random.h"
@@ -625,10 +626,10 @@ void P_HitSlideLine (line_t* ld)
     deltaangle >>= ANGLETOFINESHIFT;
 	
     movelen = P_AproxDistance (tmxmove, tmymove);
-    newlen = FixedMul (movelen, FINECOSINE(deltaangle));
+    newlen = RCOSTHETA_IDX (movelen, deltaangle);
 
-    tmxmove = FixedMul (newlen, FINECOSINE(lineangle));	
-    tmymove = FixedMul (newlen, FINESINE(lineangle));	
+    tmxmove = RCOSTHETA_IDX (newlen, lineangle);	
+    tmymove = RSINTHETA_IDX (newlen, lineangle);	
 }
 
 

@@ -29,6 +29,9 @@ rcsid[] = "$Id: r_plane.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
 #include <stdlib.h>
 
+#include "doomtype.h"
+#include "fasttrig.h"
+
 #include "i_system.h"
 #include "z_zone.h"
 #include "w_wad.h"
@@ -154,8 +157,8 @@ R_MapPlane
 	
     length = FixedMul (distance,distscale[x1]);
     angle = (viewangle + xtoviewangle[x1])>>ANGLETOFINESHIFT;
-    ds_xfrac = viewx + FixedMul(FINECOSINE(angle), length);
-    ds_yfrac = -viewy - FixedMul(FINESINE(angle), length);
+    ds_xfrac = viewx + RCOSTHETA_IDX(length, angle);
+    ds_yfrac = -viewy - RSINTHETA_IDX(length, angle);
 
     if (fixedcolormap)
 	ds_colormap = fixedcolormap;

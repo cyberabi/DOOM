@@ -25,9 +25,11 @@
 static const char
 rcsid[] = "$Id: p_pspr.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 
+#include "doomtype.h"
+#include "fasttrig.h"
+
 #include "doomdef.h"
 #include "d_event.h"
-
 
 #include "m_random.h"
 #include "p_local.h"
@@ -121,10 +123,10 @@ void P_CalcSwing (player_t*	player)
     swing = player->bob;
 
     angle = (FINEANGLES/70*leveltime)&FINEMASK;
-    swingx = FixedMul ( swing, FINESINE(angle));
+    swingx = RSINTHETA_IDX ( swing, angle);
 
     angle = (FINEANGLES/70*leveltime+FINEANGLES/2)&FINEMASK;
-    swingy = -FixedMul ( swingx, FINESINE(angle));
+    swingy = -RSINTHETA_IDX ( swingx, angle);
 }
 
 
@@ -328,9 +330,9 @@ A_WeaponReady
     
     // bob the weapon based on movement speed
     angle = (128*leveltime)&FINEMASK;
-    psp->sx = FRACUNIT + FixedMul (player->bob, FINECOSINE(angle));
+    psp->sx = FRACUNIT + RCOSTHETA_IDX (player->bob, angle);
     angle &= FINEANGLES/2-1;
-    psp->sy = WEAPONTOP + FixedMul (player->bob, FINESINE(angle));
+    psp->sy = WEAPONTOP + RSINTHETA_IDX (player->bob, angle);
 }
 
 

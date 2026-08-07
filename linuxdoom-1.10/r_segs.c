@@ -26,10 +26,10 @@ static const char
 rcsid[] = "$Id: r_segs.c,v 1.3 1997/01/29 20:10:19 b1 Exp $";
 
 
-
-
-
 #include <stdlib.h>
+
+#include "doomtype.h"
+#include "fasttrig.h"
 
 #include "i_system.h"
 
@@ -263,7 +263,7 @@ void R_RenderSegLoop (void)
 	{
 	    // calculate texture offset
 	    angle = (rw_centerangle + xtoviewangle[rw_x])>>ANGLETOFINESHIFT;
-	    texturecolumn = FIXEDTOINT(rw_offset-FixedMul(FINETANGENT(angle),rw_distance));
+	    texturecolumn = FIXEDTOINT(rw_offset-RTANTHETA_IDX(rw_distance,angle));
 	    // calculate lighting
 	    index = rw_scale>>LIGHTSCALESHIFT;
 

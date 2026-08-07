@@ -28,6 +28,9 @@ static const char
 rcsid[] = "$Id: p_user.c,v 1.3 1997/01/28 22:08:29 b1 Exp $";
 
 
+#include "doomtype.h"
+#include "fasttrig.h"
+
 #include "doomdef.h"
 #include "d_event.h"
 
@@ -63,8 +66,8 @@ P_Thrust
 {
     angle >>= ANGLETOFINESHIFT;
     
-    player->mo->momx += FixedMul(move,FINECOSINE(angle)); 
-    player->mo->momy += FixedMul(move,FINESINE(angle));
+    player->mo->momx += RCOSTHETA_IDX(move,angle); 
+    player->mo->momy += RSINTHETA_IDX(move,angle);
 }
 
 
@@ -106,7 +109,7 @@ void P_CalcHeight (player_t* player)
     }
 		
     angle = (FINEANGLES/20*leveltime)&FINEMASK;
-    bob = FixedMul ( player->bob/2, FINESINE(angle));
+    bob = RSINTHETA_IDX ( player->bob/2, angle);
 
     
     // move viewheight

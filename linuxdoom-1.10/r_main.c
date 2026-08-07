@@ -34,6 +34,7 @@ static const char rcsid[] = "$Id: r_main.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 
 #include "doomtype.h"
 #include "doomdef.h"
+#include "fasttrig.h"
 #include "d_net.h"
 
 #include "m_bbox.h"
@@ -555,8 +556,7 @@ void R_InitTextureMapping (void)
     //
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
-    focallength = FixedDiv (centerxfrac,
-			    FINETANGENT(FINEANGLES/4+FIELDOFVIEW/2) );
+    focallength = RCOTANTHETA_IDX(centerxfrac, FINEANGLES/4+FIELDOFVIEW/2);
 	
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
@@ -566,7 +566,7 @@ void R_InitTextureMapping (void)
 	    t = viewwidth+1;
 	else
 	{
-	    t = FixedMul (FINETANGENT(i), focallength);
+	    t = RTANTHETA_IDX(focallength, i);
 	    t = FIXEDTOINT((centerxfrac - t+FRACUNIT-1));
 
 	    if (t < -1)
@@ -591,7 +591,7 @@ void R_InitTextureMapping (void)
     // Take out the fencepost cases from viewangletox.
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
-	t = FixedMul (FINETANGENT(i), focallength);
+	t = RTANTHETA_IDX(focallength, i);
 	t = centerx - t;
 	
 	if (viewangletox[i] == -1)

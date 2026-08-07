@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id: am_map.c,v 1.4 1997/02/03 21:24:33 b1 Exp $";
 #include <stdio.h>
 
 #include "doomtype.h"
+#include "fasttrig.h"
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -1179,12 +1180,12 @@ AM_rotate
     fixed_t tmpx;
 
     tmpx =
-	FixedMul(*x,FINECOSINE(a>>ANGLETOFINESHIFT))
-	- FixedMul(*y,FINESINE(a>>ANGLETOFINESHIFT));
+	RCOSTHETA_IDX(*x,a>>ANGLETOFINESHIFT)
+	- RSINTHETA_IDX(*y,a>>ANGLETOFINESHIFT);
     
     *y   =
-	FixedMul(*x,FINESINE(a>>ANGLETOFINESHIFT))
-	+ FixedMul(*y,FINECOSINE(a>>ANGLETOFINESHIFT));
+	RSINTHETA_IDX(*x,a>>ANGLETOFINESHIFT)
+	+ RCOSTHETA_IDX(*y,a>>ANGLETOFINESHIFT);
 
     *x = tmpx;
 }
