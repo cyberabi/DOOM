@@ -27,35 +27,35 @@
 #include "r_local.h"
 #endif
 
-#define FLOATSPEED		(FIXEDUNIT*4)
+#define FLOATSPEED		INTTOFIXED(4)
 
 
 #define MAXHEALTH		100
-#define VIEWHEIGHT		(41*FIXEDUNIT)
+#define VIEWHEIGHT		INTTOFIXED(41)
 
 // mapblocks are used to check movement
 // against lines and things
 #define MAPBLOCKUNITS	128
-#define MAPBLOCKSIZE	(MAPBLOCKUNITS*FIXEDUNIT)
+#define MAPBLOCKSIZE	INTTOFIXED(MAPBLOCKUNITS)
 #define MAPBLOCKSHIFT	(FRACBITS+7)
 #define MAPBMASK		(MAPBLOCKSIZE-1)
 #define MAPBTOFRAC		(MAPBLOCKSHIFT-FRACBITS)
 
 
 // player radius for movement checking
-#define PLAYERRADIUS	16*FIXEDUNIT
+#define PLAYERRADIUS	INTTOFIXED(16)
 
 // MAXRADIUS is for precalculated sector block boxes
 // the spider demon is larger,
 // but we do not have any moving sectors nearby
-#define MAXRADIUS		32*FIXEDUNIT
+#define MAXRADIUS		INTTOFIXED(32)
 
-#define GRAVITY		FIXEDUNIT
-#define MAXMOVE		(30*FIXEDUNIT)
+#define GRAVITY		INTTOFIXED(1)
+#define MAXMOVE		INTTOFIXED(30)
 
-#define USERANGE		(64*FIXEDUNIT)
-#define MELEERANGE		(64*FIXEDUNIT)
-#define MISSILERANGE	(32*64*FIXEDUNIT)
+#define USERANGE		INTTOFIXED(64)
+#define MELEERANGE		INTTOFIXED(64)
+#define MISSILERANGE	INTTOFIXED(32*64)
 
 // follow a player exlusively for 3 seconds
 #define	BASETHRESHOLD	 	100

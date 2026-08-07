@@ -312,7 +312,7 @@ EV_DoFloor
 	    floor->floordestheight = 
 		P_FindHighestFloorSurrounding(sec);
 	    if (floor->floordestheight != sec->floorheight)
-		floor->floordestheight += 8*FIXEDUNIT;
+		floor->floordestheight += INTTOFIXED(8);
 	    break;
 
 	  case raiseFloorCrush:
@@ -493,11 +493,11 @@ EV_BuildStairs
 	{
 	  case build8:
 	    speed = FLOORSPEED/4;
-	    stairsize = 8*FIXEDUNIT;
+	    stairsize = INTTOFIXED(8);
 	    break;
 	  case turbo16:
 	    speed = FLOORSPEED*4;
-	    stairsize = 16*FIXEDUNIT;
+	    stairsize = INTTOFIXED(16);
 	    break;
 	}
 	floor->speed = speed;

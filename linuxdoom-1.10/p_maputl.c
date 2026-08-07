@@ -812,7 +812,7 @@ P_PathTraverse
     {
 	mapxstep = 0;
 	partial = FIXEDUNIT;
-	ystep = 256*FIXEDUNIT;
+	ystep = INTTOFIXED(256);
     }	
 
     yintercept = (y1>>MAPBTOFRAC) + FixedMul (partial, ystep);
@@ -834,7 +834,7 @@ P_PathTraverse
     {
 	mapystep = 0;
 	partial = FIXEDUNIT;
-	xstep = 256*FIXEDUNIT;
+	xstep = INTTOFIXED(256);
     }	
     xintercept = (x1>>MAPBTOFRAC) + FixedMul (partial, xstep);
     

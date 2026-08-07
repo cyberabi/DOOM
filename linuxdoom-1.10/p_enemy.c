@@ -185,7 +185,7 @@ boolean P_CheckMeleeRange (mobj_t*	actor)
     pl = actor->target;
     dist = P_AproxDistance (pl->x-actor->x, pl->y-actor->y);
 
-    if (dist >= MELEERANGE-20*FIXEDUNIT+pl->info->radius)
+    if (dist >= MELEERANGE-INTTOFIXED(20)+pl->info->radius)
 	return false;
 	
     if (! P_CheckSight (actor, actor->target) )
@@ -217,10 +217,10 @@ boolean P_CheckMissileRange (mobj_t* actor)
 		
     // OPTIMIZE: get this from a global checksight
     dist = P_AproxDistance ( actor->x-actor->target->x,
-			     actor->y-actor->target->y) - 64*FIXEDUNIT;
+			     actor->y-actor->target->y) - INTTOFIXED(64);
     
     if (!actor->info->meleestate)
-	dist -= 128*FIXEDUNIT;	// no melee attack, so fire more
+	dist -= INTTOFIXED(128);	// no melee attack, so fire more
 
     dist >>= 16;
 
@@ -264,6 +264,7 @@ boolean P_CheckMissileRange (mobj_t* actor)
 // Move in the current direction,
 // returns false if the move is blocked.
 //
+// Fixme. Adjust this for different implementations of fixed point
 fixed_t	xspeed[8] = {FIXEDUNIT,47000,0,-47000,-FIXEDUNIT,-47000,0,47000};
 fixed_t yspeed[8] = {0,47000,FIXEDUNIT,47000,0,-47000,-FIXEDUNIT,-47000};
 
@@ -384,16 +385,16 @@ void P_NewChaseDir (mobj_t*	actor)
     deltax = actor->target->x - actor->x;
     deltay = actor->target->y - actor->y;
 
-    if (deltax>10*FIXEDUNIT)
+    if (deltax>INTTOFIXED(10))
 	d[1]= DI_EAST;
-    else if (deltax<-10*FIXEDUNIT)
+    else if (deltax<INTTOFIXED(-10))
 	d[1]= DI_WEST;
     else
 	d[1]=DI_NODIR;
 
-    if (deltay<-10*FIXEDUNIT)
+    if (deltay<INTTOFIXED(-10))
 	d[2]= DI_SOUTH;
-    else if (deltay>10*FIXEDUNIT)
+    else if (deltay>INTTOFIXED(10)
 	d[2]= DI_NORTH;
     else
 	d[2]=DI_NODIR;
@@ -1010,9 +1011,9 @@ void A_SkelMissile (mobj_t* actor)
 	return;
 		
     A_FaceTarget (actor);
-    actor->z += 16*FIXEDUNIT;	// so missile spawns higher
+    actor->z += INTTOFIXED(16);	// so missile spawns higher
     mo = P_SpawnMissile (actor, actor->target, MT_TRACER);
-    actor->z -= 16*FIXEDUNIT;	// back to normal
+    actor->z -= INTTOFIXED(16);	// back to normal
 
     mo->x += mo->momx;
     mo->y += mo->momy;
@@ -1082,7 +1083,7 @@ void A_Tracer (mobj_t* actor)
 
     if (dist < 1)
 	dist = 1;
-    slope = (dest->z+40*FIXEDUNIT - actor->z) / dist;
+    slope = (dest->z+INTTOFIXED(40) - actor->z) / dist;
 
     if (slope < actor->momz)
 	actor->momz -= FIXEDUNIT/8;
@@ -1271,8 +1272,8 @@ void A_Fire (mobj_t* actor)
     an = dest->angle >> ANGLETOIDXSHIFT;
 
     P_UnsetThingPosition (actor);
-    actor->x = dest->x + RCOSTHETA_IDX (24*FIXEDUNIT, an);
-    actor->y = dest->y + RSINTHETA_IDX (24*FIXEDUNIT, an);
+    actor->x = dest->x + RCOSTHETA_IDX (INTTOFIXED(24), an);
+    actor->y = dest->y + RSINTHETA_IDX (INTTOFIXED(24), an);
     actor->z = dest->z;
     P_SetThingPosition (actor);
 }
@@ -1323,7 +1324,7 @@ void A_VileAttack (mobj_t* actor)
 
     S_StartSound (actor, sfx_barexp);
     P_DamageMobj (actor->target, actor, actor, 20);
-    actor->target->momz = 1000*FIXEDUNIT/actor->target->info->mass;
+    actor->target->momz = INTTOFIXED(1000)/actor->target->info->mass;
 	
     an = actor->angle >> ANGLETOIDXSHIFT;
 
@@ -1333,8 +1334,8 @@ void A_VileAttack (mobj_t* actor)
 	return;
 		
     // move the fire between the vile and the player
-    fire->x = actor->target->x - RCOSTHETA_IDX (24*FIXEDUNIT, an);
-    fire->y = actor->target->y - RSINTHETA_IDX (24*FIXEDUNIT, an);	
+    fire->x = actor->target->x - RCOSTHETA_IDX (INTTOFIXED(24), an);
+    fire->y = actor->target->y - RSINTHETA_IDX (INTTOFIXED(24), an);	
     P_RadiusAttack (fire, actor, 70 );
 }
 
@@ -1404,7 +1405,7 @@ void A_FatAttack3 (mobj_t*	actor)
 // SkullAttack
 // Fly at the player like a missile.
 //
-#define	SKULLSPEED		(20*FIXEDUNIT)
+#define	SKULLSPEED		INTTOFIXED(20)
 
 void A_SkullAttack (mobj_t* actor)
 {
@@ -1470,12 +1471,12 @@ A_PainShootSkull
     an = angle >> ANGLETOIDXSHIFT;
     
     prestep =
-	4*FIXEDUNIT
+	INTTOFIXED(4)
 	+ 3*(actor->info->radius + mobjinfo[MT_SKULL].radius)/2;
     
     x = actor->x + RCOSTHETA_IDX (prestep, an);
     y = actor->y + RSINTHETA_IDX (prestep, an);
-    z = actor->z + 8*FIXEDUNIT;
+    z = actor->z + INTTOFIXED(8);
 		
     newmobj = P_SpawnMobj (x , y, z, MT_SKULL);
 
@@ -1840,10 +1841,10 @@ void A_BrainScream (mobj_t*	mo)
     INT32		z;
     mobj_t*	th;
 	
-    for (x=mo->x - 196*FIXEDUNIT ; x< mo->x + 320*FIXEDUNIT ; x+= FIXEDUNIT*8)
+    for (x=mo->x - INTTOFIXED(196) ; x< mo->x + INTTOFIXED(320) ; x+= INTTOFIXED(8))
     {
-	y = mo->y - 320*FIXEDUNIT;
-	z = 128 + P_Random()*2*FIXEDUNIT;
+	y = mo->y - INTTOFIXED(320);
+	z = 128 + P_Random()*INTTOFIXED(2);
 	th = P_SpawnMobj (x,y,z, MT_ROCKET);
 	th->momz = P_Random()*512;
 
@@ -1868,7 +1869,7 @@ void A_BrainExplode (mobj_t* mo)
 	
     x = mo->x + (P_Random () - P_Random ())*2048;
     y = mo->y;
-    z = 128 + P_Random()*2*FIXEDUNIT;
+    z = 128 + P_Random()*INTTOFIXED(2);
     th = P_SpawnMobj (x,y,z, MT_ROCKET);
     th->momz = P_Random()*512;
 

@@ -673,7 +673,8 @@ void R_DrawPSprite (pspdef_t* psp)
     flip = (boolean)sprframe->flip[0];
     
     // calculate edges of the shape
-    tx = psp->sx-160*FIXEDUNIT;
+    // Fixme. Is this locked to a 320 screen width?
+    tx = psp->sx-INTTOFIXED(160);
 	
     tx -= spriteoffset[lump];	
     x1 = FIXEDTOINT(centerxfrac + FixedMul (tx,pspritescale) );
@@ -692,7 +693,7 @@ void R_DrawPSprite (pspdef_t* psp)
     // store information in a vissprite
     vis = &avis;
     vis->mobjflags = 0;
-    vis->texturemid = (INTTOFIXED(BASEYCENTER))+FIXEDUNIT/2-(psp->sy-spritetopoffset[lump]);
+    vis->texturemid = (INTTOFIXED(BASEYCENTER))+FIXEDHALF-(psp->sy-spritetopoffset[lump]);
     vis->x1 = x1 < 0 ? 0 : x1;
     vis->x2 = x2 >= viewwidth ? viewwidth-1 : x2;	
     vis->scale = pspritescale<<detailshift;

@@ -487,13 +487,13 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     {
 	scale = FixedDiv (num, den);
 
-	if (scale > 64*FIXEDUNIT)
-	    scale = 64*FIXEDUNIT;
+	if (scale > INTTOFIXED(64))
+	    scale = INTTOFIXED(64);
 	else if (scale < 256)
 	    scale = 256;
     }
     else
-	scale = 64*FIXEDUNIT;
+	scale = INTTOFIXED(64);
 	
     return scale;
 }
@@ -555,9 +555,9 @@ void R_InitTextureMapping (void)
 	
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
-	if (FIXEDTAN_IDX(i) > FIXEDUNIT*2)
+	if (FIXEDTAN_IDX(i) > INTTOFIXED(2))
 	    t = -1;
-	else if (FIXEDTAN_IDX(i) < -FIXEDUNIT*2)
+	else if (FIXEDTAN_IDX(i) < -INTTOFIXED(2))
 	    t = viewwidth+1;
 	else
 	{
@@ -622,7 +622,7 @@ void R_InitLightTables (void)
 	startmap = ((LIGHTLEVELS-1-i)*2)*NUMCOLORMAPS/LIGHTLEVELS;
 	for (j=0 ; j<MAXLIGHTZ ; j++)
 	{
-	    scale = FixedDiv ((SCREENWIDTH/2*FIXEDUNIT), (j+1)<<LIGHTZSHIFT);
+	    scale = FixedDiv (INTTOFIXED(SCREENWIDTH/2), (j+1)<<LIGHTZSHIFT);
 	    scale >>= LIGHTSCALESHIFT;
 	    level = startmap - scale/DISTMAP;
 	    
@@ -725,9 +725,9 @@ void R_ExecuteSetViewSize (void)
     // planes
     for (i=0 ; i<viewheight ; i++)
     {
-	dy = INTTOFIXED(i-viewheight/2)+FIXEDUNIT/2;
+	dy = INTTOFIXED(i-viewheight/2)+FIXEDHALF;
 	dy = abs(dy);
-	yslope[i] = FixedDiv ( (viewwidth<<detailshift)/2*FIXEDUNIT, dy);
+	yslope[i] = FixedDiv ( INTTOFIXED((viewwidth<<detailshift)/2), dy);
     }
 	
     for (i=0 ; i<viewwidth ; i++)

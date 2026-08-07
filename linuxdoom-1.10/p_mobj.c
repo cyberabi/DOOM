@@ -849,7 +849,7 @@ P_SpawnBlood
 	
     z += ((P_Random()-P_Random())<<10);
     th = P_SpawnMobj (x,y,z, MT_BLOOD);
-    th->momz = FIXEDUNIT*2;
+    th->momz = INTTOFIXED(2);
     th->tics -= P_Random()&3;
 
     if (th->tics < 1)

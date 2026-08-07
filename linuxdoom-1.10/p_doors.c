@@ -296,7 +296,7 @@ EV_DoDoor
 	{
 	  case blazeClose:
 	    door->topheight = P_FindLowestCeilingSurrounding(sec);
-	    door->topheight -= 4*FIXEDUNIT;
+	    door->topheight -= INTTOFIXED(4);
 	    door->direction = -1;
 	    door->speed = VDOORSPEED * 4;
 	    S_StartSound((mobj_t *)&door->sector->soundorg,
@@ -305,7 +305,7 @@ EV_DoDoor
 	    
 	  case close:
 	    door->topheight = P_FindLowestCeilingSurrounding(sec);
-	    door->topheight -= 4*FIXEDUNIT;
+	    door->topheight -= INTTOFIXED(4);
 	    door->direction = -1;
 	    S_StartSound((mobj_t *)&door->sector->soundorg,
 			 sfx_dorcls);
@@ -322,7 +322,7 @@ EV_DoDoor
 	  case blazeOpen:
 	    door->direction = 1;
 	    door->topheight = P_FindLowestCeilingSurrounding(sec);
-	    door->topheight -= 4*FIXEDUNIT;
+	    door->topheight -= INTTOFIXED(4);
 	    door->speed = VDOORSPEED * 4;
 	    if (door->topheight != sec->ceilingheight)
 		S_StartSound((mobj_t *)&door->sector->soundorg,
@@ -333,7 +333,7 @@ EV_DoDoor
 	  case open:
 	    door->direction = 1;
 	    door->topheight = P_FindLowestCeilingSurrounding(sec);
-	    door->topheight -= 4*FIXEDUNIT;
+	    door->topheight -= INTTOFIXED(4);
 	    if (door->topheight != sec->ceilingheight)
 		S_StartSound((mobj_t *)&door->sector->soundorg,
 			     sfx_doropn);
@@ -496,7 +496,7 @@ EV_VerticalDoor
     
     // find the top and bottom of the movement range
     door->topheight = P_FindLowestCeilingSurrounding(sec);
-    door->topheight -= 4*FIXEDUNIT;
+    door->topheight -= INTTOFIXED(4);
 }
 
 
@@ -545,7 +545,7 @@ P_SpawnDoorRaiseIn5Mins
     door->type = raiseIn5Mins;
     door->speed = VDOORSPEED;
     door->topheight = P_FindLowestCeilingSurrounding(sec);
-    door->topheight -= 4*FIXEDUNIT;
+    door->topheight -= INTTOFIXED(4);
     door->topwait = VDOORWAIT;
     door->topcountdown = 5 * 60 * 35;
 }

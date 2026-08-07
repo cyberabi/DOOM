@@ -1037,7 +1037,7 @@ P_AimLineAttack
     shootz = t1->z + (t1->height>>1) + 8*FIXEDUNIT;
 
     // can't shoot outside view angles
-    topslope = 100*FIXEDUNIT/160;	
+    topslope = INTTOFIXED(100)/160;	
     bottomslope = -100*FIXEDUNIT/160;
     
     attackrange = distance;

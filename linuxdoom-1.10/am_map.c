@@ -106,16 +106,16 @@ static const char rcsid[] = "$Id: am_map.c,v 1.4 1997/02/03 21:24:33 b1 Exp $";
 #define AM_NUMMARKPOINTS 10
 
 // scale on entry
-#define INITSCALEMTOF ((fixed_t)(.2*FIXEDUNIT))
+#define INITSCALEMTOF FLOATTOFIXED(0.2)
 // how much the automap moves window per tic in frame-buffer coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC	4
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((fixed_t) (1.02*FIXEDUNIT))
+#define M_ZOOMIN        FLOATTOFIXED(1.02)
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT       ((fixed_t) (FIXEDUNIT/1.02))
+#define M_ZOOMOUT       FLOATTOFIXED(1.0/1.02)
 
 // translates between frame-buffer and map distances
 // Fixme. Account for actual size of underlying data structures
@@ -549,7 +549,7 @@ void AM_LevelInit(void)
     AM_clearMarks();
 
     AM_findMinMaxBoundaries();
-    scale_mtof = FixedDiv(min_scale_mtof, (INT32) (0.7*FIXEDUNIT));
+    scale_mtof = FixedDiv(min_scale_mtof, FLOATTOFIXED(0.7));
     if (scale_mtof > max_scale_mtof)
 	scale_mtof = min_scale_mtof;
     scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);

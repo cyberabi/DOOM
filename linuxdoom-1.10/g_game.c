@@ -1422,17 +1422,17 @@ G_InitNew
     { 
 	for (i=S_SARG_RUN1 ; i<=S_SARG_PAIN2 ; i++) 
 	    states[i].tics >>= 1; 
-	mobjinfo[MT_BRUISERSHOT].speed = 20*FIXEDUNIT; 
-	mobjinfo[MT_HEADSHOT].speed = 20*FIXEDUNIT; 
-	mobjinfo[MT_TROOPSHOT].speed = 20*FIXEDUNIT; 
+	mobjinfo[MT_BRUISERSHOT].speed = INTTOFIXED(20); 
+	mobjinfo[MT_HEADSHOT].speed = INTTOFIXED(20); 
+	mobjinfo[MT_TROOPSHOT].speed = INTTOFIXED(20); 
     } 
     else if (skill != sk_nightmare && gameskill == sk_nightmare) 
     { 
 	for (i=S_SARG_RUN1 ; i<=S_SARG_PAIN2 ; i++) 
 	    states[i].tics <<= 1; 
-	mobjinfo[MT_BRUISERSHOT].speed = 15*FIXEDUNIT; 
-	mobjinfo[MT_HEADSHOT].speed = 10*FIXEDUNIT; 
-	mobjinfo[MT_TROOPSHOT].speed = 10*FIXEDUNIT; 
+	mobjinfo[MT_BRUISERSHOT].speed = INTTOFIXED(15); 
+	mobjinfo[MT_HEADSHOT].speed = INTTOFIXED(10); 
+	mobjinfo[MT_TROOPSHOT].speed = INTTOFIXED(10); 
     } 
 	 
 			 

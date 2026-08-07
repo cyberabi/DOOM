@@ -361,7 +361,7 @@ typedef struct
 
 
 
-#define VDOORSPEED		FIXEDUNIT*2
+#define VDOORSPEED		INTTOFIXED(2)
 #define VDOORWAIT		150
 
 void

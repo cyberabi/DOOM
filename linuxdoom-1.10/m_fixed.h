@@ -41,7 +41,13 @@
 #define FIXEDTOINT(x)		((INT32)((x)>>FRACBITS))
 #define SQUAREDTOFIXED(x)	((fixed_t)((x)>>FRACBITS))
 #define FIXEDTOSQUARED(x)	((fixed_squared_t)(x)<<FRACBITS)
-#define FIXEDUNIT		INTTOFIXED(1)
+
+//#define FIXEDUNIT		INTTOFIXED(1)
+#define FIXEDHALF		((fixed_t)(1<<(FRACBITS-1)))
+#define FIXEDQUARTER		((fixed_t)(1<<(FRACBITS-2)))
+#define FIXEDEIGHTH		((fixed_t)(1<<(FRACBITS-3)))
+
+#define FLOATTOFIXED(n)		((fixed_t)((n)*INTTOFIXED(1)))
 
 typedef INT32 fixed_t;
 typedef LONGLONG64 fixed_squared_t;
