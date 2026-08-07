@@ -425,7 +425,7 @@ R_StoreWallRange
     {
 	// UNUSED: try to fix the stretched line bug
 #if 0
-	if (rw_distance < FRACUNIT/2)
+	if (rw_distance < FIXEDUNIT/2)
 	{
 	    fixed_t		trx,try;
 	    fixed_t		gxt,gyt;

@@ -101,8 +101,8 @@ void P_CalcHeight (player_t* player)
     {
 	player->viewz = player->mo->z + VIEWHEIGHT;
 
-	if (player->viewz > player->mo->ceilingz-4*FRACUNIT)
-	    player->viewz = player->mo->ceilingz-4*FRACUNIT;
+	if (player->viewz > player->mo->ceilingz-4*FIXEDUNIT)
+	    player->viewz = player->mo->ceilingz-4*FIXEDUNIT;
 
 	player->viewz = player->mo->z + player->viewheight;
 	return;
@@ -132,15 +132,15 @@ void P_CalcHeight (player_t* player)
 	
 	if (player->deltaviewheight)	
 	{
-	    player->deltaviewheight += FRACUNIT/4;
+	    player->deltaviewheight += FIXEDUNIT/4;
 	    if (!player->deltaviewheight)
 		player->deltaviewheight = 1;
 	}
     }
     player->viewz = player->mo->z + player->viewheight + bob;
 
-    if (player->viewz > player->mo->ceilingz-4*FRACUNIT)
-	player->viewz = player->mo->ceilingz-4*FRACUNIT;
+    if (player->viewz > player->mo->ceilingz-4*FIXEDUNIT)
+	player->viewz = player->mo->ceilingz-4*FIXEDUNIT;
 }
 
 
@@ -190,11 +190,11 @@ void P_DeathThink (player_t* player)
     P_MovePsprites (player);
 	
     // fall to the ground
-    if (player->viewheight > 6*FRACUNIT)
-	player->viewheight -= FRACUNIT;
+    if (player->viewheight > 6*FIXEDUNIT)
+	player->viewheight -= FIXEDUNIT;
 
-    if (player->viewheight < 6*FRACUNIT)
-	player->viewheight = 6*FRACUNIT;
+    if (player->viewheight < 6*FIXEDUNIT)
+	player->viewheight = 6*FIXEDUNIT;
 
     player->deltaviewheight = 0;
     onground = (player->mo->z <= player->mo->floorz);

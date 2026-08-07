@@ -264,14 +264,14 @@ P_InterceptVector
     float	v2dx;
     float	v2dy;
 
-    v1x = (float)v1->x/FRACUNIT;
-    v1y = (float)v1->y/FRACUNIT;
-    v1dx = (float)v1->dx/FRACUNIT;
-    v1dy = (float)v1->dy/FRACUNIT;
-    v2x = (float)v2->x/FRACUNIT;
-    v2y = (float)v2->y/FRACUNIT;
-    v2dx = (float)v2->dx/FRACUNIT;
-    v2dy = (float)v2->dy/FRACUNIT;
+    v1x = (float)v1->x/FIXEDUNIT;
+    v1y = (float)v1->y/FIXEDUNIT;
+    v1dx = (float)v1->dx/FIXEDUNIT;
+    v1dy = (float)v1->dy/FIXEDUNIT;
+    v2x = (float)v2->x/FIXEDUNIT;
+    v2y = (float)v2->y/FIXEDUNIT;
+    v2dx = (float)v2->dx/FIXEDUNIT;
+    v2dy = (float)v2->dy/FIXEDUNIT;
 	
     den = v1dy*v2dx - v1dx*v2dy;
 
@@ -281,7 +281,7 @@ P_InterceptVector
     num = (v1x - v2x)*v1dy + (v2y - v1y)*v1dx;
     frac = num / den;
 
-    return frac*FRACUNIT;
+    return frac*FIXEDUNIT;
 #endif
 }
 
@@ -568,10 +568,10 @@ PIT_AddLineIntercepts (line_t* ld)
     divline_t		dl;
 	
     // avoid precision problems with two routines
-    if ( trace.dx > FRACUNIT*16
-	 || trace.dy > FRACUNIT*16
-	 || trace.dx < -FRACUNIT*16
-	 || trace.dy < -FRACUNIT*16)
+    if ( trace.dx > FIXEDUNIT*16
+	 || trace.dy > FIXEDUNIT*16
+	 || trace.dx < -FIXEDUNIT*16
+	 || trace.dy < -FIXEDUNIT*16)
     {
 	s1 = P_PointOnDivlineSide (ld->v1->x, ld->v1->y, &trace);
 	s2 = P_PointOnDivlineSide (ld->v2->x, ld->v2->y, &trace);
@@ -594,7 +594,7 @@ PIT_AddLineIntercepts (line_t* ld)
 	
     // try to early out the check
     if (earlyout
-	&& frac < FRACUNIT
+	&& frac < FIXEDUNIT
 	&& !ld->backsector)
     {
 	return false;	// stop checking
@@ -776,10 +776,10 @@ P_PathTraverse
     intercept_p = intercepts;
 	
     if ( ((x1-bmaporgx)&(MAPBLOCKSIZE-1)) == 0)
-	x1 += FRACUNIT;	// don't side exactly on a line
+	x1 += FIXEDUNIT;	// don't side exactly on a line
     
     if ( ((y1-bmaporgy)&(MAPBLOCKSIZE-1)) == 0)
-	y1 += FRACUNIT;	// don't side exactly on a line
+	y1 += FIXEDUNIT;	// don't side exactly on a line
 
     trace.x = x1;
     trace.y = y1;
@@ -799,20 +799,20 @@ P_PathTraverse
     if (xt2 > xt1)
     {
 	mapxstep = 1;
-	partial = FRACUNIT - ((x1>>MAPBTOFRAC)&(FRACUNIT-1));
+	partial = FIXEDUNIT - ((x1>>MAPBTOFRAC)&(FIXEDUNIT-1));
 	ystep = FixedDiv (y2-y1,abs(x2-x1));
     }
     else if (xt2 < xt1)
     {
 	mapxstep = -1;
-	partial = (x1>>MAPBTOFRAC)&(FRACUNIT-1);
+	partial = (x1>>MAPBTOFRAC)&(FIXEDUNIT-1);
 	ystep = FixedDiv (y2-y1,abs(x2-x1));
     }
     else
     {
 	mapxstep = 0;
-	partial = FRACUNIT;
-	ystep = 256*FRACUNIT;
+	partial = FIXEDUNIT;
+	ystep = 256*FIXEDUNIT;
     }	
 
     yintercept = (y1>>MAPBTOFRAC) + FixedMul (partial, ystep);
@@ -821,20 +821,20 @@ P_PathTraverse
     if (yt2 > yt1)
     {
 	mapystep = 1;
-	partial = FRACUNIT - ((y1>>MAPBTOFRAC)&(FRACUNIT-1));
+	partial = FIXEDUNIT - ((y1>>MAPBTOFRAC)&(FIXEDUNIT-1));
 	xstep = FixedDiv (x2-x1,abs(y2-y1));
     }
     else if (yt2 < yt1)
     {
 	mapystep = -1;
-	partial = (y1>>MAPBTOFRAC)&(FRACUNIT-1);
+	partial = (y1>>MAPBTOFRAC)&(FIXEDUNIT-1);
 	xstep = FixedDiv (x2-x1,abs(y2-y1));
     }
     else
     {
 	mapystep = 0;
-	partial = FRACUNIT;
-	xstep = 256*FRACUNIT;
+	partial = FIXEDUNIT;
+	xstep = 256*FIXEDUNIT;
     }	
     xintercept = (x1>>MAPBTOFRAC) + FixedMul (partial, xstep);
     
@@ -877,7 +877,7 @@ P_PathTraverse
 		
     }
     // go through the sorted list
-    return P_TraverseIntercepts ( trav, FRACUNIT );
+    return P_TraverseIntercepts ( trav, FIXEDUNIT );
 }
 
 

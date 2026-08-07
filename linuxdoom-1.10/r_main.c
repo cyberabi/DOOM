@@ -487,13 +487,13 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
     {
 	scale = FixedDiv (num, den);
 
-	if (scale > 64*FRACUNIT)
-	    scale = 64*FRACUNIT;
+	if (scale > 64*FIXEDUNIT)
+	    scale = 64*FIXEDUNIT;
 	else if (scale < 256)
 	    scale = 256;
     }
     else
-	scale = 64*FRACUNIT;
+	scale = 64*FIXEDUNIT;
 	
     return scale;
 }
@@ -516,7 +516,7 @@ void R_InitTables (void)
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
 	a = (i-FINEANGLES/4+0.5)*PI*2/FINEANGLES;
-	fv = FRACUNIT*tan (a);
+	fv = FIXEDUNIT*tan (a);
 	t = fv;
 	finetangent[i] = t;
     }
@@ -526,7 +526,7 @@ void R_InitTables (void)
     {
 	// OPTIMIZE: mirror...
 	a = (i+0.5)*PI*2/FINEANGLES;
-	t = FRACUNIT*sin (a);
+	t = FIXEDUNIT*sin (a);
 	finesine[i] = t;
     }
 #endif
@@ -555,14 +555,14 @@ void R_InitTextureMapping (void)
 	
     for (i=0 ; i<FINEANGLES/2 ; i++)
     {
-	if (FIXEDTAN_IDX(i) > FRACUNIT*2)
+	if (FIXEDTAN_IDX(i) > FIXEDUNIT*2)
 	    t = -1;
-	else if (FIXEDTAN_IDX(i) < -FRACUNIT*2)
+	else if (FIXEDTAN_IDX(i) < -FIXEDUNIT*2)
 	    t = viewwidth+1;
 	else
 	{
 	    t = RTANTHETA_IDX(focallength, i);
-	    t = FIXEDTOINT((centerxfrac - t+FRACUNIT-1));
+	    t = FIXEDTOINT((centerxfrac - t+FIXEDUNIT-1));
 
 	    if (t < -1)
 		t = -1;
@@ -622,7 +622,7 @@ void R_InitLightTables (void)
 	startmap = ((LIGHTLEVELS-1-i)*2)*NUMCOLORMAPS/LIGHTLEVELS;
 	for (j=0 ; j<MAXLIGHTZ ; j++)
 	{
-	    scale = FixedDiv ((SCREENWIDTH/2*FRACUNIT), (j+1)<<LIGHTZSHIFT);
+	    scale = FixedDiv ((SCREENWIDTH/2*FIXEDUNIT), (j+1)<<LIGHTZSHIFT);
 	    scale >>= LIGHTSCALESHIFT;
 	    level = startmap - scale/DISTMAP;
 	    
@@ -715,8 +715,8 @@ void R_ExecuteSetViewSize (void)
     R_InitTextureMapping ();
     
     // psprite scales
-    pspritescale = FRACUNIT*viewwidth/SCREENWIDTH;
-    pspriteiscale = FRACUNIT*SCREENWIDTH/viewwidth;
+    pspritescale = FIXEDUNIT*viewwidth/SCREENWIDTH;
+    pspriteiscale = FIXEDUNIT*SCREENWIDTH/viewwidth;
     
     // thing clipping
     for (i=0 ; i<viewwidth ; i++)
@@ -725,15 +725,15 @@ void R_ExecuteSetViewSize (void)
     // planes
     for (i=0 ; i<viewheight ; i++)
     {
-	dy = INTTOFIXED(i-viewheight/2)+FRACUNIT/2;
+	dy = INTTOFIXED(i-viewheight/2)+FIXEDUNIT/2;
 	dy = abs(dy);
-	yslope[i] = FixedDiv ( (viewwidth<<detailshift)/2*FRACUNIT, dy);
+	yslope[i] = FixedDiv ( (viewwidth<<detailshift)/2*FIXEDUNIT, dy);
     }
 	
     for (i=0 ; i<viewwidth ; i++)
     {
 	cosadj = abs(FIXEDCOS_IDX(xtoviewangle[i]>>ANGLETOIDXSHIFT));
-	distscale[i] = FixedDiv (FRACUNIT,cosadj);
+	distscale[i] = FixedDiv (FIXEDUNIT,cosadj);
     }
     
     // Calculate the light levels to use

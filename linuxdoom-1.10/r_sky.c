@@ -30,7 +30,7 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 #include "doomtype.h"
 
-// Needed for FRACUNIT.
+// Needed for FIXEDUNIT.
 #include "m_fixed.h"
 
 // Needed for Flat retrieval.
@@ -58,6 +58,6 @@ INT32			skytexturemid;
 void R_InitSkyMap (void)
 {
   // skyflatnum = R_FlatNumForName ( SKYFLATNAME );
-    skytexturemid = 100*FRACUNIT;
+    skytexturemid = 100*FIXEDUNIT;
 }
 

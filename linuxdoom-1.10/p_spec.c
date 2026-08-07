@@ -299,7 +299,7 @@ fixed_t	P_FindHighestFloorSurrounding(sector_t *sec)
     INT32			i;
     line_t*		check;
     sector_t*		other;
-    fixed_t		floor = -500*FRACUNIT;
+    fixed_t		floor = -500*FIXEDUNIT;
 	
     for (i=0 ;i < sec->linecount ; i++)
     {
@@ -1118,7 +1118,7 @@ void P_UpdateSpecials (void)
 	{
 	  case 48:
 	    // EFFECT FIRSTCOL SCROLL +
-	    sides[line->sidenum[0]].textureoffset += FRACUNIT;
+	    sides[line->sidenum[0]].textureoffset += FIXEDUNIT;
 	    break;
 	}
     }

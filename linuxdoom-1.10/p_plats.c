@@ -197,7 +197,7 @@ EV_DoPlat
 	  case raiseAndChange:
 	    plat->speed = PLATSPEED/2;
 	    sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
-	    plat->high = sec->floorheight + amount*FRACUNIT;
+	    plat->high = sec->floorheight + amount*FIXEDUNIT;
 	    plat->wait = 0;
 	    plat->status = up;
 

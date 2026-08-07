@@ -211,10 +211,10 @@ void P_XYMovement (mobj_t* mo)
     {
 	// do not stop sliding
 	//  if halfway off a step with some momentum
-	if (mo->momx > FRACUNIT/4
-	    || mo->momx < -FRACUNIT/4
-	    || mo->momy > FRACUNIT/4
-	    || mo->momy < -FRACUNIT/4)
+	if (mo->momx > FIXEDUNIT/4
+	    || mo->momx < -FIXEDUNIT/4
+	    || mo->momy > FIXEDUNIT/4
+	    || mo->momy < -FIXEDUNIT/4)
 	{
 	    if (mo->floorz != mo->subsector->sector->floorheight)
 		return;
@@ -822,7 +822,7 @@ P_SpawnPuff
     z += ((P_Random()-P_Random())<<10);
 
     th = P_SpawnMobj (x,y,z, MT_PUFF);
-    th->momz = FRACUNIT;
+    th->momz = FIXEDUNIT;
     th->tics -= P_Random()&3;
 
     if (th->tics < 1)
@@ -849,7 +849,7 @@ P_SpawnBlood
 	
     z += ((P_Random()-P_Random())<<10);
     th = P_SpawnMobj (x,y,z, MT_BLOOD);
-    th->momz = FRACUNIT*2;
+    th->momz = FIXEDUNIT*2;
     th->tics -= P_Random()&3;
 
     if (th->tics < 1)
@@ -900,7 +900,7 @@ P_SpawnMissile
 
     th = P_SpawnMobj (source->x,
 		      source->y,
-		      source->z + 4*8*FRACUNIT, type);
+		      source->z + 4*8*FIXEDUNIT, type);
     
     if (th->info->seesound)
 	S_StartSound (th, th->info->seesound);
@@ -947,17 +947,17 @@ P_SpawnPlayerMissile
     
     // see which target is to be aimed at
     an = source->angle;
-    slope = P_AimLineAttack (source, an, 16*64*FRACUNIT);
+    slope = P_AimLineAttack (source, an, 16*64*FIXEDUNIT);
     
     if (!linetarget)
     {
 	an += 1<<26;
-	slope = P_AimLineAttack (source, an, 16*64*FRACUNIT);
+	slope = P_AimLineAttack (source, an, 16*64*FIXEDUNIT);
 
 	if (!linetarget)
 	{
 	    an -= 2<<26;
-	    slope = P_AimLineAttack (source, an, 16*64*FRACUNIT);
+	    slope = P_AimLineAttack (source, an, 16*64*FIXEDUNIT);
 	}
 
 	if (!linetarget)
@@ -969,7 +969,7 @@ P_SpawnPlayerMissile
 		
     x = source->x;
     y = source->y;
-    z = source->z + 4*8*FRACUNIT;
+    z = source->z + 4*8*FIXEDUNIT;
 	
     th = P_SpawnMobj (x,y,z, type);
 

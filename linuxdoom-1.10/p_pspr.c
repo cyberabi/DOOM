@@ -43,11 +43,11 @@ rcsid[] = "$Id: p_pspr.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 
 #include "p_pspr.h"
 
-#define LOWERSPEED		FRACUNIT*6
-#define RAISESPEED		FRACUNIT*6
+#define LOWERSPEED		FIXEDUNIT*6
+#define RAISESPEED		FIXEDUNIT*6
 
-#define WEAPONBOTTOM	128*FRACUNIT
-#define WEAPONTOP		32*FRACUNIT
+#define WEAPONBOTTOM	128*FIXEDUNIT
+#define WEAPONTOP		32*FIXEDUNIT
 
 
 // plasma cells for a bfg attack
@@ -330,7 +330,7 @@ A_WeaponReady
     
     // bob the weapon based on movement speed
     angle = (128*leveltime)&FINEMASK;
-    psp->sx = FRACUNIT + RCOSTHETA_IDX (player->bob, angle);
+    psp->sx = FIXEDUNIT + RCOSTHETA_IDX (player->bob, angle);
     angle &= FINEANGLES/2-1;
     psp->sy = WEAPONTOP + RSINTHETA_IDX (player->bob, angle);
 }
@@ -606,16 +606,16 @@ void P_BulletSlope (mobj_t*	mo)
     
     // see which target is to be aimed at
     an = mo->angle;
-    bulletslope = P_AimLineAttack (mo, an, 16*64*FRACUNIT);
+    bulletslope = P_AimLineAttack (mo, an, 16*64*FIXEDUNIT);
 
     if (!linetarget)
     {
 	an += 1<<26;
-	bulletslope = P_AimLineAttack (mo, an, 16*64*FRACUNIT);
+	bulletslope = P_AimLineAttack (mo, an, 16*64*FIXEDUNIT);
 	if (!linetarget)
 	{
 	    an -= 2<<26;
-	    bulletslope = P_AimLineAttack (mo, an, 16*64*FRACUNIT);
+	    bulletslope = P_AimLineAttack (mo, an, 16*64*FIXEDUNIT);
 	}
     }
 }
@@ -794,7 +794,7 @@ void A_BFGSpray (mobj_t* mo)
 
 	// mo->target is the originator (player)
 	//  of the missile
-	P_AimLineAttack (mo->target, an, 16*64*FRACUNIT);
+	P_AimLineAttack (mo->target, an, 16*64*FIXEDUNIT);
 
 	if (!linetarget)
 	    continue;

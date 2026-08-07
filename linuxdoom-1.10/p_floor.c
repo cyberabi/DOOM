@@ -312,7 +312,7 @@ EV_DoFloor
 	    floor->floordestheight = 
 		P_FindHighestFloorSurrounding(sec);
 	    if (floor->floordestheight != sec->floorheight)
-		floor->floordestheight += 8*FRACUNIT;
+		floor->floordestheight += 8*FIXEDUNIT;
 	    break;
 
 	  case raiseFloorCrush:
@@ -325,7 +325,7 @@ EV_DoFloor
 		P_FindLowestCeilingSurrounding(sec);
 	    if (floor->floordestheight > sec->ceilingheight)
 		floor->floordestheight = sec->ceilingheight;
-	    floor->floordestheight -= (8*FRACUNIT)*
+	    floor->floordestheight -= (8*FIXEDUNIT)*
 		(floortype == raiseFloorCrush);
 	    break;
 
@@ -350,14 +350,14 @@ EV_DoFloor
 	    floor->sector = sec;
 	    floor->speed = FLOORSPEED;
 	    floor->floordestheight = floor->sector->floorheight +
-		24 * FRACUNIT;
+		24 * FIXEDUNIT;
 	    break;
 	  case raiseFloor512:
 	    floor->direction = 1;
 	    floor->sector = sec;
 	    floor->speed = FLOORSPEED;
 	    floor->floordestheight = floor->sector->floorheight +
-		512 * FRACUNIT;
+		512 * FIXEDUNIT;
 	    break;
 
 	  case raiseFloor24AndChange:
@@ -365,7 +365,7 @@ EV_DoFloor
 	    floor->sector = sec;
 	    floor->speed = FLOORSPEED;
 	    floor->floordestheight = floor->sector->floorheight +
-		24 * FRACUNIT;
+		24 * FIXEDUNIT;
 	    sec->floorpic = line->frontsector->floorpic;
 	    sec->special = line->frontsector->special;
 	    break;
@@ -493,11 +493,11 @@ EV_BuildStairs
 	{
 	  case build8:
 	    speed = FLOORSPEED/4;
-	    stairsize = 8*FRACUNIT;
+	    stairsize = 8*FIXEDUNIT;
 	    break;
 	  case turbo16:
 	    speed = FLOORSPEED*4;
-	    stairsize = 16*FRACUNIT;
+	    stairsize = 16*FIXEDUNIT;
 	    break;
 	}
 	floor->speed = speed;

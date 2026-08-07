@@ -478,11 +478,11 @@ P_TryMove
 	    return false;	// mobj must lower itself to fit
 
 	if ( !(thing->flags&MF_TELEPORT)
-	     && tmfloorz - thing->z > 24*FRACUNIT )
+	     && tmfloorz - thing->z > 24*FIXEDUNIT )
 	    return false;	// too big a step up
 
 	if ( !(thing->flags&(MF_DROPOFF|MF_FLOAT))
-	     && tmfloorz - tmdropoffz > 24*FRACUNIT )
+	     && tmfloorz - tmdropoffz > 24*FIXEDUNIT )
 	    return false;	// don't stand over a dropoff
     }
     
@@ -662,7 +662,7 @@ boolean PTR_SlideTraverse (intercept_t* in)
     if (opentop - slidemo->z < slidemo->height)
 	goto isblocking;		// mobj is too high
 
-    if (openbottom - slidemo->z > 24*FRACUNIT )
+    if (openbottom - slidemo->z > 24*FIXEDUNIT )
 	goto isblocking;		// too big a step up
 
     // this line doesn't block movement
@@ -734,7 +734,7 @@ void P_SlideMove (mobj_t* mo)
 	traily = mo->y + mo->radius;
     }
 		
-    bestslidefrac = FRACUNIT+1;
+    bestslidefrac = FIXEDUNIT+1;
 	
     P_PathTraverse ( leadx, leady, leadx+mo->momx, leady+mo->momy,
 		     PT_ADDLINES, PTR_SlideTraverse );
@@ -744,7 +744,7 @@ void P_SlideMove (mobj_t* mo)
 		     PT_ADDLINES, PTR_SlideTraverse );
     
     // move up to the wall
-    if (bestslidefrac == FRACUNIT+1)
+    if (bestslidefrac == FIXEDUNIT+1)
     {
 	// the move most have hit the middle, so stairstep
       stairstep:
@@ -766,10 +766,10 @@ void P_SlideMove (mobj_t* mo)
     
     // Now continue along the wall.
     // First calculate remainder.
-    bestslidefrac = FRACUNIT-(bestslidefrac+0x800);
+    bestslidefrac = FIXEDUNIT-(bestslidefrac+0x800);
     
-    if (bestslidefrac > FRACUNIT)
-	bestslidefrac = FRACUNIT;
+    if (bestslidefrac > FIXEDUNIT)
+	bestslidefrac = FIXEDUNIT;
     
     if (bestslidefrac <= 0)
 	return;
@@ -949,7 +949,7 @@ boolean PTR_ShootTraverse (intercept_t* in)
 	// hit line
       hitline:
 	// position a bit closer
-	frac = in->frac - FixedDiv (4*FRACUNIT,attackrange);
+	frac = in->frac - FixedDiv (4*FIXEDUNIT,attackrange);
 	x = trace.x + FixedMul (trace.dx, frac);
 	y = trace.y + FixedMul (trace.dy, frac);
 	z = shootz + FixedMul (aimslope, FixedMul(frac, attackrange));
@@ -995,7 +995,7 @@ boolean PTR_ShootTraverse (intercept_t* in)
     
     // hit thing
     // position a bit closer
-    frac = in->frac - FixedDiv (10*FRACUNIT,attackrange);
+    frac = in->frac - FixedDiv (10*FIXEDUNIT,attackrange);
 
     x = trace.x + FixedMul (trace.dx, frac);
     y = trace.y + FixedMul (trace.dy, frac);
@@ -1034,11 +1034,11 @@ P_AimLineAttack
     
     x2 = t1->x + (FIXEDTOINT(distance))*FIXEDCOS_IDX(angle);
     y2 = t1->y + (FIXEDTOINT(distance))*FIXEDSIN_IDX(angle);
-    shootz = t1->z + (t1->height>>1) + 8*FRACUNIT;
+    shootz = t1->z + (t1->height>>1) + 8*FIXEDUNIT;
 
     // can't shoot outside view angles
-    topslope = 100*FRACUNIT/160;	
-    bottomslope = -100*FRACUNIT/160;
+    topslope = 100*FIXEDUNIT/160;	
+    bottomslope = -100*FIXEDUNIT/160;
     
     attackrange = distance;
     linetarget = NULL;
@@ -1076,7 +1076,7 @@ P_LineAttack
     la_damage = damage;
     x2 = t1->x + (FIXEDTOINT(distance))*FIXEDCOS_IDX(angle);
     y2 = t1->y + (FIXEDTOINT(distance))*FIXEDSIN_IDX(angle);
-    shootz = t1->z + (t1->height>>1) + 8*FRACUNIT;
+    shootz = t1->z + (t1->height>>1) + 8*FIXEDUNIT;
     attackrange = distance;
     aimslope = slope;
 		

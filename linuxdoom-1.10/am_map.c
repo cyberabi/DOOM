@@ -106,18 +106,19 @@ static const char rcsid[] = "$Id: am_map.c,v 1.4 1997/02/03 21:24:33 b1 Exp $";
 #define AM_NUMMARKPOINTS 10
 
 // scale on entry
-#define INITSCALEMTOF (.2*FRACUNIT)
+#define INITSCALEMTOF ((fixed_t)(.2*FIXEDUNIT))
 // how much the automap moves window per tic in frame-buffer coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC	4
 // how much zoom-in per tic
 // goes to 2x in 1 second
-#define M_ZOOMIN        ((INT32) (1.02*FRACUNIT))
+#define M_ZOOMIN        ((fixed_t) (1.02*FIXEDUNIT))
 // how much zoom-out per tic
 // pulls out to 0.5x in 1 second
-#define M_ZOOMOUT       ((INT32) (FRACUNIT/1.02))
+#define M_ZOOMOUT       ((fixed_t) (FIXEDUNIT/1.02))
 
 // translates between frame-buffer and map distances
+// Fixme. Account for actual size of underlying data structures
 #define FTOM(x) FixedMul(((x)<<16),scale_ftom)
 #define MTOF(x) (FixedMul((x),scale_mtof)>>16)
 // translates between frame-buffer and map coordinates
@@ -129,6 +130,7 @@ static const char rcsid[] = "$Id: am_map.c,v 1.4 1997/02/03 21:24:33 b1 Exp $";
 
 typedef struct
 {
+    // Fixme. Should this be fixed_t?
     INT32 x, y;
 } fpoint_t;
 
@@ -194,7 +196,7 @@ mline_t cheat_player_arrow[] = {
 #undef R
 #define NUMCHEATPLYRLINES (sizeof(cheat_player_arrow)/sizeof(mline_t))
 
-#define R (FRACUNIT)
+#define R (FIXEDUNIT)
 mline_t triangle_guy[] = {
     { { -.867*R, -.5*R }, { .867*R, -.5*R } },
     { { .867*R, -.5*R } , { 0, R } },
@@ -203,7 +205,7 @@ mline_t triangle_guy[] = {
 #undef R
 #define NUMTRIANGLEGUYLINES (sizeof(triangle_guy)/sizeof(mline_t))
 
-#define R (FRACUNIT)
+#define R (FIXEDUNIT)
 mline_t thintriangle_guy[] = {
     { { -.5*R, -.7*R }, { R, 0 } },
     { { R, 0 }, { -.5*R, .7*R } },
@@ -370,7 +372,7 @@ void AM_restoreScaleAndLoc(void)
 
     // Change the scaling multipliers
     scale_mtof = FixedDiv(INTTOFIXED(f_w), m_w);
-    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
 }
 
 //
@@ -470,8 +472,8 @@ void AM_initVariables(void)
     lightlev = 0;
 
     m_paninc.x = m_paninc.y = 0;
-    ftom_zoommul = FRACUNIT;
-    mtof_zoommul = FRACUNIT;
+    ftom_zoommul = FIXEDUNIT;
+    mtof_zoommul = FIXEDUNIT;
 
     m_w = FTOM(f_w);
     m_h = FTOM(f_h);
@@ -547,10 +549,10 @@ void AM_LevelInit(void)
     AM_clearMarks();
 
     AM_findMinMaxBoundaries();
-    scale_mtof = FixedDiv(min_scale_mtof, (INT32) (0.7*FRACUNIT));
+    scale_mtof = FixedDiv(min_scale_mtof, (INT32) (0.7*FIXEDUNIT));
     if (scale_mtof > max_scale_mtof)
 	scale_mtof = min_scale_mtof;
-    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
 }
 
 
@@ -594,7 +596,7 @@ void AM_Start (void)
 void AM_minOutWindowScale(void)
 {
     scale_mtof = min_scale_mtof;
-    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
     AM_activateNewScale();
 }
 
@@ -604,7 +606,7 @@ void AM_minOutWindowScale(void)
 void AM_maxOutWindowScale(void)
 {
     scale_mtof = max_scale_mtof;
-    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
     AM_activateNewScale();
 }
 
@@ -726,8 +728,8 @@ AM_Responder
 	    break;
 	  case AM_ZOOMOUTKEY:
 	  case AM_ZOOMINKEY:
-	    mtof_zoommul = FRACUNIT;
-	    ftom_zoommul = FRACUNIT;
+	    mtof_zoommul = FIXEDUNIT;
+	    ftom_zoommul = FIXEDUNIT;
 	    break;
 	}
     }
@@ -745,7 +747,7 @@ void AM_changeWindowScale(void)
 
     // Change the scaling multipliers
     scale_mtof = FixedMul(scale_mtof, mtof_zoommul);
-    scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
+    scale_ftom = FixedDiv(FIXEDUNIT, scale_mtof);
 
     if (scale_mtof < min_scale_mtof)
 	AM_minOutWindowScale();
@@ -816,7 +818,7 @@ void AM_Ticker (void)
 	AM_doFollowPlayer();
 
     // Change the zoom if necessary
-    if (ftom_zoommul != FRACUNIT)
+    if (ftom_zoommul != FIXEDUNIT)
 	AM_changeWindowScale();
 
     // Change x,y location
