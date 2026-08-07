@@ -125,8 +125,8 @@ void P_ArchiveWorld (void)
     // do sectors
     for (i=0, sec = sectors ; i<numsectors ; i++,sec++)
     {
-	*put++ = sec->floorheight >> FRACBITS;
-	*put++ = sec->ceilingheight >> FRACBITS;
+	*put++ = FIXEDTOINT(sec->floorheight);
+	*put++ = FIXEDTOINT(sec->ceilingheight);
 	*put++ = sec->floorpic;
 	*put++ = sec->ceilingpic;
 	*put++ = sec->lightlevel;
@@ -148,8 +148,8 @@ void P_ArchiveWorld (void)
 	    
 	    si = &sides[li->sidenum[j]];
 
-	    *put++ = si->textureoffset >> FRACBITS;
-	    *put++ = si->rowoffset >> FRACBITS;
+	    *put++ = FIXEDTOINT(si->textureoffset);
+	    *put++ = FIXEDTOINT(si->rowoffset);
 	    *put++ = si->toptexture;
 	    *put++ = si->bottomtexture;
 	    *put++ = si->midtexture;	
@@ -178,8 +178,8 @@ void P_UnArchiveWorld (void)
     // do sectors
     for (i=0, sec = sectors ; i<numsectors ; i++,sec++)
     {
-	sec->floorheight = *get++ << FRACBITS;
-	sec->ceilingheight = *get++ << FRACBITS;
+	sec->floorheight = INTTOFIXED(*get++);
+	sec->ceilingheight = INTTOFIXED(*get++);
 	sec->floorpic = *get++;
 	sec->ceilingpic = *get++;
 	sec->lightlevel = *get++;
@@ -200,8 +200,8 @@ void P_UnArchiveWorld (void)
 	    if (li->sidenum[j] == -1)
 		continue;
 	    si = &sides[li->sidenum[j]];
-	    si->textureoffset = *get++ << FRACBITS;
-	    si->rowoffset = *get++ << FRACBITS;
+	    si->textureoffset = INTTOFIXED(*get++);
+	    si->rowoffset = INTTOFIXED(*get++);
 	    si->toptexture = *get++;
 	    si->bottomtexture = *get++;
 	    si->midtexture = *get++;

@@ -31,11 +31,27 @@
 
 //
 // Fixed point, 32bit as 16.16.
+// FIXEDTOINT is used on 32bit fixed_t quantities
+// HUGETOFIXED is used on 64bit fixed_squared_t
+// quantities that result from multiplying two
+// fixed_t quantities, to get back to fixed_t
 //
 #define FRACBITS		16
-#define FRACUNIT		(1<<FRACBITS)
+#define INTTOFIXED(x)		((fixed_t)(x)<<FRACBITS)
+#define FIXEDTOINT(x)		((INT32)((x)>>FRACBITS))
+#define SQUAREDTOFIXED(x)	((fixed_t)((x)>>FRACBITS))
+#define FIXEDTOSQUARED(x)	((fixed_squared_t)(x)<<FRACBITS)
+#define FRACUNIT		INTTOFIXED(1)
 
 typedef INT32 fixed_t;
+typedef LONGLONG64 fixed_squared_t;
+
+// The min and max values of the data type used to hold fixed_t
+#define MINFIXED	0x80000000
+#define MAXFIXED	0x7FFFFFFF
+
+// The max value of the data type used to hold fixed_t + 1.0
+#define FIXED_T_UNDERLYING_TYPEMAX_AS_DOUBLE	2147483648.0
 
 fixed_t FixedMul	(fixed_t a, fixed_t b);
 fixed_t FixedDiv	(fixed_t a, fixed_t b);

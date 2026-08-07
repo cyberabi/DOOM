@@ -1033,8 +1033,8 @@ P_AimLineAttack
     angle >>= ANGLETOFINESHIFT;
     shootthing = t1;
     
-    x2 = t1->x + (distance>>FRACBITS)*FINECOSINE(angle);
-    y2 = t1->y + (distance>>FRACBITS)*FINESINE(angle);
+    x2 = t1->x + (FIXEDTOINT(distance))*FINECOSINE(angle);
+    y2 = t1->y + (FIXEDTOINT(distance))*FINESINE(angle);
     shootz = t1->z + (t1->height>>1) + 8*FRACUNIT;
 
     // can't shoot outside view angles
@@ -1075,8 +1075,8 @@ P_LineAttack
     angle >>= ANGLETOFINESHIFT;
     shootthing = t1;
     la_damage = damage;
-    x2 = t1->x + (distance>>FRACBITS)*FINECOSINE(angle);
-    y2 = t1->y + (distance>>FRACBITS)*FINESINE(angle);
+    x2 = t1->x + (FIXEDTOINT(distance))*FINECOSINE(angle);
+    y2 = t1->y + (FIXEDTOINT(distance))*FINESINE(angle);
     shootz = t1->z + (t1->height>>1) + 8*FRACUNIT;
     attackrange = distance;
     aimslope = slope;
@@ -1143,8 +1143,8 @@ void P_UseLines (player_t*	player)
 
     x1 = player->mo->x;
     y1 = player->mo->y;
-    x2 = x1 + (USERANGE>>FRACBITS)*FINECOSINE(angle);
-    y2 = y1 + (USERANGE>>FRACBITS)*FINESINE(angle);
+    x2 = x1 + (FIXEDTOINT(USERANGE))*FINECOSINE(angle);
+    y2 = y1 + (FIXEDTOINT(USERANGE))*FINESINE(angle);
 	
     P_PathTraverse ( x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse );
 }
@@ -1182,7 +1182,7 @@ boolean PIT_RadiusAttack (mobj_t* thing)
     dy = abs(thing->y - bombspot->y);
     
     dist = dx>dy ? dx : dy;
-    dist = (dist - thing->radius) >> FRACBITS;
+    dist = FIXEDTOINT(dist - thing->radius);
 
     if (dist < 0)
 	dist = 0;
@@ -1220,7 +1220,7 @@ P_RadiusAttack
     
     fixed_t	dist;
 	
-    dist = (damage+MAXRADIUS)<<FRACBITS;
+    dist = INTTOFIXED(damage+MAXRADIUS);
     yh = (spot->y + dist - bmaporgy)>>MAPBLOCKSHIFT;
     yl = (spot->y - dist - bmaporgy)>>MAPBLOCKSHIFT;
     xh = (spot->x + dist - bmaporgx)>>MAPBLOCKSHIFT;

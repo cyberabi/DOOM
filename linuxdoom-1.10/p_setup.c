@@ -145,8 +145,8 @@ void P_LoadVertexes (INT32 lump)
     // internal representation as fixed.
     for (i=0 ; i<numvertexes ; i++, li++, ml++)
     {
-	li->x = SHORT(ml->x)<<FRACBITS;
-	li->y = SHORT(ml->y)<<FRACBITS;
+	li->x = INTTOFIXED(SHORT(ml->x));
+	li->y = INTTOFIXED(SHORT(ml->y));
     }
 
     // Free buffer memory.
@@ -246,8 +246,8 @@ void P_LoadSectors (INT32 lump)
     ss = sectors;
     for (i=0 ; i<numsectors ; i++, ss++, ms++)
     {
-	ss->floorheight = SHORT(ms->floorheight)<<FRACBITS;
-	ss->ceilingheight = SHORT(ms->ceilingheight)<<FRACBITS;
+	ss->floorheight = INTTOFIXED(SHORT(ms->floorheight));
+	ss->ceilingheight = INTTOFIXED(SHORT(ms->ceilingheight));
 	ss->floorpic = R_FlatNumForName(ms->floorpic);
 	ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
 	ss->lightlevel = SHORT(ms->lightlevel);
@@ -281,15 +281,15 @@ void P_LoadNodes (INT32 lump)
     
     for (i=0 ; i<numnodes ; i++, no++, mn++)
     {
-	no->x = SHORT(mn->x)<<FRACBITS;
-	no->y = SHORT(mn->y)<<FRACBITS;
-	no->dx = SHORT(mn->dx)<<FRACBITS;
-	no->dy = SHORT(mn->dy)<<FRACBITS;
+	no->x = INTTOFIXED(SHORT(mn->x));
+	no->y = INTTOFIXED(SHORT(mn->y));
+	no->dx = INTTOFIXED(SHORT(mn->dx));
+	no->dy = INTTOFIXED(SHORT(mn->dy));
 	for (j=0 ; j<2 ; j++)
 	{
 	    no->children[j] = SHORT(mn->children[j]);
 	    for (k=0 ; k<4 ; k++)
-		no->bbox[j][k] = SHORT(mn->bbox[j][k])<<FRACBITS;
+		no->bbox[j][k] = INTTOFIXED(SHORT(mn->bbox[j][k]));
 	}
     }
 	
@@ -453,8 +453,8 @@ void P_LoadSideDefs (INT32 lump)
     sd = sides;
     for (i=0 ; i<numsides ; i++, msd++, sd++)
     {
-	sd->textureoffset = SHORT(msd->textureoffset)<<FRACBITS;
-	sd->rowoffset = SHORT(msd->rowoffset)<<FRACBITS;
+	sd->textureoffset = INTTOFIXED(SHORT(msd->textureoffset));
+	sd->rowoffset = INTTOFIXED(SHORT(msd->rowoffset));
 	sd->toptexture = R_TextureNumForName(msd->toptexture);
 	sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
 	sd->midtexture = R_TextureNumForName(msd->midtexture);
@@ -480,8 +480,8 @@ void P_LoadBlockMap (INT32 lump)
     for (i=0 ; i<count ; i++)
 	blockmaplump[i] = SHORT(blockmaplump[i]);
 		
-    bmaporgx = blockmaplump[0]<<FRACBITS;
-    bmaporgy = blockmaplump[1]<<FRACBITS;
+    bmaporgx = INTTOFIXED(blockmaplump[0]);
+    bmaporgy = INTTOFIXED(blockmaplump[1]);
     bmapwidth = blockmaplump[2];
     bmapheight = blockmaplump[3];
 	

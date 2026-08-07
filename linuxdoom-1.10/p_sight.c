@@ -87,8 +87,8 @@ P_DivlineSide
     dx = (x - node->x);
     dy = (y - node->y);
 
-    left =  (node->dy>>FRACBITS) * (dx>>FRACBITS);
-    right = (dy>>FRACBITS) * (node->dx>>FRACBITS);
+    left =  (FIXEDTOINT(node->dy)) * (FIXEDTOINT(dx));
+    right = (FIXEDTOINT(dy)) * (FIXEDTOINT(node->dx));
 	
     if (right < left)
 	return 0;	// front side

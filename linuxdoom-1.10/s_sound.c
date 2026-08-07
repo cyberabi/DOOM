@@ -61,7 +61,7 @@ const CHAR8 snd_prefixen[]
 #define S_CLOSE_DIST		(160*0x10000)
 
 
-#define S_ATTENUATOR		((S_CLIPPING_DIST-S_CLOSE_DIST)>>FRACBITS)
+#define S_ATTENUATOR		FIXEDTOINT(S_CLIPPING_DIST-S_CLOSE_DIST)
 
 // Adjustable by menu.
 #define NORM_VOLUME    		snd_MaxVolume
@@ -790,7 +790,7 @@ S_AdjustSoundParams
     angle >>= ANGLETOFINESHIFT;
 
     // stereo separation
-    *sep = 128 - (FixedMul(S_STEREO_SWING,FINESINE(angle))>>FRACBITS);
+    *sep = 128 - FIXEDTOINT(FixedMul(S_STEREO_SWING,FINESINE(angle)));
 
     // volume calculation
     if (approx_dist < S_CLOSE_DIST)
@@ -802,15 +802,15 @@ S_AdjustSoundParams
 	if (approx_dist > S_CLIPPING_DIST)
 	    approx_dist = S_CLIPPING_DIST;
 
-	*vol = 15+ ((snd_SfxVolume-15)
-		    *((S_CLIPPING_DIST - approx_dist)>>FRACBITS))
+	*vol = 15 + ((snd_SfxVolume-15)
+		    * FIXEDTOINT(S_CLIPPING_DIST - approx_dist))
 	    / S_ATTENUATOR;
     }
     else
     {
 	// distance effect
 	*vol = (snd_SfxVolume
-		* ((S_CLIPPING_DIST - approx_dist)>>FRACBITS))
+		* FIXEDTOINT(S_CLIPPING_DIST - approx_dist))
 	    / S_ATTENUATOR; 
     }
     

@@ -82,8 +82,8 @@ P_SetPsprite
 	if (state->misc1)
 	{
 	    // coordinate set
-	    psp->sx = state->misc1 << FRACBITS;
-	    psp->sy = state->misc2 << FRACBITS;
+	    psp->sx = INTTOFIXED(state->misc1);
+	    psp->sy = INTTOFIXED(state->misc2);
 	}
 	
 	// Call action routine.

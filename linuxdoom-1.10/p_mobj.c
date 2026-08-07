@@ -363,8 +363,8 @@ P_NightmareRespawn (mobj_t* mobj)
     mobj_t*		mo;
     mapthing_t*		mthing;
 		
-    x = mobj->spawnpoint.x << FRACBITS; 
-    y = mobj->spawnpoint.y << FRACBITS; 
+    x = INTTOFIXED(mobj->spawnpoint.x); 
+    y = INTTOFIXED(mobj->spawnpoint.y); 
 
     // somthing is occupying it's position?
     if (!P_CheckPosition (mobj, x, y) ) 
@@ -601,8 +601,8 @@ void P_RespawnSpecials (void)
 
     mthing = &itemrespawnque[iquetail];
 	
-    x = mthing->x << FRACBITS; 
-    y = mthing->y << FRACBITS; 
+    x = INTTOFIXED(mthing->x); 
+    y = INTTOFIXED(mthing->y); 
 	  
     // spawn a teleport fog at the new spot
     ss = R_PointInSubsector (x,y); 
@@ -659,8 +659,8 @@ void P_SpawnPlayer (mapthing_t* mthing)
     if (p->playerstate == PST_REBORN)
 	G_PlayerReborn (mthing->type-1);
 
-    x 		= mthing->x << FRACBITS;
-    y 		= mthing->y << FRACBITS;
+    x 		= INTTOFIXED(mthing->x);
+    y 		= INTTOFIXED(mthing->y);
     z		= ONFLOORZ;
     mobj	= P_SpawnMobj (x,y,z, MT_PLAYER);
 
@@ -773,8 +773,8 @@ void P_SpawnMapThing (mapthing_t* mthing)
     }
     
     // spawn it
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
+    x = INTTOFIXED(mthing->x);
+    y = INTTOFIXED(mthing->y);
 
     if (mobjinfo[i].flags & MF_SPAWNCEILING)
 	z = ONCEILINGZ;

@@ -368,7 +368,7 @@ void AM_restoreScaleAndLoc(void)
     m_y2 = m_y + m_h;
 
     // Change the scaling multipliers
-    scale_mtof = FixedDiv(f_w<<FRACBITS, m_w);
+    scale_mtof = FixedDiv(INTTOFIXED(f_w), m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 }
 
@@ -415,11 +415,11 @@ void AM_findMinMaxBoundaries(void)
     min_w = 2*PLAYERRADIUS; // const? never changed?
     min_h = 2*PLAYERRADIUS;
 
-    a = FixedDiv(f_w<<FRACBITS, max_w);
-    b = FixedDiv(f_h<<FRACBITS, max_h);
+    a = FixedDiv(INTTOFIXED(f_w), max_w);
+    b = FixedDiv(INTTOFIXED(f_h), max_h);
   
     min_scale_mtof = a < b ? a : b;
-    max_scale_mtof = FixedDiv(f_h<<FRACBITS, 2*PLAYERRADIUS);
+    max_scale_mtof = FixedDiv(INTTOFIXED(f_h), 2*PLAYERRADIUS);
 
 }
 
@@ -1077,15 +1077,15 @@ void AM_drawGrid(INT32 color)
 
     // Figure out start of vertical gridlines
     start = m_x;
-    if ((start-bmaporgx)%(MAPBLOCKUNITS<<FRACBITS))
-	start += (MAPBLOCKUNITS<<FRACBITS)
-	    - ((start-bmaporgx)%(MAPBLOCKUNITS<<FRACBITS));
+    if ((start-bmaporgx)%(INTTOFIXED(MAPBLOCKUNITS)))
+	start += (INTTOFIXED(MAPBLOCKUNITS))
+	    - ((start-bmaporgx)%(INTTOFIXED(MAPBLOCKUNITS)));
     end = m_x + m_w;
 
     // draw vertical gridlines
     ml.a.y = m_y;
     ml.b.y = m_y+m_h;
-    for (x=start; x<end; x+=(MAPBLOCKUNITS<<FRACBITS))
+    for (x=start; x<end; x+=(INTTOFIXED(MAPBLOCKUNITS)))
     {
 	ml.a.x = x;
 	ml.b.x = x;
@@ -1094,15 +1094,15 @@ void AM_drawGrid(INT32 color)
 
     // Figure out start of horizontal gridlines
     start = m_y;
-    if ((start-bmaporgy)%(MAPBLOCKUNITS<<FRACBITS))
-	start += (MAPBLOCKUNITS<<FRACBITS)
-	    - ((start-bmaporgy)%(MAPBLOCKUNITS<<FRACBITS));
+    if ((start-bmaporgy)%(INTTOFIXED(MAPBLOCKUNITS)))
+	start += (INTTOFIXED(MAPBLOCKUNITS))
+	    - ((start-bmaporgy)%(INTTOFIXED(MAPBLOCKUNITS)));
     end = m_y + m_h;
 
     // draw horizontal gridlines
     ml.a.x = m_x;
     ml.b.x = m_x + m_w;
-    for (y=start; y<end; y+=(MAPBLOCKUNITS<<FRACBITS))
+    for (y=start; y<end; y+=(INTTOFIXED(MAPBLOCKUNITS)))
     {
 	ml.a.y = y;
 	ml.b.y = y;
@@ -1297,7 +1297,7 @@ AM_drawThings
 	{
 	    AM_drawLineCharacter
 		(thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
-		 16<<FRACBITS, t->angle, colors+lightlev, t->x, t->y);
+		 INTTOFIXED(16), t->angle, colors+lightlev, t->x, t->y);
 	    t = t->snext;
 	}
     }

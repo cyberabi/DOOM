@@ -856,14 +856,14 @@ G_CheckSpot
     {
 	// first spawn of level, before corpses
 	for (i=0 ; i<playernum ; i++)
-	    if (players[i].mo->x == mthing->x << FRACBITS
-		&& players[i].mo->y == mthing->y << FRACBITS)
+	    if (players[i].mo->x == INTTOFIXED(mthing->x)
+		&& players[i].mo->y == INTTOFIXED(mthing->y))
 		return false;	
 	return true;
     }
 		
-    x = mthing->x << FRACBITS; 
-    y = mthing->y << FRACBITS; 
+    x = INTTOFIXED(mthing->x); 
+    y = INTTOFIXED(mthing->y); 
 	 
     if (!P_CheckPosition (players[playernum].mo, x, y) ) 
 	return false; 

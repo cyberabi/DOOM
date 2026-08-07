@@ -45,7 +45,8 @@ FixedMul
 ( fixed_t	a,
   fixed_t	b )
 {
-    return ((LONGLONG64) a * (LONGLONG64) b) >> FRACBITS;
+    // Fixme. Adjust for the next larger data type from fixed_t
+    return SQUAREDTOFIXED((fixed_squared_t) a * (fixed_squared_t) b);
 }
 
 
@@ -59,8 +60,10 @@ FixedDiv
 ( fixed_t	a,
   fixed_t	b )
 {
-    if ( (abs(a)>>14) >= abs(b))
-	return (a^b)<0 ? MININT : MAXINT;
+    // Fixme. Adjust for FRACBITS and datatype size
+    // MININT and MAXINT (doomtype.h) are based on INT32
+    if ( (abs(a)>>(FRACBITS-2)) >= abs(b))
+	return (a^b)<0 ? MINFIXED : MAXFIXED;
     return FixedDiv2 (a,b);
 }
 
@@ -71,17 +74,20 @@ FixedDiv2
 ( fixed_t	a,
   fixed_t	b )
 {
+    // Fixme. Consider using using fast 1/x and multiplication.
+    // for platforms with no hardware floating point.
 #if 0
-    LONGLONG64 c;
-    c = ((LONGLONG64)a<<16) / ((LONGLONG64)b);
+    fixed_squared_t c;
+    c = FIXEDTOSQUARED(a) / ((fixed_squared_t)b);
     return (fixed_t) c;
-#endif
-
+#else
     double c;
 
     c = ((double)a) / ((double)b) * FRACUNIT;
 
-    if (c >= 2147483648.0 || c < -2147483648.0)
+    if (c >= FIXED_T_UNDERLYING_TYPEMAX_AS_DOUBLE ||
+	c < -FIXED_T_UNDERLYING_TYPEMAX_AS_DOUBLE)
 	I_Error("FixedDiv: divide by zero");
     return (fixed_t) c;
+#endif
 }

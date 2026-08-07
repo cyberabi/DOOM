@@ -363,8 +363,8 @@ void R_DrawMaskedColumn (column_t* column)
 	topscreen = sprtopscreen + spryscale*column->topdelta;
 	bottomscreen = topscreen + spryscale*column->length;
 
-	dc_yl = (topscreen+FRACUNIT-1)>>FRACBITS;
-	dc_yh = (bottomscreen-1)>>FRACBITS;
+	dc_yl = FIXEDTOINT(topscreen+FRACUNIT-1);
+	dc_yh = FIXEDTOINT(bottomscreen-1);
 		
 	if (dc_yh >= mfloorclip[dc_x])
 	    dc_yh = mfloorclip[dc_x]-1;
@@ -374,7 +374,7 @@ void R_DrawMaskedColumn (column_t* column)
 	if (dc_yl <= dc_yh)
 	{
 	    dc_source = (byte *)column + 3;
-	    dc_texturemid = basetexturemid - (column->topdelta<<FRACBITS);
+	    dc_texturemid = basetexturemid - (INTTOFIXED(column->topdelta));
 	    // dc_source = (byte *)column + 3 - column->topdelta;
 
 	    // Drawn by either R_DrawColumn
@@ -429,7 +429,7 @@ R_DrawVisSprite
 	
     for (dc_x=vis->x1 ; dc_x<=vis->x2 ; dc_x++, frac += vis->xiscale)
     {
-	texturecolumn = frac>>FRACBITS;
+	texturecolumn = FIXEDTOINT(frac);
 #ifdef RANGECHECK
 	if (texturecolumn < 0 || texturecolumn >= SHORT(patch->width))
 	    I_Error ("R_DrawSpriteRange: bad texturecolumn");
@@ -533,14 +533,14 @@ void R_ProjectSprite (mobj_t* thing)
     
     // calculate edges of the shape
     tx -= spriteoffset[lump];	
-    x1 = (centerxfrac + FixedMul (tx,xscale) ) >>FRACBITS;
+    x1 = FIXEDTOINT(centerxfrac + FixedMul (tx,xscale) );
 
     // off the right side?
     if (x1 > viewwidth)
 	return;
     
     tx +=  spritewidth[lump];
-    x2 = ((centerxfrac + FixedMul (tx,xscale) ) >>FRACBITS) - 1;
+    x2 = FIXEDTOINT(centerxfrac + FixedMul (tx,xscale) ) - 1;
 
     // off the left side
     if (x2 < 0)
@@ -676,14 +676,14 @@ void R_DrawPSprite (pspdef_t* psp)
     tx = psp->sx-160*FRACUNIT;
 	
     tx -= spriteoffset[lump];	
-    x1 = (centerxfrac + FixedMul (tx,pspritescale) ) >>FRACBITS;
+    x1 = FIXEDTOINT(centerxfrac + FixedMul (tx,pspritescale) );
 
     // off the right side
     if (x1 > viewwidth)
 	return;		
 
     tx +=  spritewidth[lump];
-    x2 = ((centerxfrac + FixedMul (tx, pspritescale) ) >>FRACBITS) - 1;
+    x2 = FIXEDTOINT(centerxfrac + FixedMul (tx, pspritescale) ) - 1;
 
     // off the left side
     if (x2 < 0)
@@ -692,7 +692,7 @@ void R_DrawPSprite (pspdef_t* psp)
     // store information in a vissprite
     vis = &avis;
     vis->mobjflags = 0;
-    vis->texturemid = (BASEYCENTER<<FRACBITS)+FRACUNIT/2-(psp->sy-spritetopoffset[lump]);
+    vis->texturemid = (INTTOFIXED(BASEYCENTER))+FRACUNIT/2-(psp->sy-spritetopoffset[lump]);
     vis->x1 = x1 < 0 ? 0 : x1;
     vis->x2 = x2 >= viewwidth ? viewwidth-1 : x2;	
     vis->scale = pspritescale<<detailshift;

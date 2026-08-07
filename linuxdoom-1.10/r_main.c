@@ -199,8 +199,8 @@ R_PointOnSide
 	return 0;
     }
 
-    left = FixedMul ( node->dy>>FRACBITS , dx );
-    right = FixedMul ( dy , node->dx>>FRACBITS );
+    left = FixedMul ( FIXEDTOINT(node->dy) , dx );
+    right = FixedMul ( dy , FIXEDTOINT(node->dx) );
 	
     if (right < left)
     {
@@ -262,8 +262,8 @@ R_PointOnSegSide
 	return 0;
     }
 
-    left = FixedMul ( ldy>>FRACBITS , dx );
-    right = FixedMul ( dy , ldx>>FRACBITS );
+    left = FixedMul ( FIXEDTOINT(ldy) , dx );
+    right = FixedMul ( dy , FIXEDTOINT(ldx) );
 	
     if (right < left)
     {
@@ -567,7 +567,7 @@ void R_InitTextureMapping (void)
 	else
 	{
 	    t = FixedMul (FINETANGENT(i), focallength);
-	    t = (centerxfrac - t+FRACUNIT-1)>>FRACBITS;
+	    t = FIXEDTOINT((centerxfrac - t+FRACUNIT-1));
 
 	    if (t < -1)
 		t = -1;
@@ -696,8 +696,8 @@ void R_ExecuteSetViewSize (void)
 	
     centery = viewheight/2;
     centerx = viewwidth/2;
-    centerxfrac = centerx<<FRACBITS;
-    centeryfrac = centery<<FRACBITS;
+    centerxfrac = INTTOFIXED(centerx);
+    centeryfrac = INTTOFIXED(centery);
     projection = centerxfrac;
 
     if (!detailshift)
@@ -730,7 +730,7 @@ void R_ExecuteSetViewSize (void)
     // planes
     for (i=0 ; i<viewheight ; i++)
     {
-	dy = ((i-viewheight/2)<<FRACBITS)+FRACUNIT/2;
+	dy = INTTOFIXED(i-viewheight/2)+FRACUNIT/2;
 	dy = abs(dy);
 	yslope[i] = FixedDiv ( (viewwidth<<detailshift)/2*FRACUNIT, dy);
     }
