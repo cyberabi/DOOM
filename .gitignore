@@ -3,4 +3,4 @@ linux/
 *.WAD
 *.o
 sndserver
-
+.idea/
