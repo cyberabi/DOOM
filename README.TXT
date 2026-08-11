@@ -3,6 +3,9 @@ Intel (ONLY) 64-bit Ubuntu or Debian, including sound effects.
 I've assumed you have a freshly-initialized install / container,
 other than 'git.'
 
+NOTE: This branch builds and runs with C17 (201710) and GCC 11.4
+but not with C23 and later GCC.
+
 The basic 32-bit support strategy of this port is to use the
 Xephyr nested X-Server to get a compatible video mode, and to
 use osspd as a compatibility layer for the 32-bit code's old
