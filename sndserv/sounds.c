@@ -37,9 +37,21 @@
 static const char rcsid[] = "$Id: sounds.c,v 1.3 1997/01/29 22:40:44 b1 Exp $";
 
 
+#ifndef __BYTEBOOL__
+#define __BYTEBOOL__
+// Fixed to use builtin bool type with C++.
+#ifdef __cplusplus
+typedef bool boolean;
+#else
+#if __STDC_VERSION__ < 202300L
+typedef enum {false, true} boolean;
+#else
+typedef bool boolean;
+#endif
+#endif
+typedef unsigned char byte;
+#endif
 
-// Not exactly a good idea.
-enum { false, true };
 
 #include "sounds.h"
 
