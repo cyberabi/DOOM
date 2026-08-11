@@ -31,7 +31,11 @@
 #ifdef __cplusplus
 typedef bool boolean;
 #else
+#if __STDC_VERSION__ < 202300L
 typedef enum {false, true} boolean;
+#else
+typedef bool boolean;
+#endif
 #endif
 typedef unsigned char byte;
 #endif
