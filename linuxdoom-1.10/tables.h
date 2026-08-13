@@ -115,7 +115,10 @@ extern  fixed_t*	finecosine;
 #define FIXEDCOS(theta)	FIXEDCOS_IDX(ANGLETOIDX(theta))
 
 // Effective size is 4096.
-// NOTE: Currently used only to build lookup tables at launch
+// NOTE: Currently used only to build lookup tables when
+//  view shape changes (R_InitTextureMapping). Those tables
+//  can be precomputed data, and this table eliminated, if
+//  the screen size is fixed.
 extern fixed_t		finetangent[FINEANGLES/2];
 //#define FIXEDTAN_IDX(theta_tan_idx) (INT32)(finetangent[(theta_tan_idx)] & TAN_MASK_CJB)
 #define FIXEDTAN_IDX(theta_tan_idx) finetangent[(theta_tan_idx)]
@@ -138,6 +141,7 @@ typedef UINT32 angle_t;
 // Effective size is 2049;
 // The +1 size is to handle the case when x==y
 //  without additional checking.
+// NOTE: Currently used only in r_main, as TANTOANGLE() or SLOPETOANGLE()
 extern angle_t		tantoangle[SLOPERANGE+1];
 //#define TANTOANGLE(m) (INT32)(tantoangle[(m)] & TAN_MASK_CJB)
 #define TANTOANGLE(m) tantoangle[(m)]

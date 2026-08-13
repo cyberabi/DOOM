@@ -4,4 +4,4 @@ linux/
 *.o
 sndserver
 .idea/
-
+.vs/
