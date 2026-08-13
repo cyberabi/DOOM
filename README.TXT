@@ -1,9 +1,10 @@
-This branch, based on my 'strongly_typed' branch, experiments
-with alternative implementations of DOOM's fast trigonometric
-fuctions. To do this, it encapsulates the original table
-lookups in macros, and incorporates both selectable lower
-precision tables and methods that use a small amount of
-computation in addition to table lookup.
+This branch, based on my 'strongly_typed' branch, assesses
+the default implementation of fast trignometric functions in
+DOOM and experiments with alternative implementations. To
+do this, it encapsulates the original table lookups in macros,
+and incorporates both selectable lower precision tables and
+methods that use a small amount of computation in addition
+to table lookup.
 
 Two main objectives in this branch: reduce the amount of
 memory used for trig tables, and efficient implementation
